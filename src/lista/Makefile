@@ -4,7 +4,7 @@ CC				:= g++ #Compilador
 MAIN_SRC	:= main.cpp
 
 #Adicionar arquivos .h aqui:
-H_SRC			:=  vertice.h vizinho.h lista.h
+H_SRC			:=  vertice.h vizinho.h lista.h saida.h
 
 CFLAGS			:= -Wall -g -std=c++11
 LDFLAGS			:= 

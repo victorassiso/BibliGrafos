@@ -20,13 +20,14 @@ class Lista
     void inserirVizinho(Vertice*, Vertice*);
     Vizinho* buscaHorizontal(Vertice*); //Vizinhos de um vértice
     
-    //vector<Vertice*> getVetor_Vertices();
-    
     void imprimirLista();
+    
   private:
     //Objetos
-    vector<Vertice*> vetor_vertices;
     fstream arquivo;
+  
+  protected:
+    vector<Vertice*> vetor_vertices;
 };
 
 #endif

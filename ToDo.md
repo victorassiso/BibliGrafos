@@ -4,6 +4,7 @@
 
     Lista:
     [X] - Inserir vertices
+    [X] - Adicionar status BFS/DFS
     [X] - Não inserir vertices com rótulos já existentes
     [X] - Inserir vizinhos
     [ ] - Não inserir vizinhos já existentes
@@ -24,12 +25,12 @@
 
     Lista:
     [ ] - Gerar um arquivo de texto com o resultado:
-    [ ] - número de vértices
-    [ ] - número de arestas
-    [ ] - grau mínimo
-    [ ] - grau máximo
-    [ ] - grau médio
-    [ ] - mediana de grau
+    [X] - número de vértices
+    [X] - número de arestas
+    [X] - grau mínimo
+    [X] - grau máximo
+    [X] - grau médio
+    [X] - mediana de grau
 
     Vetor:
     [ ] - Gerar um arquivo de texto com o resultado:

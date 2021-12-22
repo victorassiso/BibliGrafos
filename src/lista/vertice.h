@@ -12,14 +12,17 @@ class Vertice
     Vertice(int);
     ~Vertice();
     
-    int getRotulo();
     void setVizinho(Vizinho*);
-    Vizinho* getVizinho();
+    void setStatus(int);
 
+    int getRotulo();
+    Vizinho* getVizinho();
+    int getStatus();
 
   private:
     int rotulo;
     Vizinho* vizinho;
+    int statusBusca; //0 - Descoberto; 1 - Explorado; 2 - Desconhecido;
 };
 
 #endif

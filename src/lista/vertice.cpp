@@ -4,6 +4,7 @@ Vertice::Vertice(int e)
 {
   rotulo = e;
   vizinho = nullptr;
+  statusBusca = 0;
 }
 
 Vertice::~Vertice(){}
@@ -21,4 +22,14 @@ void Vertice::setVizinho(Vizinho* ptr)
 Vizinho* Vertice::getVizinho()
 {
   return vizinho;
+}
+
+void Vertice::setStatus(int s)
+{
+  statusBusca = s;
+}
+
+int Vertice::getStatus()
+{
+  return statusBusca;
 }

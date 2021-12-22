@@ -1,4 +1,4 @@
-#include "lista.h"
+#include "saida.h"
 
 int testeVertice()
 {
@@ -29,11 +29,26 @@ int testeLista()
 
   return 0;
 }
+
+int testeSaida()
+{
+  Saida grafo("grafo.txt");
+  grafo.imprimirLista();
+
+  cout << "Nº Arestas: " << grafo.getNumeroDeArestas() << endl;
+  cout << "Nº Vertices: " << grafo.getNumeroDeVertices() << endl;
+  cout << "Grau Mínimo: " << grafo.getGrauMinimo() << endl;
+  cout << "Grau Máximo: " << grafo.getGrauMaximo() << endl;
+  cout << "Grau Médio: " << grafo.getGrauMedio() << endl;
+  cout << "Mediana de Grau: " << grafo.getMedianaDeGrau() << endl;
+}
+
 int main() {
 
   //testeVertice();
   //testeVizinho();
-  testeLista();
+  //testeLista();
+  testeSaida();
 
   return 0;
 }
