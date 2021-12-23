@@ -8,6 +8,7 @@
     [X] - Não inserir vertices com rótulos já existentes
     [X] - Inserir vizinhos
     [ ] - Não inserir vizinhos já existentes
+    [ ] - Ler primeira linha (Número de vértices)
     
     Vetor:
     [ ] - 
@@ -24,14 +25,15 @@
   2. Saída:
 
     Lista:
-    [ ] - Gerar um arquivo de texto com o resultado:
+    [X] - Gerar um arquivo de texto com o resultado:
     [X] - número de vértices
     [X] - número de arestas
     [X] - grau mínimo
     [X] - grau máximo
     [X] - grau médio
     [X] - mediana de grau
-
+    [ ] - Componentes conexas
+    
     Vetor:
     [ ] - Gerar um arquivo de texto com o resultado:
     [ ] - número de vértices
@@ -59,17 +61,18 @@
 
   4. Busca em grafos:
 
-    [ ] - O vértice inicial (raiz) é dado pelo usuário
+    [X] - O vértice inicial (raiz) é dado pelo usuário
+    [ ] - Passar tudo para false no inicio da busca;
     Busca em largura que gera:
-      [ ] - árvore
-      [ ] - nível de cada vértice na árvore (nível da raiz é 0)
+      [X] - árvore
+      [X] - nível de cada vértice na árvore (nível da raiz é 0)
     Busca em profundidade que gera:
       [ ] - árvore
       [ ] - nível de cada vértice na árvore (nível da raiz é 0)
 
   5. Distâncias e diâmetro
 
-    [ ] - Distância entre dois vértices (BFS)
+    [X] - Distância entre dois vértices (BFS)
     [ ] - Diâmetro do grafo
 
   6. Componentes conexos
