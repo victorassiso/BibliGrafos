@@ -1,4 +1,7 @@
-#include "vizinho.h"
+#ifndef LISTAVIZINHO
+#define LISTAVIZINHO
+
+#include "listaVizinho.h"
 
 Vizinho::Vizinho(Vertice* ve)
 {
@@ -22,3 +25,5 @@ Vizinho* Vizinho::getVizinho()
 {
   return vizinho;
 }
+
+#endif

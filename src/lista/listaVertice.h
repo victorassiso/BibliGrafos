@@ -1,5 +1,5 @@
-#ifndef VERTICE_H
-#define VERTICE_H
+#ifndef LISTAVERTICE_H
+#define LISTAVERTICE_H
 
 using namespace std;
 
@@ -13,16 +13,23 @@ class Vertice
     ~Vertice();
     
     void setVizinho(Vizinho*);
-    void setStatus(int);
 
     int getRotulo();
     Vizinho* getVizinho();
-    int getStatus();
+
+    void setStatus(bool);
+    void setPai(Vertice*);
+    void setNivel(int);
+    bool getStatus();
+    Vertice* getPai();
+    int getNivel();
 
   private:
     int rotulo;
     Vizinho* vizinho;
-    int statusBusca; //0 - Descoberto; 1 - Explorado; 2 - Desconhecido;
+    bool statusBusca; //false - Não explorado; true - Explorado;
+    Vertice* pai;
+    int nivel;
 };
 
 #endif

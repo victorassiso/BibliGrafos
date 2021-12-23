@@ -1,33 +1,57 @@
 #ifndef LISTA_H
 #define LISTA_H
 
-#include "vertice.h"
-#include "vizinho.h"
+#include "listaVertice.h"
+#include "listaVizinho.h"
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
+#include <bits/stdc++.h>
 
-class Lista
+#include "listaEstrutura.h"
+
+class Lista: public ListaEstrutura
 {
   public:
     Lista(string);
     ~Lista();
-
-    Vertice* inserirVertice(int);
-    Vertice* buscaVertical(int); //Vertices do grafo
     
-    void inserirVizinho(Vertice*, Vertice*);
-    Vizinho* buscaHorizontal(Vertice*); //Vizinhos de um vértice
-    
-    void imprimirLista();
+    void info();
+    int distancia(int r1, int r2);
+    int diametro();
+    void BFS(int);
+    void DFS(int);
     
   private:
-    //Objetos
     fstream arquivo;
-  
-  protected:
-    vector<Vertice*> vetor_vertices;
+
+    //Auxiliares
+    
+
+    //Info
+    int getNVertices();
+    int getNArestas();
+    int getGrauMinimo();
+    int getGrauMaximo();
+    double getGrauMedio();
+    int getGrauMediana();
+
+    void setNVertices(int);
+    void setNArestas(int);
+    void setGrauMinimo(int);
+    void setGrauMaximo(int);
+    void setGrauMedio(double);
+    void setGrauMediana(int);
+
+    void setInfo();
+
+    int nVertices;
+    int nArestas;
+    int grauMinimo;
+    int grauMaximo;
+    double grauMedio;
+    int grauMediana;
 };
 
 #endif
