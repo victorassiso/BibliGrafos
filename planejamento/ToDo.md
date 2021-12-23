@@ -7,8 +7,8 @@
     [X] - Adicionar status BFS/DFS
     [X] - Não inserir vertices com rótulos já existentes
     [X] - Inserir vizinhos
-    [ ] - Não inserir vizinhos já existentes
-    [ ] - Ler primeira linha (Número de vértices)
+    [X] - Não inserir vizinhos já existentes
+    [X] - Ler primeira linha (Número de vértices)
     
     Vetor:
     [ ] - 
@@ -32,7 +32,7 @@
     [X] - grau máximo
     [X] - grau médio
     [X] - mediana de grau
-    [ ] - Componentes conexas
+    [X] - Componentes conexas
     
     Vetor:
     [ ] - Gerar um arquivo de texto com o resultado:
@@ -62,22 +62,23 @@
   4. Busca em grafos:
 
     [X] - O vértice inicial (raiz) é dado pelo usuário
-    [ ] - Passar tudo para false no inicio da busca;
     Busca em largura que gera:
-      [X] - árvore
-      [X] - nível de cada vértice na árvore (nível da raiz é 0)
+      [X] - Pai de cada Vértice
+      [X] - nível de cada vértice
     Busca em profundidade que gera:
-      [ ] - árvore
-      [ ] - nível de cada vértice na árvore (nível da raiz é 0)
+      [ ] - Pai de cada Vértice
+      [ ] - nível de cada vértice
+    [ ] - Passar tudo para false no inicio da busca;
+    [ ] - Formatar Saída BFS;
 
   5. Distâncias e diâmetro
 
     [X] - Distância entre dois vértices (BFS)
-    [ ] - Diâmetro do grafo
+    [X] - Diâmetro do grafo
 
   6. Componentes conexos
 
-    [ ] - Descobrir as componentes conexas do grafo
+    [X] - Descobrir as componentes conexas do grafo
     [ ] - O número de componentes
     [ ] - O tamanho (em vértices) de cada componente
     [ ] - A Lista de vértices pertencentes à componente (em ordem decrescente de tamanho, isto é, lista primeiro a componente com o maior nímero de vértices)

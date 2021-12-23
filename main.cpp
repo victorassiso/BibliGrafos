@@ -1,16 +1,16 @@
-#include "lista.h"
+#include "src/lista/lista.h"
 
 void testeLista() {
-  Lista grafo("../../input/grafo_1.txt");
+  Lista grafo("input/grafo_componentes.txt");
   //Lista grafo("../../input/grafo_T1.txt");
   //Lista grafo("../../input/grafo_lista2.txt");
   
   //grafo.imprimirListaEstrutura();
 
-  //grafo.info();
+  grafo.info();
   //cout << grafo.distancia(8, 6) << endl;
-  //grafo.diametro();
-  grafo.BFS(55);
+  //cout << grafo.diametro() << endl;
+  grafo.BFS(2);
   //grafo.DFS(2);
 }
 

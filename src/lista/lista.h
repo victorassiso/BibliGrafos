@@ -13,6 +13,7 @@
 
 class Lista: public ListaEstrutura
 {
+
   public:
     Lista(string);
     ~Lista();
@@ -26,8 +27,13 @@ class Lista: public ListaEstrutura
   private:
     fstream arquivo;
 
-    //Auxiliares
-    
+    //Outros
+    void buscaEApaga(vector<Vertice*>*, Vertice*);
+    string setInfo();
+    string infoAuxiliar(int*, vector<Vertice*>*);
+    string BFSAuxiliar(int, vector<Vertice*>*);
+    int BFSMaiorDistancia(Vertice*);
+    void inexplorar();
 
     //Info
     int getNVertices();
@@ -36,6 +42,7 @@ class Lista: public ListaEstrutura
     int getGrauMaximo();
     double getGrauMedio();
     int getGrauMediana();
+    int getNComponentes();
 
     void setNVertices(int);
     void setNArestas(int);
@@ -43,8 +50,7 @@ class Lista: public ListaEstrutura
     void setGrauMaximo(int);
     void setGrauMedio(double);
     void setGrauMediana(int);
-
-    void setInfo();
+    void setNComponentes(int);
 
     int nVertices;
     int nArestas;
@@ -52,6 +58,7 @@ class Lista: public ListaEstrutura
     int grauMaximo;
     double grauMedio;
     int grauMediana;
+    int nComponentes;
 };
 
 #endif

@@ -12,6 +12,9 @@ int arquivo_V1, arquivo_V2;
     return;
   }
 
+  int nVertices;
+  arquivo >> nVertices;
+
   int i = 0;
   while (arquivo.good())
   {
