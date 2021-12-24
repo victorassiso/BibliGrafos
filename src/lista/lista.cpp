@@ -26,7 +26,7 @@ string Lista::setInfo()
   vector<vector<Vertice*>> componentes;; //Vértices(rótulos) de cada componente
 
   //Inicia valores para BFS
-  vector<Vertice*> desconhecidos = vetor_vertices; //Fila
+  vector<Vertice*> desconhecidos = vetor_vertices;
   
   //Coloca todos os status em desconhecido
   for (int i = 0; i < vetor_vertices.size(); i++) {
@@ -159,8 +159,6 @@ void Lista::BFS(int rotulo)
   outfile << "+------------------------+" << endl;
   outfile << "|      Componente " << nComponente << "      |" << endl;
   outfile << "+---------+------+-------+" << endl;
-  
-  //passar tudo pra false
 
   Vertice* raiz = this->buscaVertical(rotulo);
   if (!raiz){
@@ -169,7 +167,7 @@ void Lista::BFS(int rotulo)
   }
   
   vector<Vertice*> descobertos; //Fila
-  vector<Vertice*> desconhecidos = vetor_vertices; //Fila
+  vector<Vertice*> desconhecidos = vetor_vertices;
   Vertice* root = raiz; 
   Vertice* atual = raiz; 
   Vizinho* iterator = raiz->getVizinho();
@@ -278,7 +276,68 @@ string Lista::BFSAuxiliar(int nComp, vector<Vertice*>* desconhecidos)
 
 void Lista::DFS(int rotulo)
 {
+  int nComponente = 1;
+  ofstream outfile("output/DFS.txt");
+
+  //Coloca todos os status em desconhecido
+  for (int i = 0; i < vetor_vertices.size(); i++) {
+    vetor_vertices.at(i)->setStatus(false);
+  }
   
+  outfile << "DFS:" << endl;
+  outfile << "+---------+------+-------+" << endl;
+  outfile << "| Vértice | Pai  | Nível |" << endl;
+  outfile << "+------------------------+" << endl;
+  outfile << "|      Componente " << nComponente << "      |" << endl;
+  outfile << "+---------+------+-------+" << endl;
+
+  Vertice* raiz = this->buscaVertical(rotulo);
+  if (!raiz){
+    cout << "Vertice não encontrado." << endl;
+    return ;
+  }
+  
+  vector<Vertice*> descobertos; //Pilha
+  vector<Vertice*> desconhecidos = vetor_vertices;
+  Vertice* atual = raiz; //2
+  Vertice* root = raiz; //2
+  Vizinho* iterator = raiz->getVizinho(); //1
+  atual->setNivel(0);
+  descobertos.push_back(atual);
+
+  this->buscaEApaga(&desconhecidos, atual);
+  int i = 0;
+  outfile << "|\t\t" << rotulo << "\t\t|\t\tNull\t|\t\t" << raiz->getNivel() <<"\t\t|" << endl;
+  while(descobertos.size() > 0) {
+    
+    if(iterator){//iterator != null
+      if (!iterator->getVertice()->getStatus() && find(descobertos.begin(), descobertos.end(), iterator->getVertice()) == descobertos.end()) {
+        atual = iterator->getVertice();//1
+        iterator = atual->getVizinho();//2
+        descobertos.push_back(atual);
+        atual->setPai(root);
+        atual->setNivel(root->getNivel()+1);
+        root = atual;
+        this->buscaEApaga(&desconhecidos, atual);
+        outfile << "|\t\t" << atual->getRotulo() << "\t\t|\t\t" << atual->getPai()->getRotulo() << "\t|\t\t" << atual->getNivel() <<"\t\t|" << endl;
+      } else {//iterator descoberto ou explorado
+        iterator = iterator->getVizinho();
+      }
+    } else {
+      if(atual != raiz) {
+        atual->setStatus(true);          
+        descobertos.pop_back();
+        root = atual;
+        atual = atual->getPai();//5
+        if (atual){
+          iterator = atual->getVizinho();//2//1//1//5//4//1
+          atual->setPai(atual->getPai());
+        }
+        this->buscaEApaga(&desconhecidos, atual);
+      }
+    }
+  }
+  outfile.close();
 }
 
 
@@ -422,38 +481,6 @@ int Lista::BFSMaiorDistancia(Vertice* raiz)
   return root->getNivel()+1;
 }
 
-//setInfo(Antigo)
-/*
-void Lista::setInfo()
-{
-  Vizinho* iterator;
-  vector<int> vetor_grau;
-  int grau = 0;
-  int nA = 0;
 
-  for (int i = 0; i < Lista::vetor_vertices.size(); i++) {
-    iterator = vetor_vertices.at(i)->getVizinho();
-    while (iterator) {//caso vizinho nao seja nulo
-      grau++;
-      nA++;
-      iterator = iterator->getVizinho();
-    }
-    vetor_grau.push_back(grau);
-    grau = 0;
-  }
-    sort(vetor_grau.begin(), vetor_grau.end());
-
-    setNVertices(vetor_vertices.size());
-    setNArestas(nA/2);
-    setGrauMinimo(vetor_grau.front());
-    setGrauMaximo(vetor_grau.back());
-    setGrauMedio(nA/(double)nVertices);
-
-    if (vetor_grau.size() % 2 != 0) 
-      setGrauMediana(vetor_grau.at(vetor_grau.size() / 2));
-    else
-      setGrauMediana((vetor_grau.at((vetor_grau.size()-1)/2) + vetor_grau.at((vetor_grau.size())/2))/2);
-}
-*/
 
 
