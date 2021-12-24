@@ -66,10 +66,11 @@
       [X] - Pai de cada Vértice
       [X] - nível de cada vértice
     Busca em profundidade que gera:
-      [ ] - Pai de cada Vértice
-      [ ] - nível de cada vértice
-    [ ] - Passar tudo para false no inicio da busca;
+      [X] - Pai de cada Vértice
+      [X] - nível de cada vértice
+    [X] - Passar tudo para false no inicio da busca;
     [ ] - Formatar Saída BFS;
+    [ ] - Formatar Saída DFS;
 
   5. Distâncias e diâmetro
 

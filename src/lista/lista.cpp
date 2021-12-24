@@ -307,7 +307,7 @@ void Lista::DFS(int rotulo)
 
   this->buscaEApaga(&desconhecidos, atual);
   int i = 0;
-  outfile << "|\t\t" << rotulo << "\t\t|\t\tNull\t|\t\t" << raiz->getNivel() <<"\t\t|" << endl;
+  outfile << "|		" << rotulo << "   | Null  |   " << raiz->getNivel() <<"   |" << endl;
   while(descobertos.size() > 0) {
     
     if(iterator){//iterator != null
@@ -319,7 +319,7 @@ void Lista::DFS(int rotulo)
         atual->setNivel(root->getNivel()+1);
         root = atual;
         this->buscaEApaga(&desconhecidos, atual);
-        outfile << "|\t\t" << atual->getRotulo() << "\t\t|\t\t" << atual->getPai()->getRotulo() << "\t|\t\t" << atual->getNivel() <<"\t\t|" << endl;
+        outfile << "|\t\t" << atual->getRotulo() << "\t\t|\t\t" << atual->getPai()->getRotulo() << "\t\t|\t\t" << atual->getNivel() <<"\t\t|" << endl;
       } else {//iterator descoberto ou explorado
         iterator = iterator->getVizinho();
       }
@@ -327,14 +327,19 @@ void Lista::DFS(int rotulo)
       if(atual != raiz) {
         atual->setStatus(true);          
         descobertos.pop_back();
-        root = atual;
+        root = atual->getPai();
         atual = atual->getPai();//5
         if (atual){
           iterator = atual->getVizinho();//2//1//1//5//4//1
           atual->setPai(atual->getPai());
         }
-        this->buscaEApaga(&desconhecidos, atual);
+        
+        if(desconhecidos.size() > 0)
+          this->buscaEApaga(&desconhecidos, atual);
+      } else {
+        descobertos.pop_back();
       }
+
     }
   }
   outfile.close();
