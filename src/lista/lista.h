@@ -30,10 +30,9 @@ class Lista: public ListaEstrutura
     //Outros
     void buscaEApaga(vector<Vertice*>*, Vertice*);
     string setInfo();
-    string infoAuxiliar(int*, vector<Vertice*>*);
+    void infoBFS(Vertice*, int*, vector<int>*, vector<Vertice*>*, vector<vector<Vertice*>>*, int);
     string BFSAuxiliar(int, vector<Vertice*>*);
     int BFSMaiorDistancia(Vertice*);
-    void inexplorar();
 
     //Info
     int getNVertices();

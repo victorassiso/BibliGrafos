@@ -79,9 +79,9 @@
   6. Componentes conexos
 
     [X] - Descobrir as componentes conexas do grafo
-    [ ] - O número de componentes
-    [ ] - O tamanho (em vértices) de cada componente
-    [ ] - A Lista de vértices pertencentes à componente (em ordem decrescente de tamanho, isto é, lista primeiro a componente com o maior nímero de vértices)
+    [X] - O número de componentes
+    [X] - O tamanho (em vértices) de cada componente
+    [X] - A Lista de vértices pertencentes à componente (em ordem decrescente de tamanho, isto é, lista primeiro a componente com o maior nímero de vértices)
   
 # Estudo de Caso
 
