@@ -4,7 +4,16 @@ CC				:= g++ #Compilador
 MAIN_SRC	:= main.cpp
 
 #Adicionar arquivos .h aqui:
-H_SRC			:=  src/lista/listaVertice.h src/lista/listaVizinho.h src/lista/lista.h src/lista/listaEstrutura.h
+H_SRC			:=	src/lista/listaVertice.h\
+							src/lista/listaVizinho.h\
+							src/lista/listaEstrutura.h\
+							src/lista/lista.h\
+							src/matriz/matrizVertice.h\
+							src/matriz/matrizEstrutura.h\
+							src/matriz/matriz.h\
+							src/arvore/noh.h\
+							src/arvore/arvore.h\
+							src/arvore/floresta.h\
 
 CFLAGS			:= -Wall -g -std=c++11
 LDFLAGS			:= 
@@ -35,3 +44,5 @@ $(MAIN_OBJ): $(MAIN_SRC) $(H_SRC)
 clean:
 	rm -f *.o
 	rm -f src/lista/*.o
+	rm -f src/matriz/*.o
+	rm -f src/arvore/*.o

@@ -70,19 +70,8 @@ string Lista::setInfo()
     }
     outfile += "\n\n";
   }
-
-  cout << endl << endl;
-
-  for (int i = 0; i < vetor_grau.size(); i++) {
-    cout << vetor_grau.at(i) << " -- ";
-  }
   
   sort(vetor_grau.begin(), vetor_grau.end());
-  cout << endl << endl;
-  for (int i = 0; i < vetor_grau.size(); i++) {
-    cout << vetor_grau.at(i) << " -- ";
-  }
-  cout << endl;
 
   setNVertices(vetor_vertices.size());
   setNArestas(nA/2);
@@ -110,7 +99,7 @@ void Lista::infoBFS(Vertice* raiz, int* nA, vector<int>* vetor_grau, vector<Vert
   Vizinho* iterator = root->getVizinho();//2
   descobertos.push_back(atual);//descobertos {1}
   componentes->at(nComp).push_back(atual);
-  this->buscaEApaga(desconhecidos, atual); // desconhecidos {24635789}
+  this->buscaEApaga(desconhecidos, atual);
   int grau = 0;
 
 
@@ -172,6 +161,7 @@ void Lista::BFS(int rotulo)
   Vertice* atual = raiz; 
   Vizinho* iterator = raiz->getVizinho();
   root->setNivel(0);
+  root->setPai(nullptr);
   descobertos.push_back(atual);
   this->buscaEApaga(&desconhecidos, atual);
   
@@ -219,12 +209,12 @@ string Lista::BFSAuxiliar(int nComp, vector<Vertice*>* desconhecidos)
   outfile += "|      Componente " + to_string(nComp) + "      |\n";
   outfile + "+---------+------+-------+\n";
   
-  //passar tudo pra false
   vector<Vertice*> descobertos;
   Vertice* root = desconhecidos->at(0);; 
   Vertice* atual = root; 
   Vizinho* iterator = root->getVizinho();
   root->setNivel(0);
+  root->setPai(nullptr);
   descobertos.push_back(atual);
   this->buscaEApaga(desconhecidos, atual);
 
@@ -303,6 +293,7 @@ void Lista::DFS(int rotulo)
   Vertice* root = raiz; //2
   Vizinho* iterator = raiz->getVizinho(); //1
   atual->setNivel(0);
+  atual->setPai(nullptr);
   descobertos.push_back(atual);
 
   this->buscaEApaga(&desconhecidos, atual);
@@ -368,8 +359,6 @@ int Lista::getNComponentes() {return nComponentes;}
 
 int Lista::distancia(int r1, int r2)
 {
-  //passar tudo pra false
-
   Vertice* raiz = this->buscaVertical(r1);
   if (!raiz){
     cout << "Vertice não encontrado." << endl;
@@ -448,13 +437,13 @@ int Lista::diametro()
 
 int Lista::BFSMaiorDistancia(Vertice* raiz)
 {
-  //passar tudo pra false
-
   vector<Vertice*> descobertos; //Fila
   Vertice* root = raiz; 
   Vertice* atual = raiz; 
   Vizinho* iterator = raiz->getVizinho();
   root->setNivel(0);
+  atual->setPai(nullptr);
+
   descobertos.push_back(atual);
 
   while(descobertos.size() > 0){

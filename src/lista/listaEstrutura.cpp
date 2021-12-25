@@ -2,7 +2,7 @@
 
 ListaEstrutura::ListaEstrutura(string nomeArquivo)
 {
-int arquivo_V1, arquivo_V2;
+  int rotulo1, rotulo2;
   
   arquivo.open(nomeArquivo, fstream::in);
 
@@ -15,12 +15,9 @@ int arquivo_V1, arquivo_V2;
   int nVertices;
   arquivo >> nVertices;
 
-  int i = 0;
   while (arquivo.good())
   {
-    arquivo >> arquivo_V1 >> arquivo_V2;
-    int rotulo1 = arquivo_V1;
-    int rotulo2 = arquivo_V2;
+    arquivo >> rotulo1 >> rotulo2;
     Vertice *v1 = inserirVertice(rotulo1);
     Vertice *v2 = inserirVertice(rotulo2);
     inserirVizinho(v1, v2);

@@ -11,6 +11,13 @@
     "iostream": "cpp",
     "iosfwd": "cpp",
     "ostream": "cpp",
-    "string": "cpp"
-  }
+    "string": "cpp",
+    "vector": "cpp",
+    "deque": "cpp",
+    "forward_list": "cpp",
+    "list": "cpp",
+    "unordered_map": "cpp",
+    "unordered_set": "cpp",
+    "random": "cpp",
+  },
 }

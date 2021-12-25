@@ -7,7 +7,7 @@
     [X] - Adicionar status BFS/DFS
     [X] - Não inserir vertices com rótulos já existentes
     [X] - Inserir vizinhos
-    [X] - Não inserir vizinhos já existentes
+    [ ] - Não inserir vizinhos já existentes
     [X] - Ler primeira linha (Número de vértices)
     
     Vetor:
@@ -17,10 +17,11 @@
     [ ] - 
 
     Matriz:
-    [ ] - 
-    [ ] - 
-    [ ] - 
-    [ ] - 
+    [X] - Inserir vertices
+    [X] - Adicionar status BFS/DFS
+    [X] - Não inserir vertices com rótulos já existentes
+    [X] - Inserir arestas
+    [X] - Ler primeira linha (Número de vértices)
 
   2. Saída:
 
@@ -51,6 +52,7 @@
     [ ] - grau máximo
     [ ] - grau médio
     [ ] - mediana de grau
+    [ ] - Componentes conexas
 
   3. Representação de grafos:
 
