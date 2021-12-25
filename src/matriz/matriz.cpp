@@ -30,6 +30,8 @@ void Matriz::BFS(int rotulo) {
     // Cria nova arvore e insere noh raiz // e insere Noh na fila (descoberto)
     Arvore* arvore = floresta.criaArvoreNova(vetor_vertices.at(indice)->getRotulo());
     Noh* pai = arvore->getRaiz();
+    pai->setNivel(0);
+    pai->setPai(nullptr);
     descobertosNoh.push_back(pai);
 
     // 4. Enquanto fila não estiver vazia
@@ -38,9 +40,7 @@ void Matriz::BFS(int rotulo) {
       // 5. Retira o primeiro vertice V da fila (Explorado)
       descobertosNoh.erase(descobertosNoh.begin());
       descobertos.erase(descobertos.begin());
-      cout << "descobertos:" << descobertos.size() << endl;
       buscaVertical(pai->getRotulo(), &indice);
-      cout << "indice: " << indice << endl;
 
       //Busca horizontal (linha)
       for(int i=0; i < indice; i++) {
@@ -50,17 +50,15 @@ void Matriz::BFS(int rotulo) {
         cout << "iterator:" << iterator->getRotulo() << endl;
         // 6. Para todo vizinho W de V
         if(matriz.at(indice).at(i) == true){
-          cout << "if 1" << endl;
           // 7. Se W não estiver marcado (caso seja Desconhecido)
           if (!iterator->getStatus()){
-            cout << "iterator: " << iterator->getRotulo() << endl;
             // 8. Marca W e insere na fila (Descoberto)
             iterator->setStatus(true);
             descobertos.push_back(iterator);
-            cout << "descobertos.size(): " << descobertos.size() << endl;
-            // Cria novo noh, define seu pai e o insere na arvore
             iteratorNoh = arvore->insereNoh(iterator->getRotulo(), pai);
             descobertosNoh.push_back(iteratorNoh);
+            iteratorNoh->setPai(pai);
+            iteratorNoh->setNivel(pai->getNivel()+1);
           }
         }
       }
@@ -86,6 +84,8 @@ void Matriz::BFS(int rotulo) {
               // Cria novo noh, define seu pai e o insere na arvore
               iteratorNoh = arvore->insereNoh(iterator->getRotulo(), pai);
               descobertosNoh.push_back(iteratorNoh);
+              iteratorNoh->setPai(pai);
+              iteratorNoh->setNivel(pai->getNivel()+1);
             }
           }
         }
@@ -104,9 +104,9 @@ void Matriz::BFS(int rotulo) {
         x = vetor_vertices.size();
       }
     }
-    arvore->imprimeArvore(arvore->getRaiz());
   }
-
+  cout << "!" << endl;
+  floresta.imprimeFloresta();
   
   return ;
 }

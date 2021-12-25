@@ -17,7 +17,7 @@ void testeLista() {
 }
 
 void testeMatriz() {
-  Matriz grafo("input/txt/grafo_T1.txt");
+  Matriz grafo("input/txt/grafo_2.txt");
   //grafo.imprimirMatrizEstrutura();
   grafo.BFS(2);
 }

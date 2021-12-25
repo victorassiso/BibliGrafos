@@ -14,8 +14,6 @@ class Arvore
 
     Noh* getRaiz();
 
-    void imprimeArvore(Noh* noh);
-    
   private:
     Noh* raiz;
 

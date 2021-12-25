@@ -16,12 +16,4 @@ Noh* Arvore::insereNoh(int rotuloFilho, Noh* pai) {
 
 Noh* Arvore::getRaiz() { return raiz; }
 
-void Arvore::imprimeArvore(Noh* noh) {
-  cout << noh->getRotulo() << endl;
-  vector<Noh*> vetor = noh->getFilhos();
 
-  for (int i=0; i<vetor.size(); i++) {
-    imprimeArvore(vetor.at(i));
-  }
-
-}
