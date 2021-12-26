@@ -15,7 +15,7 @@ class Matriz: public MatrizEstrutura
     void info();
     int distancia(int r1, int r2);
     int diametro();
-    void BFS(int);
+    Floresta BFS(int);
     void DFS(int);
   
   private:
@@ -28,6 +28,15 @@ class Matriz: public MatrizEstrutura
     string BFSAuxiliar(int, vector<MatrizVertice*>*);
     int BFSMaiorDistancia(MatrizVertice*);
 
+    //Arvore
+    Arvore* criaArvoreNova(int rotuloRaiz);
+
+    Arvore* getArvore(int indice);
+    vector<Arvore*> getArvores();
+
+    // void infoFLoresta();
+    string infoArvore(Noh* raiz);
+
     //Info
     int getNVertices();
     int getNArestas();
@@ -35,22 +44,24 @@ class Matriz: public MatrizEstrutura
     int getGrauMaximo();
     double getGrauMedio();
     int getGrauMediana();
+    vector<int> getVetorTamanhoComponentes();
     int getNComponentes();
 
-    void setNVertices(int);
     void setNArestas(int);
     void setGrauMinimo(int);
     void setGrauMaximo(int);
     void setGrauMedio(double);
     void setGrauMediana(int);
+    void setVetorTamanhoComponentes(vector<int>);
     void setNComponentes(int);
 
-    int nVertices;
     int nArestas;
     int grauMinimo;
     int grauMaximo;
     double grauMedio;
     int grauMediana;
+    vector<int> vetorTamanhoComponentes;
+    vector<Arvore*> arvores;
     int nComponentes;
 };
 

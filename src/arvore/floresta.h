@@ -13,8 +13,8 @@ class Floresta {
     Arvore* getArvore(int indice);
     vector<Arvore*> getArvores();
 
-    void imprimeFloresta();
-    void imprimeArvore(Noh* raiz);
+    void infoFLoresta();
+    void infoArvore(Noh* raiz);
 
   private:
   vector<Arvore*> arvores;

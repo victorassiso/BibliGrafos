@@ -16,6 +16,9 @@ class MatrizEstrutura
     fstream arquivo;
   
   protected:
+    void setNVertices(int);
+    int nVertices;
+
     vector<vector<bool>> matriz;
     vector<MatrizVertice*> vetor_vertices;
 

@@ -1,7 +1,10 @@
 #include "matrizEstrutura.h"
+#include <sys/types.h>
+#include <unistd.h>
 
 MatrizEstrutura::MatrizEstrutura(string nomeArquivo)
 {
+  cout << "Matriz em construção..." << endl;
   int arquivo_V1, arquivo_V2;
 
   arquivo.open(nomeArquivo, fstream::in);
@@ -14,12 +17,14 @@ MatrizEstrutura::MatrizEstrutura(string nomeArquivo)
 
   int nVertices;
   arquivo >> nVertices;
+  
+  setNVertices(nVertices);
 
   matriz.resize(nVertices);
   for (int i=0; i<nVertices; i++)
     matriz.at(i).resize(i);
   
-  
+  int x=0;
   while (arquivo.good()) {
     arquivo >> arquivo_V1 >> arquivo_V2;
     int indiceV1 = inserirVertice(arquivo_V1);
@@ -27,7 +32,10 @@ MatrizEstrutura::MatrizEstrutura(string nomeArquivo)
     inserirAresta(indiceV1, indiceV2);
     inserirAresta(indiceV2, indiceV1);
   };
+
   arquivo.close();
+
+  cout << "Construção da Matriz concluída." << endl;
 }
 
 MatrizEstrutura::~MatrizEstrutura(){}
@@ -70,6 +78,9 @@ MatrizVertice* MatrizEstrutura::buscaVertical(int rotulo, int* indice)
 
 void MatrizEstrutura::inserirAresta(int indice1, int indice2)
 {
+  if (indice1 == indice2)
+    return;
+
   int maior;
   int menor;
   if (indice1 > indice2) {
@@ -94,3 +105,6 @@ void MatrizEstrutura::imprimirMatrizEstrutura()
     cout << "[" << i << "][" << j << "] |" << endl;
   }
 }
+
+void MatrizEstrutura::setNVertices(int nVe) { nVertices = nVe; }
+

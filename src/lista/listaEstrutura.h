@@ -3,10 +3,13 @@
 
 #include "listaVertice.h"
 #include "listaVizinho.h"
+#include <chrono>
+#include <ctime>
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
+
 
 class ListaEstrutura
 {   

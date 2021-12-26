@@ -1,31 +1,39 @@
+#include <sys/types.h>
+#include <unistd.h>
 #include "src/lista/lista.h"
 #include "src/matriz/matriz.h"
 
 void testeLista() {
-  //Lista grafo("input/grafo_componentes.txt");
-  //Lista grafo("input/grafo_T1.txt");
-  Lista grafo("input/grafo_1.txt");
-  //Lista grafo("input/grafo_lista2.txt");
-  
-  //grafo.imprimirListaEstrutura();
 
-  grafo.info();
-  //cout << grafo.distancia(8, 6) << endl;
-  //cout << grafo.diametro() << endl;
-  //grafo.BFS(2);
-  //grafo.DFS(2);
+  char x;
+  Lista grafo3("input/txt/grafo_3.txt");
+
+  // Raiz 1
+  grafo3.DFS(1);
+  cin >> x;
+
+  // Raiz 2
+  grafo3.DFS(2);
+  cin >> x;
+
+  // Raiz 3
+  grafo3.DFS(3);
+  cin >> x;
+
+
+
+
 }
 
 void testeMatriz() {
-  Matriz grafo("input/txt/grafo_2.txt");
-  //grafo.imprimirMatrizEstrutura();
-  grafo.BFS(2);
+  Matriz grafo("input/txt/grafo_1.txt");
+
 }
 
 int main() {
   
-  //testeLista();
-  testeMatriz();
+  testeLista();
+  // testeMatriz();
 
   return 0;
 }

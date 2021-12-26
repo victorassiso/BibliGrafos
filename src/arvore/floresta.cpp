@@ -18,15 +18,17 @@ vector<Arvore*> Floresta::getArvores() {
   return arvores;
 }
 
-void Floresta::imprimeFloresta() {
+void Floresta::infoFLoresta() {
+
+
   for (int i=0; i<this->getArvores().size(); i++) {
   cout << "**** Componente " << i+1 << " ****"<< endl;
-    this->imprimeArvore(getArvores().at(i)->getRaiz());
+    this->infoArvore(getArvores().at(i)->getRaiz());
     cout << endl; 
   }
 }
 
-void Floresta::imprimeArvore(Noh* noh) {
+void Floresta::infoArvore(Noh* noh) {
   cout << "Vértice: " << noh->getRotulo();
   cout << " | Nível: " << noh->getNivel();
   cout << " | Pai: " << (noh->getPai() ? noh->getPai()->getRotulo() : 0) << endl;
@@ -34,7 +36,7 @@ void Floresta::imprimeArvore(Noh* noh) {
   vector<Noh*> vetor = noh->getFilhos();
 
   for (int i=0; i<vetor.size(); i++) {
-    imprimeArvore(vetor.at(i));
+    infoArvore(vetor.at(i));
   }
 
 }

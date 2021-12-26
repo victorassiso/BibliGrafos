@@ -9,12 +9,6 @@
     [X] - Inserir vizinhos
     [ ] - Não inserir vizinhos já existentes
     [X] - Ler primeira linha (Número de vértices)
-    
-    Vetor:
-    [ ] - 
-    [ ] - 
-    [ ] - 
-    [ ] - 
 
     Matriz:
     [X] - Inserir vertices
@@ -26,7 +20,6 @@
   2. Saída:
 
     Lista:
-    [X] - Gerar um arquivo de texto com o resultado:
     [X] - número de vértices
     [X] - número de arestas
     [X] - grau mínimo
@@ -34,18 +27,9 @@
     [X] - grau médio
     [X] - mediana de grau
     [X] - Componentes conexas
-    
-    Vetor:
-    [ ] - Gerar um arquivo de texto com o resultado:
-    [ ] - número de vértices
-    [ ] - número de arestas
-    [ ] - grau mínimo
-    [ ] - grau máximo
-    [ ] - grau médio
-    [ ] - mediana de grau
+    [X] - Gerar um arquivo de texto com o resultado:
 
     Matriz:
-    [ ] - Gerar um arquivo de texto com o resultado:
     [ ] - número de vértices
     [ ] - número de arestas
     [ ] - grau mínimo
@@ -53,15 +37,27 @@
     [ ] - grau médio
     [ ] - mediana de grau
     [ ] - Componentes conexas
+    [ ] - Gerar um arquivo de texto com o resultado:
 
   3. Representação de grafos:
 
-    [ ] - O usuario poderá escolher a forma de representação do grafo:
-    [ ] - Matriz de adjacência
-    [ ] - Lista de adjavência
-    [ ] - Vetor de adjacência
+    [X] - O usuario poderá escolher a forma de representação do grafo:
+    [X] - Matriz de adjacência
+    [X] - Lista de adjavência
 
   4. Busca em grafos:
+
+    lista:
+    [X] - O vértice inicial (raiz) é dado pelo usuário
+    Busca em largura que gera:
+      [X] - Pai de cada Vértice
+      [X] - nível de cada vértice
+    Busca em profundidade que gera:
+      [X] - Pai de cada Vértice
+      [X] - nível de cada vértice
+    [X] - Passar tudo para false no inicio da busca;
+    [ ] - Formatar Saída BFS;
+    [ ] - Formatar Saída DFS;
 
     [X] - O vértice inicial (raiz) é dado pelo usuário
     Busca em largura que gera:
@@ -81,6 +77,7 @@
 
   6. Componentes conexos
 
+    Lista:
     [X] - Descobrir as componentes conexas do grafo
     [X] - O número de componentes
     [X] - O tamanho (em vértices) de cada componente

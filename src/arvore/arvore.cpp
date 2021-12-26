@@ -16,4 +16,6 @@ Noh* Arvore::insereNoh(int rotuloFilho, Noh* pai) {
 
 Noh* Arvore::getRaiz() { return raiz; }
 
+void Arvore::setTamanho(int t) { tamanho = t; }
 
+int Arvore::getTamanho() { return tamanho; }

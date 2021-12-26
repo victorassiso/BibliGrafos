@@ -9,6 +9,7 @@
 #include <vector>
 #include <bits/stdc++.h>
 
+
 #include "listaEstrutura.h"
 
 class Lista: public ListaEstrutura

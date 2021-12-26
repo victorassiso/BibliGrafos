@@ -2,6 +2,8 @@
 
 ListaEstrutura::ListaEstrutura(string nomeArquivo)
 {
+  cout << "A Lista está sendo construída..."<< endl;
+
   int rotulo1, rotulo2;
   
   arquivo.open(nomeArquivo, fstream::in);
@@ -24,6 +26,9 @@ ListaEstrutura::ListaEstrutura(string nomeArquivo)
     inserirVizinho(v2, v1);
   }
   arquivo.close();
+  cout << "Lista construída com sucesso." << endl;
+  // timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
+  // cout << timenow << endl;
 }
 
 ListaEstrutura::~ListaEstrutura(){}

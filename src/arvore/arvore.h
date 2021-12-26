@@ -14,8 +14,12 @@ class Arvore
 
     Noh* getRaiz();
 
+    void setTamanho(int tamanho);
+    int getTamanho();
+
   private:
     Noh* raiz;
+    int tamanho;
 
 };
 

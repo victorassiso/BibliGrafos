@@ -134,6 +134,9 @@ void Lista::infoBFS(Vertice* raiz, int* nA, vector<int>* vetor_grau, vector<Vert
 
 void Lista::BFS(int rotulo)
 {
+  // cout << "BFS em andamento..." << endl;
+  // auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
+  // cout << timenow << endl;
   int nComponente = 1;
   ofstream outfile("output/BFS.txt");
 
@@ -199,6 +202,8 @@ void Lista::BFS(int rotulo)
     }
   
   outfile.close();
+  // cout << "BFS concluída." << endl;
+  
 }
 
 string Lista::BFSAuxiliar(int nComp, vector<Vertice*>* desconhecidos)
@@ -259,8 +264,7 @@ string Lista::BFSAuxiliar(int nComp, vector<Vertice*>* desconhecidos)
       nComp++;
       outfile += BFSAuxiliar(nComp, desconhecidos);
     }
-    
-  
+
   return outfile;
 }
 
@@ -336,11 +340,6 @@ void Lista::DFS(int rotulo)
   outfile.close();
 }
 
-
-
-
-
-
 void Lista::setNVertices(int nVe) {nVertices = nVe;}
 void Lista::setNArestas(int nA) {nArestas = nA;}
 void Lista::setGrauMinimo(int gminimo) {grauMinimo = gminimo;}
@@ -359,6 +358,7 @@ int Lista::getNComponentes() {return nComponentes;}
 
 int Lista::distancia(int r1, int r2)
 {
+  cout << "Iniciando cálculo da distância..." << endl;
   Vertice* raiz = this->buscaVertical(r1);
   if (!raiz){
     cout << "Vertice não encontrado." << endl;
@@ -399,6 +399,7 @@ int Lista::distancia(int r1, int r2)
       iterator = root->getVizinho();
     }
   }
+  cout << "Término do cálculo da distância.." << endl;
   return -1;
 }
 
@@ -474,7 +475,4 @@ int Lista::BFSMaiorDistancia(Vertice* raiz)
 
   return root->getNivel()+1;
 }
-
-
-
 
