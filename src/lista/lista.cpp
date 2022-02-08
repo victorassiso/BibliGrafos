@@ -326,7 +326,7 @@ int Lista::diametroSemPeso() {
   return maiorDiametro;
 }
 
-void Lista::ArvoreBFS(int raizRotulo, string arquivoDestino) {
+void Lista::arvoreBFS(int raizRotulo, string arquivoDestino) {
   cout << "Construindo Árvore Geradora (BFS)..." << endl;
 
   // 0. Encontrar o vértice referente ao rótulo informado via parâmetro
@@ -407,7 +407,7 @@ void Lista::ArvoreBFS(int raizRotulo, string arquivoDestino) {
   cout << "Árvore construída com sucesso!" << endl << endl;
 }
 
-void Lista::ArvoreDFS(int raizRotulo, string arquivoDestino) {
+void Lista::arvoreDFS(int raizRotulo, string arquivoDestino) {
   cout << "Construindo Árvore Geradora (DFS)...\n\n" << endl;
 
   // Encontrar o vértice referente ao rótulo informado via parâmetro

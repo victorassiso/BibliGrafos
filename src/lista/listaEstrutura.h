@@ -16,8 +16,6 @@ class ListaEstrutura
     void imprimirEstruturaLista();
 
   private:
-    vector<ListaVertice*> vetor_vertices;
-    
     // Atributos Info
     int nVertices;
     
@@ -27,6 +25,8 @@ class ListaEstrutura
   protected:
     ListaEstrutura(string arquivoOrigem);
     ~ListaEstrutura();
+
+    vector<ListaVertice*> vetor_vertices;
 
     // Métodos Auxiliares
     ListaVertice* inserirVertice(int rotulo);
