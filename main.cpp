@@ -34,6 +34,7 @@ int main() {
   Matriz matriz("input/txt/grafo_lista2.txt");
 
   matriz.imprimirMatrizEstrutura();
+  cout << "Distancia: " << matriz.distancia(1, 9) << endl;
 
   return 0;
 }

@@ -172,11 +172,13 @@ string Lista::info3(vector<vector<ListaVertice*>>* componentes) {
 int Lista::distanciaSemPeso(int r1, int r2) {
   cout << "Iniciando cálculo da distância..." << endl;
   
+  // Quando r1 e r2 são iguais a distância é zero
   if (r1 == r2) {
     return 0;
   }
 
-  ListaVertice* raiz = this->buscaVertical(r1);
+  // Busca o endereço do vértice que armazena r1
+  ListaVertice* raiz = buscaVertical(r1);
   if (!raiz){
     cout << "Vertice raiz não encontrado." << endl;
     return -1;
@@ -187,48 +189,54 @@ int Lista::distanciaSemPeso(int r1, int r2) {
     vetor_vertices.at(i)->setStatus(false);
   }
 
-  // 2. Definir Fila Q vazia
+  // Inicializa variáveis
   vector<Noh<ListaVertice>*> QNoh;
   Noh<ListaVertice>* vNoh;
   Noh<ListaVertice>* wNoh;
   Vizinho* w;
-
-  // 3. Marcar s e inserir s na fila Q
   Arvore<ListaVertice> arvore(raiz);
   Noh<ListaVertice>* sNoh = arvore.getRaiz();
+
+  // 2. Definir Fila Q vazia
+  QNoh = {};
+
+  // 3. Marcar s e inserir s na fila Q
   sNoh->getVertice()->setStatus(true);
   QNoh.push_back(sNoh);
-  //cout << "Adicionar " << sNoh->getVertice()->getRotulo() << " na fila Q" << endl;
+  //cout << "Inserir " << sNoh->getVertice()->getRotulo() << " na fila Q" << endl;
   sNoh->setPai(nullptr);
   sNoh->setNivel(0);
 
   // 4. Enquanto Q não estiver vazia
   while (QNoh.size() > 0) {
 
-    // 5.
+    // 5. Retirar v de Q
     vNoh = QNoh.front();
     QNoh.erase(QNoh.begin());
     //cout << "Remover " << vNoh->getVertice()->getRotulo() << " da fila Q" << endl;
     //cout << "Explorar " << vNoh->getVertice()->getRotulo() << endl;
+
     // 6. Para todo vizinho w de v faça
     w = vNoh->getVertice()->getVizinho();
     while (w) {
+      
+      // 7. Se w não estiver marcado
       if (!w->getVertice()->getStatus()) {
 
-        // 8.
+        // 8. Marcar w
         w->getVertice()->setStatus(true);
 
-        // 9.
+        // 9. Inserir w em Q
         wNoh = new Noh<ListaVertice>(w->getVertice());
         QNoh.push_back(wNoh);
-        //cout << "Adicionar " << wNoh->getVertice()->getRotulo() << " na fila Q" << endl;
+        //cout << "Inserir " << wNoh->getVertice()->getRotulo() << " na fila Q" << endl;
         wNoh->setPai(vNoh);
         wNoh->setNivel(vNoh->getNivel()+1);
 
-        // Distancia
+        // Retorna Distancia caso w == r2
         if (w->getVertice()->getRotulo() == r2) {
+          cout << "Término do cálculo da distância..." << endl;
           return wNoh->getNivel();
-          cout << "Término do cálculo da distância.." << endl;
         }
       }
 

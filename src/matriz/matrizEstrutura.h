@@ -27,6 +27,7 @@ class MatrizEstrutura
     int inserirVertice(int);  
     void inserirAresta(int, int);  
     MatrizVertice* buscaVertical(int rotulo, int* indice);
+    MatrizVertice* buscaVertical(int rotulo);
     
     // INFO
     void setNVertices(int);

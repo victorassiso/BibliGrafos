@@ -66,7 +66,9 @@ int MatrizEstrutura::inserirVertice(int rotulo)
   }
 }
 
-// Busca vértice existente através do rótulo. retorna o vértice e o indice
+// Busca e retorna vértice que armazena rótulo passado por parâmetro
+// Retorna indice do vértice no vetor_vertices por parâmetro
+// Retorna nullptr caso não exista
 MatrizVertice* MatrizEstrutura::buscaVertical(int rotulo, int* indice)
 {
   int i = 0;
@@ -80,6 +82,23 @@ MatrizVertice* MatrizEstrutura::buscaVertical(int rotulo, int* indice)
       *indice = i;
       return vetor_vertices.at(i);
 
+    }
+  }
+  return nullptr;
+}
+
+// Busca e retorna o vértice que armazena o rótulo passado por parâmetro
+// Retorna nullptr caso não exista
+MatrizVertice* MatrizEstrutura::buscaVertical(int rotulo)
+{
+  int i = 0;
+  if (vetor_vertices.size() < 1) {
+    return nullptr;
+  }
+  
+  for (i = 0; i < vetor_vertices.size(); i++) {
+    if (rotulo == vetor_vertices.at(i)->getRotulo()){
+      return vetor_vertices.at(i);
     }
   }
   return nullptr;
@@ -140,15 +159,6 @@ void MatrizEstrutura::imprimirMatrizEstrutura() {
     cout << " " << vetor_vertices.at(i)->getRotulo() << " |";
   }
   cout << endl;
-
-  // int j;
-  // for (int i = 0; i < matriz.size(); i++) {
-  //   cout << "[" << i << "][0] -> | ";
-  //   for (j = 0; j < matriz.at(i).size(); j++) {
-  //     cout << "   " << matriz.at(i).at(j) << "   | ";
-  //   }
-  //   cout << "[" << i << "][" << j << "] |" << endl;
-  // }
 }
 
 void MatrizEstrutura::setNVertices(int nVe) { nVertices = nVe; }

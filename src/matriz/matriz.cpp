@@ -4,6 +4,134 @@ Matriz::Matriz(string arquivoOrigem): MatrizEstrutura(arquivoOrigem) {}
 
 Matriz::~Matriz() {}
 
+// Retorna a distância entre r1 e r2 ou Nulo caso não haja caminho entre os vértices
+int Matriz::distancia(int r1, int r2) {
+  cout << "Iniciando cálculo da distância..." << endl;
+
+  // Quando r1 e r2 são iguais a distância é zero
+  if (r1 == r2) {
+    return 0;
+  }
+
+  // Busca o endereço do vértice que armazena r1 e seu indice no vetor_vertices
+  int indiceRaiz;
+  MatrizVertice* raiz = buscaVertical(r1, &indiceRaiz);
+  if (!raiz){
+    cout << "Vertice raiz não encontrado." << endl;
+    return -1;
+  }
+
+  // 1. Desmarcar todos os vértices
+  for (int i = 0; i < vetor_vertices.size(); i++) {
+    vetor_vertices.at(i)->setStatus(false);
+  }
+
+  // Inicializa variáveis
+  vector<Noh<MatrizVertice>*> QNoh;
+  vector<int> QIndice;
+  int vIndice;
+  Noh<MatrizVertice>* vNoh;
+  Noh<MatrizVertice>* wNoh;
+  MatrizVertice* w;
+  Arvore<MatrizVertice> arvore(raiz);
+  Noh<MatrizVertice>* sNoh = arvore.getRaiz();
+
+  // 2. Definir Fila Q vazia
+  QNoh = {};
+  QIndice = {};
+
+  // 3. Marcar s e inserir s na fila Q
+  sNoh->getVertice()->setStatus(true);
+  QNoh.push_back(sNoh);
+  QIndice.push_back(indiceRaiz);
+  // cout << "Inserir " << sNoh->getVertice()->getRotulo() << endl;
+  sNoh->setPai(nullptr);
+  sNoh->setNivel(0);
+
+  // 4. Enquanto Q não estiver vazia
+  while (QNoh.size() > 0) {
+  //while (Qint.size() > 0) {
+    
+    // 5. Retirar v de Q
+    vNoh = QNoh.front();
+    QNoh.erase(QNoh.begin());
+    vIndice = QIndice.front();
+    QIndice.erase(QIndice.begin());
+    // cout << "Remover " << vNoh->getVertice()->getRotulo() << endl;
+
+    // 6. Para todo vizinho w de v faça
+    // 6.1 Varrer a linha indiceRaiz referente ao rótulo r1
+    for (int i = 0; i < vIndice; i++) {
+      // 6.2 Se w for vizinho de v
+      if (matriz.at(vIndice).at(i)) {
+
+        // 7. Se w não estiver marcado
+        if (!vetor_vertices.at(i)->getStatus()) {
+          
+          // 8. Marcar w
+          vetor_vertices.at(i)->setStatus(true);
+          
+          // 9. Inserir w em Q
+          wNoh = new Noh<MatrizVertice>(vetor_vertices.at(i));
+          QNoh.push_back(wNoh);
+          QIndice.push_back(i);
+          // cout << "Inserir " << wNoh->getVertice()->getRotulo() << endl;
+          wNoh->setPai(vNoh);
+          wNoh->setNivel(vNoh->getNivel()+1);
+
+          // Se w == r2
+          if (wNoh->getVertice()->getRotulo() == r2) {
+            // Retorna Distância
+            cout << "Término do cálculo da distância..." << endl;
+            return wNoh->getNivel();
+          }
+        }
+      }
+    }    
+    
+    // 6.1 Varrer a coluna indiceRaiz referente ao rótulo r1
+    for (int i = vIndice+1; i < vetor_vertices.size(); i++) {
+      // 6.2 Se w for vizinho de v
+      if (matriz.at(i).at(vIndice)) {
+
+        // 7. Se w não estiver marcado
+        if (!vetor_vertices.at(i)->getStatus()) {
+          
+          // 8. Marcar w
+          vetor_vertices.at(i)->setStatus(true);
+          
+          // 9. Inserir w em Q
+          wNoh = new Noh<MatrizVertice>(vetor_vertices.at(i));
+          QNoh.push_back(wNoh);
+          QIndice.push_back(i);
+          // cout << "Inserir " << wNoh->getVertice()->getRotulo() << endl;
+          wNoh->setPai(vNoh);
+          wNoh->setNivel(vNoh->getNivel()+1);
+
+          // Se w == r2
+          if (wNoh->getVertice()->getRotulo() == r2) {
+            // Retorna Distância
+            cout << "Término do cálculo da distância..." << endl;
+            return wNoh->getNivel();
+          }
+        }
+      }
+    }
+  }
+
+  cout << "Término do cálculo da distância..." << endl;
+  cout << "Não há caminho possível entre estes dois vértices!" << endl;
+  return -1;
+}
+
+
+
+
+
+
+
+
+
 // Floresta Matriz::BFS(int rotulo) {
 //   // cout << "BFS em andamento..." << endl;
 //   // cout << "debug" << endl;
