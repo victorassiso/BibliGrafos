@@ -11,25 +11,26 @@ class MatrizEstrutura
 {   
   public:
     void imprimirMatrizEstrutura();
-
-  private:
-    fstream arquivo;
   
-  protected:
-    void setNVertices(int);
+  private: 
+    // INFO
     int nVertices;
 
-    vector<vector<bool>> matriz;
-    vector<MatrizVertice*> vetor_vertices;
-
+  protected:
     MatrizEstrutura(string);
     ~MatrizEstrutura();
-
+    
+    vector<vector<bool>> matriz;
+    vector<MatrizVertice*> vetor_vertices;
+    
+    // Métodos Auxiliares
     int inserirVertice(int);  
     void inserirAresta(int, int);  
     MatrizVertice* buscaVertical(int rotulo, int* indice);
-
-    vector<vector<bool>> getMatriz();
+    
+    // INFO
+    void setNVertices(int);
+    int getNVertices();
 
 };
 #endif

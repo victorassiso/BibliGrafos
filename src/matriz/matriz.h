@@ -9,8 +9,8 @@ using namespace std;
 class Matriz: public MatrizEstrutura
 {
   public:
-    // Matriz(string);
-    // ~Matriz();
+    Matriz(string arquivoOrigem);
+    ~Matriz();
 
     // void info();
     // int distancia(int r1, int r2);

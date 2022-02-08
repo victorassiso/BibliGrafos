@@ -1,8 +1,8 @@
 #include "matriz.h"
 
-// Matriz::Matriz(string nomeArquivo): MatrizEstrutura(nomeArquivo) {}
+Matriz::Matriz(string arquivoOrigem): MatrizEstrutura(arquivoOrigem) {}
 
-// Matriz::~Matriz(){}
+Matriz::~Matriz() {}
 
 // Floresta Matriz::BFS(int rotulo) {
 //   // cout << "BFS em andamento..." << endl;

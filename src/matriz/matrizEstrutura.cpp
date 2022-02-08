@@ -2,29 +2,34 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-MatrizEstrutura::MatrizEstrutura(string nomeArquivo)
-{
+MatrizEstrutura::MatrizEstrutura(string nomeArquivo) {
   cout << "Matriz em construção..." << endl;
+
+  // Inicializa Variáveis
   int arquivo_V1, arquivo_V2;
+  int nVertices;
+  int x = 0;
+  fstream arquivo;
 
+  // Verifica arquivo de input
   arquivo.open(nomeArquivo, fstream::in);
-
   if (!arquivo.is_open())
   {
     cout << "Arquivo nao existe." << endl;
     return;
   }
 
-  int nVertices;
+  // Lê primeira linha do arquivo e seta número de vértices do grafo
   arquivo >> nVertices;
-  
   setNVertices(nVertices);
 
+  // Define a matriz em formato triangular
+  // (número de colunas de cada linha é igual ao indice da linha)
   matriz.resize(nVertices);
   for (int i=0; i<nVertices; i++)
     matriz.at(i).resize(i);
   
-  int x=0;
+  // Lê arquivo txt e insere os vértices na matriz
   while (arquivo.good()) {
     arquivo >> arquivo_V1 >> arquivo_V2;
     int indiceV1 = inserirVertice(arquivo_V1);
@@ -40,22 +45,28 @@ MatrizEstrutura::MatrizEstrutura(string nomeArquivo)
 
 MatrizEstrutura::~MatrizEstrutura(){}
 
+// Insere um novo vértice no vetor_vertices caso ele já não exista
 int MatrizEstrutura::inserirVertice(int rotulo)
 {
   int indice;
+  
+  // Não permite que vértices repetidos sejam adicionados 
   MatrizVertice* verticeExiste = buscaVertical(rotulo, &indice);//2º
   if (!verticeExiste)
   {
+    // Cria vértice novo, o insere no vetor_vertices e retorna seu indice
     MatrizVertice* new_vertice = new MatrizVertice(rotulo);
     vetor_vertices.push_back(new_vertice);
     return vetor_vertices.size()-1;
   }
   else
   {
+    // Caso vértice já exista, retorna seu indice no vetor_vertices
     return indice;
   }
 }
 
+// Busca vértice existente através do rótulo. retorna o vértice e o indice
 MatrizVertice* MatrizEstrutura::buscaVertical(int rotulo, int* indice)
 {
   int i = 0;
@@ -71,11 +82,10 @@ MatrizVertice* MatrizEstrutura::buscaVertical(int rotulo, int* indice)
 
     }
   }
-
-
   return nullptr;
 }
 
+// Seta em true coordenada na matriz que liga dois vértices
 void MatrizEstrutura::inserirAresta(int indice1, int indice2)
 {
   if (indice1 == indice2)
@@ -94,17 +104,52 @@ void MatrizEstrutura::inserirAresta(int indice1, int indice2)
   matriz.at(maior).at(menor) = true;
 }
 
-void MatrizEstrutura::imprimirMatrizEstrutura()
-{
+// Imprime Estrutura da matriz
+void MatrizEstrutura::imprimirMatrizEstrutura() {
+
+  int i;
   int j;
-  for (int i = 0; i < matriz.size(); i++) {
-    cout << "[" << i << "][0] -> | ";
+  cout << "       ↓        ↓" << endl;
+  cout << "  | rótulo | índice |" << endl;
+  for (i = 0; i < matriz.size(); i++) {
+    cout << "  |    " << vetor_vertices.at(i)->getRotulo() << "   |    " << i << "   |";
     for (j = 0; j < matriz.at(i).size(); j++) {
-      cout << "   " << matriz.at(i).at(j) << "   | ";
+      cout << " " << matriz.at(i).at(j) << " |";
     }
-    cout << "[" << i << "][" << j << "] |" << endl;
+    cout << endl;
   }
+
+  cout << "  +--------+--------+";
+  for (int i = 0; i < matriz.size(); i++) {
+    cout << "---+";
+  }
+
+  cout << endl << "→ |   --   | índice |";
+  for (int i = 0; i < matriz.size(); i++) {
+    cout << " " << i << " |";
+  }
+  cout << endl;
+
+  cout << "  +--------+--------+";
+  for (int i = 0; i < matriz.size(); i++) {
+    cout << "---+";
+  }
+
+  cout << endl << "→ | rótulo |   --   |";
+  for (int i = 0; i < matriz.size(); i++) {
+    cout << " " << vetor_vertices.at(i)->getRotulo() << " |";
+  }
+  cout << endl;
+
+  // int j;
+  // for (int i = 0; i < matriz.size(); i++) {
+  //   cout << "[" << i << "][0] -> | ";
+  //   for (j = 0; j < matriz.at(i).size(); j++) {
+  //     cout << "   " << matriz.at(i).at(j) << "   | ";
+  //   }
+  //   cout << "[" << i << "][" << j << "] |" << endl;
+  // }
 }
 
 void MatrizEstrutura::setNVertices(int nVe) { nVertices = nVe; }
-
+int MatrizEstrutura::getNVertices() { return nVertices; }
