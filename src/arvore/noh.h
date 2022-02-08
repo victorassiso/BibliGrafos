@@ -2,37 +2,43 @@
 #define NOH_H
 
 #include "../lista/listaVertice.h"
+#include "../matriz/matrizVertice.h"
 #include <vector>
 using namespace std;
 
+template <class T>
 class Noh
 {
   public:
-    Noh(int rotulo);
-    Noh(ListaVertice* listaVertice);
-    ~Noh();
+    Noh(T* v) {
+      vertice = v;
+      pai = nullptr;
+      nivel = 0;
+    };
+    ~Noh() {};
 
-    Noh* getPai();
-    int getNivel();
-    bool getStatus();
-    Noh* getFilho(int indice);
-    vector<Noh*> getFilhos();
-    int getRotulo();
-    ListaVertice* getVertice();
+    Noh* getPai() { return pai; };
+    vector<Noh*> getFilhos() { return filhos; }
+    Noh* getFilho(int indice) { return filhos.at(indice); }
+    int getNivel() { return nivel; };
+    T* getVertice() { return vertice; };
 
-    void setPai(Noh* pai);
-    void setFilho(Noh* filho);
-    void setNivel(int nivel);
-    void setStatus(bool status);
+    void setPai(Noh* p) {
+      pai = p;
+      if (p) {
+        p->filhos.push_back(this);
+      }
+    };
+
+    void setNivel(int n) { nivel = n; };
 
   private:
-    int rotulo;
-    ListaVertice* listaVertice;
+    T* vertice;
     Noh* pai;
     vector<Noh*> filhos;
     int nivel;
-    bool status;
-    
 };
 
+template class Noh<ListaVertice*>;
+template class Noh<MatrizVertice*>;
 #endif

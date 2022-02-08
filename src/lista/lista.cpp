@@ -56,11 +56,8 @@ string Lista::info2() {
   Q.push_back(s);
   //cout << "Inserir " << s->getRotulo() << " na fila Q" << endl;
   
-  cout << "Debug" << endl;
   // [INFO] Insere s na componente nComp
   componentes.push_back({s});
-  cout << "Debug" << endl;
-
   
   // Para cada Componente Conexa
   bool existeNovaComponenteConexa = true;
@@ -191,14 +188,14 @@ int Lista::distanciaSemPeso(int r1, int r2) {
   }
 
   // 2. Definir Fila Q vazia
-  vector<Noh*> QNoh;
-  Noh* vNoh;
-  Noh* wNoh;
+  vector<Noh<ListaVertice>*> QNoh;
+  Noh<ListaVertice>* vNoh;
+  Noh<ListaVertice>* wNoh;
   Vizinho* w;
 
   // 3. Marcar s e inserir s na fila Q
-  Arvore arvore(raiz);
-  Noh* sNoh = arvore.getRaiz();
+  Arvore<ListaVertice> arvore(raiz);
+  Noh<ListaVertice>* sNoh = arvore.getRaiz();
   sNoh->getVertice()->setStatus(true);
   QNoh.push_back(sNoh);
   //cout << "Adicionar " << sNoh->getVertice()->getRotulo() << " na fila Q" << endl;
@@ -222,7 +219,7 @@ int Lista::distanciaSemPeso(int r1, int r2) {
         w->getVertice()->setStatus(true);
 
         // 9.
-        wNoh = new Noh(w->getVertice());
+        wNoh = new Noh<ListaVertice>(w->getVertice());
         QNoh.push_back(wNoh);
         //cout << "Adicionar " << wNoh->getVertice()->getRotulo() << " na fila Q" << endl;
         wNoh->setPai(vNoh);
@@ -250,11 +247,11 @@ int Lista::diametroSemPeso() {
   // Inicializar variáveis
   int maiorDiametro = 0;
   ListaVertice* raiz;
-  vector<Noh*> QNoh;
-  Noh* vNoh;
-  Noh* wNoh;
+  vector<Noh<ListaVertice>*> QNoh;
+  Noh<ListaVertice>* vNoh;
+  Noh<ListaVertice>* wNoh;
   Vizinho* w;
-  Noh* sNoh;
+  Noh<ListaVertice>* sNoh;
   
   // Para cada Componente Conexa
   for (int i = 0; i < vetor_vertices.size(); i++) {
@@ -266,7 +263,7 @@ int Lista::diametroSemPeso() {
 
     // 1. Definir raiz s
     raiz = vetor_vertices.at(i);  
-    Arvore arvore(raiz);
+    Arvore<ListaVertice> arvore(raiz);
     sNoh = arvore.getRaiz();
 
     // 2. Definir Fila Q vazia
@@ -301,7 +298,7 @@ int Lista::diametroSemPeso() {
           // cout << "Marcar " << w->getVertice()->getRotulo() << endl;
 
           // 9. inserir w em Q
-          wNoh = new Noh(w->getVertice());
+          wNoh = new Noh<ListaVertice>(w->getVertice());
           QNoh.push_back(wNoh);
           // cout << "Inserir " << wNoh->getVertice()->getRotulo() << " na fila Q" << endl;
           wNoh->setPai(vNoh);
@@ -335,21 +332,21 @@ void Lista::arvoreBFS(int raizRotulo, string arquivoDestino) {
     cout << "Vértice raiz não encontrado." << endl;
     return ;
   }
-
+  
   // 1. Desmarcar todos os vértices
   for (int i = 0; i < vetor_vertices.size(); i++) {
     vetor_vertices.at(i)->setStatus(false);
   }
 
   // 2. Definir Fila Q vazia
-  vector<Noh*> QNoh;
-  Noh* vNoh;
-  Noh* wNoh;
+  vector<Noh<ListaVertice>*> QNoh;
+  Noh<ListaVertice>* vNoh;
+  Noh<ListaVertice>* wNoh;
   Vizinho* w;
-
+  
   // 3. Marcar s e inserir s na fila Q
-  Arvore arvore(raiz);
-  Noh* sNoh = arvore.getRaiz();
+  Arvore<ListaVertice> arvore(raiz);
+  Noh<ListaVertice>* sNoh = arvore.getRaiz();
   sNoh->getVertice()->setStatus(true);
   //cout << "Marcar " << sNoh->getVertice()->getRotulo() << endl;
   QNoh.push_back(sNoh);
@@ -388,7 +385,7 @@ void Lista::arvoreBFS(int raizRotulo, string arquivoDestino) {
         //cout << "Marcar " << w->getVertice()->getRotulo() << endl;
 
         // 9. inserir w em Q
-        wNoh = new Noh(w->getVertice());
+        wNoh = new Noh<ListaVertice>(w->getVertice());
         QNoh.push_back(wNoh);
         //cout << "Inserir " << wNoh->getVertice()->getRotulo() << " na fila Q" << endl;
         wNoh->setPai(vNoh);
@@ -418,11 +415,11 @@ void Lista::arvoreDFS(int raizRotulo, string arquivoDestino) {
   }
 
   // Inicializar variáveis
-  vector<Noh*> pNoh;
-  Arvore arvore(raiz);
-  Noh* sNoh = arvore.getRaiz();
-  Noh* uNoh;
-  Noh* vNoh;
+  vector<Noh<ListaVertice>*> pNoh;
+  Arvore<ListaVertice> arvore(raiz);
+  Noh<ListaVertice>* sNoh = arvore.getRaiz();
+  Noh<ListaVertice>* uNoh;
+  Noh<ListaVertice>* vNoh;
   Vizinho* v;
   vector<Vizinho*> pVizinho;
   int i = 0;
@@ -458,8 +455,11 @@ void Lista::arvoreDFS(int raizRotulo, string arquivoDestino) {
     uNoh = pNoh.back();
     pNoh.pop_back();
     while (!uNoh) {
+      if (pNoh.size() < 1) {
+        return ;
+      }
       sNoh = sNoh->getPai();
-      cout << "Remove nullptr; sNoh = " << sNoh->getVertice()->getRotulo() << endl;
+      // cout << "Remove nullptr; sNoh = " << sNoh->getVertice()->getRotulo() << endl;
       uNoh = pNoh.back();
       pNoh.pop_back();
       if (pNoh.size() < 1) {
@@ -467,12 +467,12 @@ void Lista::arvoreDFS(int raizRotulo, string arquivoDestino) {
       }
     }
     // /* [DEBUG] */ debugDFS("Remove ", uNoh, sNoh, pNoh);
-
     // 6. Se u não estiver marcado
     if (!uNoh->getVertice()->getStatus()) {
       
       // 7. Marcar u
       uNoh->getVertice()->setStatus(true);
+
       if (uNoh != arvore.getRaiz()) {
         uNoh->setPai(sNoh);
         uNoh->setNivel(sNoh->getNivel()+1);
@@ -498,7 +498,7 @@ void Lista::arvoreDFS(int raizRotulo, string arquivoDestino) {
       i = pVizinho.size()-1;
       while (i >= 0) {
         v = pVizinho.at(i);
-        vNoh = new Noh(v->getVertice());
+        vNoh = new Noh<ListaVertice>(v->getVertice());
         pNoh.push_back(vNoh);
         i--;
         // /* [DEBUG] */ debugDFS("Insere ", vNoh, sNoh, pNoh);

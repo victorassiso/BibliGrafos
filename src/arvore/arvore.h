@@ -2,28 +2,22 @@
 #define ARVORE_H
 
 #include "noh.h"
-#include "../lista/listaVertice.h"
 #include <iostream>
 
+template <class T>
 class Arvore
 {
   public:
-    Arvore(int rotuloRaiz);
-    Arvore(ListaVertice* rotuloRaiz);
-    ~Arvore();
+    Arvore(T* r) {
+      Noh<T>* nohRaiz = new Noh<T>(r);
+      raiz = nohRaiz;
+    };
+    ~Arvore() {};
 
-    Noh* insereNoh(int rotuloFilho, Noh* pai);
-    Noh* insereNoh(ListaVertice* verticeFilho, Noh* pai);
-
-    Noh* getRaiz();
-
-    void setTamanho(int tamanho);
-    int getTamanho();
+    Noh<T>* getRaiz() { return raiz; };
 
   private:
-    Noh* raiz;
-    int tamanho;
-
+    Noh<T>* raiz;
 };
 
 #endif
