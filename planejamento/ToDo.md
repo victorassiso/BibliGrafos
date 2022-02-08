@@ -2,28 +2,28 @@
 ### Para Matriz:
 
 Arquivo de Saída "info"
-[ ] - Número de vértices
-[ ] - Número de Arestas
-[ ] - Grau Mínimo
-[ ] - Grau Máximo
-[ ] - Grau Médio
-[ ] - Mediana de Grau
+[X] - Número de vértices
+[X] - Número de Arestas
+[X] - Grau Mínimo
+[X] - Grau Máximo
+[X] - Grau Médio
+[X] - Mediana de Grau
 [ ] - Número de Componentes Conexas
 [ ] - Tamanho de cada componente
 [ ] - Lista de vertices por componente conexa (ordem decrescente)
 
 
 Arquivo de Saída "ArvoreBFS"
-[ ] - Listar vértices, seu nível e seu pai na árvore geradora
+[X] - Listar vértices, seu nível e seu pai na árvore geradora
 
 Arquivo de Saída "ArvoreDFS"
 [ ] - Listar vértices, seu nível e seu pai na árvore geradora
 
 Arquivo de Saída "Distância"
-[ ] - Determinar a distância entre dois vértices (BFS)
+[X] - Determinar a distância entre dois vértices (BFS)
 
 Arquivo de Saída "Diâmetro"
-[ ] - Determinar o diâmetro do grafo (comprimento do maior caminho mínimo) (BFS)
+[X] - Determinar o diâmetro do grafo (comprimento do maior caminho mínimo) (BFS)
 
 ### Para Lista:
 

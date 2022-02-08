@@ -1,0 +1,5 @@
+~~ Árvore Geradora (DFS) ~~
+
+Vertice: 1;		Pai: nullptr;		Nível: 0
+Vertice: 2;		Pai: 1;		Nível: 1
+Vertice: 3;		Pai: 2;		Nível: 2

@@ -34,7 +34,10 @@ int main() {
   Matriz matriz("input/txt/grafo_lista2.txt");
 
   matriz.imprimirMatrizEstrutura();
-  cout << "Distancia: " << matriz.distancia(1, 9) << endl;
+  // cout << "Distancia: " << matriz.distancia(1, 9) << endl;
+  // matriz.arvoreBFS(1, "output/BFS_Matriz_lista2.txt");
+  // cout << "Diâmetro: " << matriz.diametro() << endl;
+  matriz.info("output/INFO_Matriz_lista2.txt");
 
   return 0;
 }

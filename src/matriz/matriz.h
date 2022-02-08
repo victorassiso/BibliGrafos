@@ -12,11 +12,11 @@ class Matriz: public MatrizEstrutura
     Matriz(string arquivoOrigem);
     ~Matriz();
 
-    // void info();
-    int distancia(int r1, int r2);
-    // int diametro();
-    // void arvoreBFS(int);
-    // void arvoreDFS(int);
+    void info(string arquivoDestino);
+    int distancia(int r1, int r2); // BFS
+    int diametro(); // BFS
+    void arvoreBFS(int raizRotulo, string arquivoDestino);
+    // void arvoreDFS(int raizRotulo, string arquivoDestino);
   
   private:
     // fstream arquivo;
@@ -45,6 +45,8 @@ class Matriz: public MatrizEstrutura
     void setGrauMediana(double);
     void setNComponentes(int);
 
+    // Métodos Auxiliares
+    string info2();
 };
 
 #endif

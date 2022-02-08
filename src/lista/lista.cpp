@@ -28,7 +28,7 @@ string Lista::info2() {
   // Definir variáveis
     // Info
   string outfile = "";
-  vector<vector<ListaVertice*>> componentes;; //Armazena os Vértices por componente
+  vector<vector<ListaVertice*>> componentes; //Armazena os Vértices por componente
   vector<int> vetor_graus; // Armazena o grau de cada vértice;
   int grau = 0;
   int nA = 0;
@@ -128,7 +128,7 @@ string Lista::info2() {
   ///////////////////
 
   // [INFO]
-  //setInfo
+  //set Info
   setNArestas(nA/2);
   sort(vetor_graus.begin(), vetor_graus.end());
   setGrauMaximo(vetor_graus.back());
@@ -235,7 +235,7 @@ int Lista::distanciaSemPeso(int r1, int r2) {
 
         // Retorna Distancia caso w == r2
         if (w->getVertice()->getRotulo() == r2) {
-          cout << "Término do cálculo da distância..." << endl;
+          cout << "Término do cálculo da distância!" << endl;
           return wNoh->getNivel();
         }
       }
@@ -244,7 +244,7 @@ int Lista::distanciaSemPeso(int r1, int r2) {
     }
   }
     
-  cout << "Término do cálculo da distância.." << endl;
+  cout << "Término do cálculo da distância!" << endl;
   cout << "Vértice destino Não encontrado!" << endl;
   return -1;
 }
@@ -261,7 +261,7 @@ int Lista::diametroSemPeso() {
   Vizinho* w;
   Noh<ListaVertice>* sNoh;
   
-  // Para cada Componente Conexa
+  // Para cada vertice
   for (int i = 0; i < vetor_vertices.size(); i++) {
     
     // 0. Desmarcar todos os vértices
@@ -326,7 +326,7 @@ int Lista::diametroSemPeso() {
     arvore.~Arvore();
   }
   
-  cout << "Diametro calculado com sucesso!" << endl;
+  cout << "Diâmetro calculado com sucesso!" << endl;
 
   return maiorDiametro;
 }
@@ -337,7 +337,7 @@ void Lista::arvoreBFS(int raizRotulo, string arquivoDestino) {
   // 0. Encontrar o vértice referente ao rótulo informado via parâmetro
   ListaVertice* raiz = this->buscaVertical(raizRotulo);
   if (!raiz){
-    cout << "Vértice raiz não encontrado." << endl;
+    cout << "Vértice raiz não encontrado!" << endl;
     return ;
   }
   
@@ -364,12 +364,12 @@ void Lista::arvoreBFS(int raizRotulo, string arquivoDestino) {
   
   //Imprimir Cabeçalho
   ofstream outfile(arquivoDestino);
-  outfile << "~~ Arvore Geradora (BFS) ~~" << endl << endl;
+  outfile << "~~ Árvore Geradora (BFS) ~~" << endl << endl;
     
-    // Imprimir novo vértice (raiz)
-    outfile << "Vertice: " << sNoh->getVertice()->getRotulo() << ";\t\t";
-    outfile << "Pai: nullptr;\t\t";
-    outfile << "Nível: 0" << endl;
+  // Imprimir novo vértice (raiz)
+  outfile << "Vertice: " << sNoh->getVertice()->getRotulo() << ";\t\t";
+  outfile << "Pai: nullptr;\t\t";
+  outfile << "Nível: 0" << endl;
     
   // 4. Enquanto Q não estiver vazia
   while (QNoh.size() > 0) {
@@ -514,35 +514,6 @@ void Lista::arvoreDFS(int raizRotulo, string arquivoDestino) {
     }
   }  
 }
-
-/* [DEBUG_DFS]
-void Lista::debugDFS(string acao,Noh* uNoh, Noh* sNoh, vector<Noh*> pNoh) {
-  cout << acao << uNoh->getVertice()->getRotulo();
-  cout << ";    P = {";
-  int tamanho = pNoh.size();
-
-  if (tamanho > 0) {
-    for (int i = 0; i < pNoh.size(); i++) {
-      if (pNoh.at(i)) {
-        cout << pNoh.at(i)->getVertice()->getRotulo() << ", ";
-      } else {
-        cout << "nullptr, ";
-      }
-    }
-    cout << "}";
-  } else {
-    cout << "}";
-  }
-
-  cout << ";    sNoh =  " << sNoh->getVertice()->getRotulo();
-  if (uNoh->getPai()){ 
-    cout << ";    Pai =  " << uNoh->getPai()->getVertice()->getRotulo();
-  } else {
-    cout << ";    Pai = nullptr";
-  }
-  cout << ";    Nivel = " << uNoh->getNivel() << endl;
-}
-*/
 
 void Lista::setNArestas(int nA) { nArestas = nA; }
 void Lista::setGrauMinimo(int gminimo) { grauMinimo = gminimo; }

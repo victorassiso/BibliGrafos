@@ -4,6 +4,143 @@ Matriz::Matriz(string arquivoOrigem): MatrizEstrutura(arquivoOrigem) {}
 
 Matriz::~Matriz() {}
 
+void Matriz::info(string arquivoDestino) {
+  string BFS = info2();
+  ofstream outfile(arquivoDestino);
+
+  cout << "Construindo arquivo de saida INFO...\n" << endl;
+
+  outfile << "Número de Vértices: " << getNVertices() << endl;
+  outfile << "Número de Arestas: " << getNArestas() << endl;
+  outfile << "Grau Mínimo: " << getGrauMinimo() << endl;
+  outfile << "Grau Máximo: " << getGrauMaximo() << endl;
+  outfile << "Grau Médio: " << getGrauMedio() << endl;
+  outfile << "Grau Mediana: " << getGrauMediana() << endl;
+  outfile << "Número de Componentes conexas: " << getNComponentes() << endl;
+  outfile << BFS << endl;
+  outfile.close();
+
+  cout << "Arquivo construido com sucesso!\n\n" << endl;
+}
+
+string Matriz::info2() {
+  cout << "Analisando o grafo...\n" << endl;
+  
+  // Definir variáveis BFS
+  vector<MatrizVertice*> Q;
+  MatrizVertice* s = vetor_vertices.at(0);
+  vector<int> QIndice;
+  int vIndice = 0;
+  MatrizVertice* v;
+
+  // Definir variáveis INFO
+  int nA = 0;
+  int grau = 0;
+  int nComp = 0;
+  vector<int> vetor_graus;
+  vector<vector<MatrizVertice*>> componentes;
+  string outfile = "";
+
+  // 1. Desmarcar todos os vértices
+  for (int i = 0; i < vetor_vertices.size(); i++) {
+    vetor_vertices.at(i)->setStatus(false);
+  }
+
+  // 2. Definir fila Q vazia
+  Q = {};
+  QIndice = {};
+
+  // 3. Marcar s e inserir s na fila Q
+  s->setStatus(true);
+  Q.push_back(s);
+  QIndice.push_back(vIndice);
+  // cout << "Inserir " << s->getRotulo() << endl;
+  // cout << "Marcar " << s->getRotulo() << endl;
+
+  // 4. Enquanto Q não estiver vazia
+  while (Q.size() > 0) {
+
+    // 5. Retirar v de Q
+    v = Q.front();
+    Q.erase(Q.begin());
+    vIndice = QIndice.front();
+    QIndice.erase(QIndice.begin());
+    // cout << "Remover " << v->getRotulo() << endl;
+
+    // 6. Para todo vizinho w de v faça
+      // 6.1 Varrer a linha indiceRaiz referente ao rótulo r1
+      for (int i = 0; i < vIndice; i++) {
+        // 6.2 Se w for vizinho de v
+        if (matriz.at(vIndice).at(i)) {
+          
+          // Incrementa número de arestas
+          nA++;
+          // Incrementa grau de v
+          grau++;
+
+          // 7. Se w não estiver marcado
+          if (!vetor_vertices.at(i)->getStatus()) {
+            
+            // 8. Marcar w
+            vetor_vertices.at(i)->setStatus(true);
+            // cout << "Marcar " << vetor_vertices.at(i)->getRotulo() << endl;
+            
+            // 9. Inserir w em Q
+            Q.push_back(vetor_vertices.at(i));
+            QIndice.push_back(i);
+            // cout << "Inserir " << vetor_vertices.at(i)->getRotulo() << endl;
+          }
+        }
+      }    
+      
+      // 6.1 Varrer a coluna indiceRaiz referente ao rótulo r1
+      for (int i = vIndice+1; i < vetor_vertices.size(); i++) {
+        // 6.2 Se w for vizinho de v
+        if (matriz.at(i).at(vIndice)) {
+          
+          // Incrementa número de arestas
+          nA++;
+          // Incrementa grau de v
+          grau++;
+
+          // 7. Se w não estiver marcado
+          if (!vetor_vertices.at(i)->getStatus()) {
+            
+            // 8. Marcar w
+            vetor_vertices.at(i)->setStatus(true);
+            // cout << "Marcar " << vetor_vertices.at(i)->getRotulo() << endl;
+            
+            // 9. Inserir w em Q
+            Q.push_back(vetor_vertices.at(i));
+            QIndice.push_back(i);
+            // cout << "Inserir " << vetor_vertices.at(i)->getRotulo() << endl;
+          }
+        }
+      }
+      vetor_graus.push_back(grau);
+      grau = 0;
+  }
+
+  ///////////////////////
+  // [INFO]
+  // set Info
+  setNArestas(nA/2);
+  sort(vetor_graus.begin(), vetor_graus.end());
+  setGrauMaximo(vetor_graus.back());
+  setGrauMinimo(vetor_graus.front());
+  setGrauMedio(nA/(double)getNVertices());
+  // setNComponentes(nComp+1);
+
+  if (vetor_graus.size() % 2 != 0) 
+    setGrauMediana((double)(vetor_graus.at((double)vetor_graus.size() / 2)));
+  else
+    setGrauMediana((double)(((double)vetor_graus.at((double)(vetor_graus.size()-1)/2) + (double)vetor_graus.at(((double)vetor_graus.size())/2))/2));
+  
+  // outfile += info3(&componentes);
+
+  return outfile;
+}
+
 // Retorna a distância entre r1 e r2 ou Nulo caso não haja caminho entre os vértices
 int Matriz::distancia(int r1, int r2) {
   cout << "Iniciando cálculo da distância..." << endl;
@@ -124,9 +261,236 @@ int Matriz::distancia(int r1, int r2) {
   return -1;
 }
 
+// Gera arquivo de saída com árvore geradora BFS
+void Matriz::arvoreBFS(int raizRotulo, string arquivoDestino) {
+  cout << "Construindo Árvore Geradora (BFS)..." << endl;
 
+  // Busca o endereço do vértice que armazena r1 e seu indice no vetor_vertices
+  int indiceRaiz;
+  MatrizVertice* raiz = buscaVertical(raizRotulo, &indiceRaiz);
+  if (!raiz){
+    cout << "Vertice raiz não encontrado." << endl;
+    return ;
+  }
 
+  // 1. Desmarcar todos os vértices
+  for (int i = 0; i < vetor_vertices.size(); i++) {
+    vetor_vertices.at(i)->setStatus(false);
+  }
 
+  // Inicializa variáveis
+  vector<Noh<MatrizVertice>*> QNoh;
+  vector<int> QIndice;
+  int vIndice;
+  Noh<MatrizVertice>* vNoh;
+  Noh<MatrizVertice>* wNoh;
+  MatrizVertice* w;
+  Arvore<MatrizVertice> arvore(raiz);
+  Noh<MatrizVertice>* sNoh = arvore.getRaiz();
+  
+  // Imprimir Cabeçalho
+  ofstream outfile(arquivoDestino);
+  outfile << "~~ Árvore Geradora (DFS) ~~" << endl << endl;
+
+  // 2. Definir Fila Q vazia
+  QNoh = {};
+  QIndice = {};
+
+  // 3. Marcar s e inserir s na fila Q
+  sNoh->getVertice()->setStatus(true);
+  QNoh.push_back(sNoh);
+  QIndice.push_back(indiceRaiz);
+  // cout << "Inserir " << sNoh->getVertice()->getRotulo() << endl;
+  sNoh->setPai(nullptr);
+  sNoh->setNivel(0);
+
+  // Imprimir novo vértice (raiz)
+  outfile << "Vertice: " << sNoh->getVertice()->getRotulo() << ";\t\t";
+  outfile << "Pai: nullptr;\t\t";
+  outfile << "Nível: 0" << endl;
+
+  // 4. Enquanto Q não estiver vazia
+  while (QNoh.size() > 0) {
+  //while (Qint.size() > 0) {
+    
+    // 5. Retirar v de Q
+    vNoh = QNoh.front();
+    QNoh.erase(QNoh.begin());
+    vIndice = QIndice.front();
+    QIndice.erase(QIndice.begin());
+    // cout << "Remover " << vNoh->getVertice()->getRotulo() << endl;
+
+    // 6. Para todo vizinho w de v faça
+    // 6.1 Varrer a linha indiceRaiz referente ao rótulo r1
+    for (int i = 0; i < vIndice; i++) {
+      // 6.2 Se w for vizinho de v
+      if (matriz.at(vIndice).at(i)) {
+
+        // 7. Se w não estiver marcado
+        if (!vetor_vertices.at(i)->getStatus()) {
+          
+          // 8. Marcar w
+          vetor_vertices.at(i)->setStatus(true);
+          
+          // 9. Inserir w em Q
+          wNoh = new Noh<MatrizVertice>(vetor_vertices.at(i));
+          QNoh.push_back(wNoh);
+          QIndice.push_back(i);
+          // cout << "Inserir " << wNoh->getVertice()->getRotulo() << endl;
+          wNoh->setPai(vNoh);
+          wNoh->setNivel(vNoh->getNivel()+1);
+
+          // Imprimir novo vértice
+          outfile << "Vertice: " << wNoh->getVertice()->getRotulo() << ";\t\t";
+          outfile << "Pai: " << wNoh->getPai()->getVertice()->getRotulo() << ";\t\t";
+          outfile << "Nível: " << wNoh->getNivel()<< endl;
+        }
+      }
+    }    
+    
+    // 6.1 Varrer a coluna indiceRaiz referente ao rótulo r1
+    for (int i = vIndice+1; i < vetor_vertices.size(); i++) {
+      // 6.2 Se w for vizinho de v
+      if (matriz.at(i).at(vIndice)) {
+
+        // 7. Se w não estiver marcado
+        if (!vetor_vertices.at(i)->getStatus()) {
+          
+          // 8. Marcar w
+          vetor_vertices.at(i)->setStatus(true);
+          
+          // 9. Inserir w em Q
+          wNoh = new Noh<MatrizVertice>(vetor_vertices.at(i));
+          QNoh.push_back(wNoh);
+          QIndice.push_back(i);
+          // cout << "Inserir " << wNoh->getVertice()->getRotulo() << endl;
+          wNoh->setPai(vNoh);
+          wNoh->setNivel(vNoh->getNivel()+1);
+
+          // Imprimir novo vértice
+          outfile << "Vertice: " << wNoh->getVertice()->getRotulo() << ";\t\t";
+          outfile << "Pai: " << wNoh->getPai()->getVertice()->getRotulo() << ";\t\t";
+          outfile << "Nível: " << wNoh->getNivel()<< endl;
+        }
+      }
+    }
+  }
+
+  cout << "Árvore constuída com sucesso!" << endl;
+}
+
+// Retorna o diâmetro do grafo
+int Matriz::diametro() {
+  cout << "Iniciando cálculo da distância..." << endl;
+
+  // Inicializa variáveis
+  vector<Noh<MatrizVertice>*> QNoh;
+  vector<int> QIndice;
+  int vIndice;
+  Noh<MatrizVertice>* vNoh;
+  Noh<MatrizVertice>* wNoh;
+  Noh<MatrizVertice>* sNoh;
+  MatrizVertice* w;
+  int maiorDiametro = 0;
+
+  // Para cada vértice
+  for (int i = 0; i < vetor_vertices.size(); i++) {
+
+    // 1. Desmarcar todos os vértices
+    for (int i = 0; i < vetor_vertices.size(); i++) {
+      vetor_vertices.at(i)->setStatus(false);
+    }
+
+    // Define raiz inicial
+    int indiceRaiz = i;
+    MatrizVertice* raiz = vetor_vertices.at(i);
+    Arvore<MatrizVertice> arvore(raiz);
+    sNoh = arvore.getRaiz();
+
+    // 2. Definir Fila Q vazia
+    QNoh = {};
+    QIndice = {};
+
+    // 3. Marcar s e inserir s na fila Q
+    sNoh->getVertice()->setStatus(true);
+    QNoh.push_back(sNoh);
+    QIndice.push_back(indiceRaiz);
+    // cout << "Inserir " << sNoh->getVertice()->getRotulo() << endl;
+    // cout << "Marcar " << sNoh->getVertice()->getRotulo() << endl;
+    sNoh->setPai(nullptr);
+    sNoh->setNivel(0);
+
+    // 4. Enquanto Q não estiver vazia
+    while (QNoh.size() > 0) {
+    //while (Qint.size() > 0) {
+      
+      // 5. Retirar v de Q
+      vNoh = QNoh.front();
+      QNoh.erase(QNoh.begin());
+      vIndice = QIndice.front();
+      QIndice.erase(QIndice.begin());
+      // cout << "Remover " << vNoh->getVertice()->getRotulo() << endl;
+
+      // 6. Para todo vizinho w de v faça
+      // 6.1 Varrer a linha indiceRaiz referente ao rótulo r1
+      for (int i = 0; i < vIndice; i++) {
+        // 6.2 Se w for vizinho de v
+        if (matriz.at(vIndice).at(i)) {
+
+          // 7. Se w não estiver marcado
+          if (!vetor_vertices.at(i)->getStatus()) {
+            
+            // 8. Marcar w
+            vetor_vertices.at(i)->setStatus(true);
+            // cout << "Marcar " << vetor_vertices.at(i)->getRotulo() << endl;
+            
+            // 9. Inserir w em Q
+            wNoh = new Noh<MatrizVertice>(vetor_vertices.at(i));
+            QNoh.push_back(wNoh);
+            QIndice.push_back(i);
+            // cout << "Inserir " << wNoh->getVertice()->getRotulo() << endl;
+            wNoh->setPai(vNoh);
+            wNoh->setNivel(vNoh->getNivel()+1);
+          }
+        }
+      }    
+      
+      // 6.1 Varrer a coluna indiceRaiz referente ao rótulo r1
+      for (int i = vIndice+1; i < vetor_vertices.size(); i++) {
+        // 6.2 Se w for vizinho de v
+        if (matriz.at(i).at(vIndice)) {
+
+          // 7. Se w não estiver marcado
+          if (!vetor_vertices.at(i)->getStatus()) {
+            
+            // 8. Marcar w
+            vetor_vertices.at(i)->setStatus(true);
+            
+            // 9. Inserir w em Q
+            wNoh = new Noh<MatrizVertice>(vetor_vertices.at(i));
+            QNoh.push_back(wNoh);
+            QIndice.push_back(i);
+            // cout << "Inserir " << wNoh->getVertice()->getRotulo() << endl;
+            wNoh->setPai(vNoh);
+            wNoh->setNivel(vNoh->getNivel()+1);
+          }
+        }
+      }
+    }
+    
+    // Atualizar maiorDiametro
+    if (wNoh->getNivel() > maiorDiametro) {
+      maiorDiametro = wNoh->getNivel();
+    }
+
+    // Destroir arvore atual
+    arvore.~Arvore();
+  }
+  
+  cout << "Diâmetro calculado com sucesso!" << endl;
+
+  return maiorDiametro;
+}
 
 
 
@@ -331,22 +695,19 @@ int Matriz::distancia(int r1, int r2) {
 //   */
 
 
-// void Matriz::setNArestas(int nA) {nArestas = nA;}
-// void Matriz::setGrauMinimo(int gminimo) {grauMinimo = gminimo;}
-// void Matriz::setGrauMaximo(int gmaximo) {grauMaximo = gmaximo;}
-// void Matriz::setGrauMedio(double gmedio) {grauMedio = gmedio;}
-// void Matriz::setGrauMediana(int gmediana) {grauMediana = gmediana;}
-// void Matriz::setVetorTamanhoComponentes(vector<int> nComp) {vetorTamanhoComponentes = nComp;}
-// void Matriz::setNComponentes(int nComp) { nComponentes = nComp; }
+void Matriz::setNArestas(int nA) {nArestas = nA;}
+void Matriz::setGrauMinimo(int gminimo) {grauMinimo = gminimo;}
+void Matriz::setGrauMaximo(int gmaximo) {grauMaximo = gmaximo;}
+void Matriz::setGrauMedio(double gmedio) {grauMedio = gmedio;}
+void Matriz::setGrauMediana(double gmediana) {grauMediana = gmediana;}
+void Matriz::setNComponentes(int nComp) { nComponentes = nComp; }
 
-// int Matriz::getNVertices() {return nVertices;}
-// int Matriz::getNArestas() {return nArestas;}
-// int Matriz::getGrauMinimo() {return grauMinimo;}
-// int Matriz::getGrauMaximo() {return grauMaximo;}
-// double Matriz::getGrauMedio() {return grauMedio;}
-// int Matriz::getGrauMediana() {return grauMediana;}
-// vector<int> Matriz::getVetorTamanhoComponentes() {return vetorTamanhoComponentes;}
-// int Matriz::getNComponentes() { return nComponentes; }
+int Matriz::getNArestas() {return nArestas;}
+int Matriz::getGrauMinimo() {return grauMinimo;}
+int Matriz::getGrauMaximo() {return grauMaximo;}
+double Matriz::getGrauMedio() {return grauMedio;}
+double Matriz::getGrauMediana() {return grauMediana;}
+int Matriz::getNComponentes() { return nComponentes; }
 
 // void Matriz::buscaEApaga(vector<MatrizVertice*>* vetor, MatrizVertice* vertice)
 // {

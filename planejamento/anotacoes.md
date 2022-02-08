@@ -281,3 +281,33 @@ Remove nullptr  P = {nullptr}           sNoh = 5;
 Remove nullptr  P = {}           sNoh = 1;
 
 
+# Função auxiliar de DEBUG da DFS
+``` C++
+// [DEBUG_DFS]
+void Lista::debugDFS(string acao,Noh* uNoh, Noh* sNoh, vector<Noh*> pNoh) {
+  cout << acao << uNoh->getVertice()->getRotulo();
+  cout << ";    P = {";
+  int tamanho = pNoh.size();
+
+  if (tamanho > 0) {
+    for (int i = 0; i < pNoh.size(); i++) {
+      if (pNoh.at(i)) {
+        cout << pNoh.at(i)->getVertice()->getRotulo() << ", ";
+      } else {
+        cout << "nullptr, ";
+      }
+    }
+    cout << "}";
+  } else {
+    cout << "}";
+  }
+
+  cout << ";    sNoh =  " << sNoh->getVertice()->getRotulo();
+  if (uNoh->getPai()){ 
+    cout << ";    Pai =  " << uNoh->getPai()->getVertice()->getRotulo();
+  } else {
+    cout << ";    Pai = nullptr";
+  }
+  cout << ";    Nivel = " << uNoh->getNivel() << endl;
+}
+```

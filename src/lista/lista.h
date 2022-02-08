@@ -58,7 +58,7 @@ class Lista: public ListaEstrutura
     void setGrauMediana(double);
     void setNComponentes(int);
 
-    //Métodos Auxiliares
+    // Métodos Auxiliares
     string info2();
     string info3(vector<vector<ListaVertice*>>* componentes);
     // [DEBUG] void debugDFS(string acao,Noh* uNoh, Noh* sNoh, vector<Noh*> pNoh);
