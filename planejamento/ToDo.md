@@ -1,94 +1,65 @@
-# To Do:
+# To Do T1:
+### Para Matriz:
 
-  1. Entrada:
+Arquivo de Saída "info"
+[ ] - Número de vértices
+[ ] - Número de Arestas
+[ ] - Grau Mínimo
+[ ] - Grau Máximo
+[ ] - Grau Médio
+[ ] - Mediana de Grau
+[ ] - Número de Componentes Conexas
+[ ] - Tamanho de cada componente
+[ ] - Lista de vertices por componente conexa (ordem decrescente)
 
-    Lista:
-    [X] - Inserir vertices
-    [X] - Adicionar status BFS/DFS
-    [X] - Não inserir vertices com rótulos já existentes
-    [X] - Inserir vizinhos
-    [ ] - Não inserir vizinhos já existentes
-    [X] - Ler primeira linha (Número de vértices)
 
-    Matriz:
-    [X] - Inserir vertices
-    [X] - Adicionar status BFS/DFS
-    [X] - Não inserir vertices com rótulos já existentes
-    [X] - Inserir arestas
-    [X] - Ler primeira linha (Número de vértices)
+Arquivo de Saída "ArvoreBFS"
+[ ] - Listar vértices, seu nível e seu pai na árvore geradora
 
-  2. Saída:
+Arquivo de Saída "ArvoreDFS"
+[ ] - Listar vértices, seu nível e seu pai na árvore geradora
 
-    Lista:
-    [X] - número de vértices
-    [X] - número de arestas
-    [X] - grau mínimo
-    [X] - grau máximo
-    [X] - grau médio
-    [X] - mediana de grau
-    [X] - Componentes conexas
-    [X] - Gerar um arquivo de texto com o resultado:
+Arquivo de Saída "Distância"
+[ ] - Determinar a distância entre dois vértices (BFS)
 
-    Matriz:
-    [ ] - número de vértices
-    [ ] - número de arestas
-    [ ] - grau mínimo
-    [ ] - grau máximo
-    [ ] - grau médio
-    [ ] - mediana de grau
-    [ ] - Componentes conexas
-    [ ] - Gerar um arquivo de texto com o resultado:
+Arquivo de Saída "Diâmetro"
+[ ] - Determinar o diâmetro do grafo (comprimento do maior caminho mínimo) (BFS)
 
-  3. Representação de grafos:
+### Para Lista:
 
-    [X] - O usuario poderá escolher a forma de representação do grafo:
-    [X] - Matriz de adjacência
-    [X] - Lista de adjavência
+Arquivo de Saída "info"
+[X] - Número de vértices
+[X] - Número de Arestas
+[X] - Grau Mínimo
+[X] - Grau Máximo
+[X] - Grau Médio
+[X] - Mediana de Grau
+[X] - Número de Componentes Conexas
+[X] - Tamanho de cada componente
+[X] - Lista de vertices por componente conexa (ordem decrescente)
 
-  4. Busca em grafos:
+Arquivo de Saída "ArvoreBFS"
+[X] - Listar vértices, seu nível e seu pai na árvore geradora
 
-    lista:
-    [X] - O vértice inicial (raiz) é dado pelo usuário
-    Busca em largura que gera:
-      [X] - Pai de cada Vértice
-      [X] - nível de cada vértice
-    Busca em profundidade que gera:
-      [X] - Pai de cada Vértice
-      [X] - nível de cada vértice
-    [X] - Passar tudo para false no inicio da busca;
-    [ ] - Formatar Saída BFS;
-    [ ] - Formatar Saída DFS;
+Arquivo de Saída "ArvoreDFS"
+[X] - Listar vértices, seu nível e seu pai na árvore geradora
 
-    [X] - O vértice inicial (raiz) é dado pelo usuário
-    Busca em largura que gera:
-      [X] - Pai de cada Vértice
-      [X] - nível de cada vértice
-    Busca em profundidade que gera:
-      [X] - Pai de cada Vértice
-      [X] - nível de cada vértice
-    [X] - Passar tudo para false no inicio da busca;
-    [ ] - Formatar Saída BFS;
-    [ ] - Formatar Saída DFS;
+Arquivo de Saída "Distância"
+[X] - Determinar a distância entre dois vértices (BFS)
 
-  5. Distâncias e diâmetro
+Arquivo de Saída "Diâmetro"
+[X] - Determinar o diâmetro do grafo (comprimento do maior caminho mínimo) (BFS)
 
-    [X] - Distância entre dois vértices (BFS)
-    [X] - Diâmetro do grafo
 
-  6. Componentes conexos
 
-    Lista:
-    [X] - Descobrir as componentes conexas do grafo
-    [X] - O número de componentes
-    [X] - O tamanho (em vértices) de cada componente
-    [X] - A Lista de vértices pertencentes à componente (em ordem decrescente de tamanho, isto é, lista primeiro a componente com o maior nímero de vértices)
-  
-# Estudo de Caso
+# To Do T2:
 
-1. 
-2. 
-3. 
-4. 
-5. 
-6. 
-7. 
+  Arquivo "Distancia e Caminho Mínimo"
+  [ ] - Grafo sem pesos (BFS)
+  [ ] - Grafo com pesos positivos (Dijkstra)
+  [ ] - Grafo com pesos negativos (Floyd-Warshall ou Bellman-Ford)
+    [ ] - Possui Ciclos negativos? (caso no qual as distâncias nao estao definidas)
+
+  [ ] - Entre um dado vértice e todos os vértices
+
+  Arquivo "Arvore Geradora Minima MST"

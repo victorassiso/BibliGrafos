@@ -3,10 +3,12 @@
 Lista::Lista(string nomeArquivo): ListaEstrutura(nomeArquivo){}
 Lista::~Lista(){}
 
-void Lista::info()
-{
-  string BFS = setInfo();
-  ofstream outfile("output/grafoInfo.txt");
+void Lista::info(string arquivoDestino) {
+
+  string BFS = info2();
+  ofstream outfile(arquivoDestino);
+
+  cout << "Construindo arquivo de saida INFO...\n" << endl;
 
   outfile << "Número de Vértices: " << getNVertices() << endl;
   outfile << "Número de Arestas: " << getNArestas() << endl;
@@ -15,464 +17,535 @@ void Lista::info()
   outfile << "Grau Médio: " << getGrauMedio() << endl;
   outfile << "Grau Mediana: " << getGrauMediana() << endl;
   outfile << "Número de Componentes conexas: " << getNComponentes() << endl;
-
   outfile << BFS << endl;
-
   outfile.close();
+
+  cout << "Arquivo construido com sucesso!\n\n" << endl;
 }
 
-string Lista::setInfo()
-{
-  vector<vector<Vertice*>> componentes;; //Vértices(rótulos) de cada componente
+string Lista::info2() {
+  cout << "Analisando o grafo...\n" << endl;
+  // Definir variáveis
+    // Info
+  string outfile = "";
+  vector<vector<ListaVertice*>> componentes;; //Armazena os Vértices por componente
+  vector<int> vetor_graus; // Armazena o grau de cada vértice;
+  int grau = 0;
+  int nA = 0;
+  int nComp = 0;
+    // BFS
+  int i = 0;
+  vector<ListaVertice*> Q;
+  ListaVertice* v;
+  Vizinho* w;
+  ListaVertice* s = vetor_vertices.at(0);
 
-  //Inicia valores para BFS
-  vector<Vertice*> desconhecidos = vetor_vertices;
-  
-  //Coloca todos os status em desconhecido
+  ///////////////////
+
+  // 1. Desmarcar todos os vértices
   for (int i = 0; i < vetor_vertices.size(); i++) {
     vetor_vertices.at(i)->setStatus(false);
   }
+
+  // 2. Definir Fila Q vazia
+  Q = {};
+
+  // 3. Marcar s e inserir s na fila Q
+  s->setStatus(true);
+  //cout << "Marcar " << s->getRotulo() << endl;
+  Q.push_back(s);
+  //cout << "Inserir " << s->getRotulo() << " na fila Q" << endl;
   
-  //Cabeçalho
+  cout << "Debug" << endl;
+  // [INFO] Insere s na componente nComp
+  componentes.push_back({s});
+  cout << "Debug" << endl;
+
+  
+  // Para cada Componente Conexa
+  bool existeNovaComponenteConexa = true;
+  while (existeNovaComponenteConexa) {
+    
+    // 4. Enquanto Q não estiver vazia
+    while (Q.size() > 0) {
+      
+      // 5.
+      v = Q.front();
+      Q.erase(Q.begin());
+      //cout << "Remover " << v->getRotulo() << " da fila Q" << endl;
+      //cout << "Explorar " << v->getRotulo() << endl;
+
+      // 6. Para todo vizinho w de v faça
+      w = v->getVizinho();
+      while (w) {
+
+        // 7. Se w não estiver marcado
+        if (!w->getVertice()->getStatus()) {
+
+          // 8. Marcar w
+          w->getVertice()->setStatus(true);
+          //cout << "Marcar " << w->getVertice()->getRotulo() << endl;
+
+          // 9. inserir w em Q
+          Q.push_back(w->getVertice());
+          //cout << "Inserir " << w->getVertice()->getRotulo() << " na fila Q" << endl;
+
+          // [INFO] Inserir w na componente i
+          componentes.at(nComp).push_back(w->getVertice());
+        }
+
+        // [INFO] Incrementar número de arestas e grau do vertice v 
+        nA++;
+        grau++;
+        w = w->getVizinho();
+      }
+
+      // [INFO] Inserir grau de v em vetor_graus e zerar grau de v
+      vetor_graus.push_back(grau);
+      grau = 0;
+    }
+  
+    // Se ainda houverem vértices desconhecidos, isto é, uma nova componente conexa
+    do {
+      i++;
+    } while (i < vetor_vertices.size() && vetor_vertices.at(i)->getStatus());
+    
+    if (i < vetor_vertices.size()) {
+      // 3. Marcar s e inserir s na fila Q
+      s = vetor_vertices.at(i);
+      s->setStatus(true);
+      //cout << "Marcar " << s->getRotulo() << endl;
+      Q.push_back(s);
+      //cout << "Inserir " << s->getRotulo() << " na fila Q" << endl;
+
+      // Incrementar nComp
+      nComp++;
+      // [INFO] Insere s na componente nComp
+      componentes.push_back({s});
+
+    } else {
+      existeNovaComponenteConexa = false;
+    }
+
+  }
+  ///////////////////
+
+  // [INFO]
+  //setInfo
+  setNArestas(nA/2);
+  sort(vetor_graus.begin(), vetor_graus.end());
+  setGrauMaximo(vetor_graus.back());
+  setGrauMinimo(vetor_graus.front());
+  setGrauMedio(nA/(double)getNVertices());
+  setNComponentes(nComp+1);
+
+  if (vetor_graus.size() % 2 != 0) 
+    setGrauMediana((double)(vetor_graus.at((double)vetor_graus.size() / 2)));
+  else
+    setGrauMediana((double)(((double)vetor_graus.at((double)(vetor_graus.size()-1)/2) + (double)vetor_graus.at(((double)vetor_graus.size())/2))/2));
+  
+  outfile += info3(&componentes);
+
+  return outfile;
+}
+
+string Lista::info3(vector<vector<ListaVertice*>>* componentes) {
+  cout << "Ordenando componentes...\n" << endl;
+  // Cabeçalho
   string outfile = "\n** Componentes Conexas: **\n\n";
   
-  //Declara variáveis Info
-  vector<int> vetor_grau;
-  int nA = 0;
-  int nComp = 0;
+  vector<vector<ListaVertice*>> Vcomponentes = *componentes;
   
-  //Chama BFS para cada componente
-  bool done = false;
-  while(!done){
-    infoBFS(desconhecidos.at(0), &nA, &vetor_grau, &desconhecidos, &componentes, nComp);//
-    nComp++;
-    
-    //Info
-
-    //Caso na haja mais vértices desconhecidos, sai do loop
-    if (desconhecidos.size() < 1)
-      done = true;
-  };
-
-  //String Componetes
-  sort(componentes.rbegin(), componentes.rend(),
-    [](vector<Vertice*> a, vector<Vertice*> b){
+  sort(componentes->rbegin(), componentes->rend(),
+    [](vector<ListaVertice*> a, vector<ListaVertice*> b){
       return a.size() < b.size();
     });
 
-  for (int i = 0; i < componentes.size(); i++) {
-    outfile += "Componente: " + to_string(i+1);
-    outfile += "\nTamanho: " + to_string(componentes.at(i).size());
-    outfile += "\nVértices: ";
-
-    for (int j = 0; j < componentes.at(i).size(); j++) {
-      outfile += to_string(componentes.at(i).at(j)->getRotulo()) + ", ";
+  for (int i = 0; i < componentes->size(); i++) {
+    outfile += "Componente: " + to_string(i+1) + ";\t Tamanho: " + to_string(componentes->at(i).size()) + "\n";
+    for (int j = 0; j < componentes->at(i).size(); j++) {
+      outfile += to_string(componentes->at(i).at(j)->getRotulo()) + "\n";
     }
-    outfile += "\n\n";
+    outfile += "\n";
   }
-  
-  sort(vetor_grau.begin(), vetor_grau.end());
-
-  setNVertices(vetor_vertices.size());
-  setNArestas(nA/2);
-  setGrauMaximo(vetor_grau.back());
-  setGrauMinimo(vetor_grau.front());
-  setGrauMedio(nA/(double)nVertices);
-  setNComponentes(nComp);
-
-  if (vetor_grau.size() % 2 != 0) 
-      setGrauMediana(vetor_grau.at(vetor_grau.size() / 2));
-    else
-      setGrauMediana((vetor_grau.at((vetor_grau.size()-1)/2) + vetor_grau.at((vetor_grau.size())/2))/2);
 
   return outfile;
 }
 
-void Lista::infoBFS(Vertice* raiz, int* nA, vector<int>* vetor_grau, vector<Vertice*>* desconhecidos, vector<vector<Vertice*>>* componentes, int nComp)
-{
-  
-  vector<Vertice*> descobertos;
-  vector<Vertice*> verticesComp;
-  componentes->push_back(verticesComp);
-  Vertice* root = raiz;//1
-  Vertice* atual = root; //1
-  Vizinho* iterator = root->getVizinho();//2
-  descobertos.push_back(atual);//descobertos {1}
-  componentes->at(nComp).push_back(atual);
-  this->buscaEApaga(desconhecidos, atual);
-  int grau = 0;
-
-
-  while(descobertos.size() > 0){
-    
-    while(iterator)
-    {
-      atual = iterator->getVertice();//2//4//6
-      iterator = iterator->getVizinho();//4//6//null
-      *nA = *nA + 1;//1
-      grau ++;//1
-      
-      //Se status= false || nao está na lista
-      if ( !atual->getStatus() && find(descobertos.begin(), descobertos.end(), atual) == descobertos.end()) {
-        descobertos.push_back(atual);// descobertos
-        componentes->at(nComp).push_back(atual);
-        this->buscaEApaga(desconhecidos, atual);
-      }
-    }
-    root->setStatus(true);
-    vetor_grau->push_back(grau);
-    grau = 0;
-    descobertos.erase(descobertos.begin());
-    
-    if (descobertos.size() > 0) {
-      root = descobertos.at(0);
-      atual = root;
-      iterator = root->getVizinho();
-    }
-  }
-}
-
-void Lista::BFS(int rotulo)
-{
-  // cout << "BFS em andamento..." << endl;
-  // auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
-  // cout << timenow << endl;
-  int nComponente = 1;
-  ofstream outfile("output/BFS.txt");
-
-  //Coloca todos os status em desconhecido
-  for (int i = 0; i < vetor_vertices.size(); i++) {
-    vetor_vertices.at(i)->setStatus(false);
-  }
-  
-  outfile << "BFS:" << endl;
-  outfile << "+---------+------+-------+" << endl;
-  outfile << "| Vértice | Pai  | Nível |" << endl;
-  outfile << "+------------------------+" << endl;
-  outfile << "|      Componente " << nComponente << "      |" << endl;
-  outfile << "+---------+------+-------+" << endl;
-
-  Vertice* raiz = this->buscaVertical(rotulo);
-  if (!raiz){
-    cout << "Vertice não encontrado." << endl;
-    return ;
-  }
-  
-  vector<Vertice*> descobertos; //Fila
-  vector<Vertice*> desconhecidos = vetor_vertices;
-  Vertice* root = raiz; 
-  Vertice* atual = raiz; 
-  Vizinho* iterator = raiz->getVizinho();
-  root->setNivel(0);
-  root->setPai(nullptr);
-  descobertos.push_back(atual);
-  this->buscaEApaga(&desconhecidos, atual);
-  
-  outfile << "|\t\t" << rotulo << "\t\t|\t\tNull\t|\t\t" << root->getNivel() <<"\t\t|" << endl;
-
-  while(descobertos.size() > 0){
-    
-    while(iterator)
-    {
-      atual = iterator->getVertice();
-      iterator = iterator->getVizinho();
-
-      //Se status= false || nao está na lista
-      if ( !atual->getStatus() && find(descobertos.begin(), descobertos.end(), atual) == descobertos.end()) {
-        descobertos.push_back(atual);
-        this->buscaEApaga(&desconhecidos, atual);
-        atual->setPai(root);
-        atual->setNivel(root->getNivel()+1);
-        outfile << "|\t\t" << atual->getRotulo() << "\t\t|\t\t" << atual->getPai()->getRotulo() << "\t\t|\t\t" << atual->getNivel() <<"\t\t|" << endl;
-      }
-    }
-    root->setStatus(true);
-
-    descobertos.erase(descobertos.begin());
-    
-    if (descobertos.size() > 0) {
-      root = descobertos.at(0);
-      atual = root;
-      iterator = root->getVizinho();
-    }
-  }
-  
-    if (desconhecidos.size() > 0) {
-      outfile << BFSAuxiliar(nComponente+1, &desconhecidos);
-    }
-  
-  outfile.close();
-  // cout << "BFS concluída." << endl;
-  
-}
-
-string Lista::BFSAuxiliar(int nComp, vector<Vertice*>* desconhecidos)
-{
-  string outfile;
- 
-  outfile = "+------------------------+\n";
-  outfile += "|      Componente " + to_string(nComp) + "      |\n";
-  outfile + "+---------+------+-------+\n";
-  
-  vector<Vertice*> descobertos;
-  Vertice* root = desconhecidos->at(0);; 
-  Vertice* atual = root; 
-  Vizinho* iterator = root->getVizinho();
-  root->setNivel(0);
-  root->setPai(nullptr);
-  descobertos.push_back(atual);
-  this->buscaEApaga(desconhecidos, atual);
-
-  outfile += "|\t\t";
-  outfile += to_string(root->getRotulo());
-  outfile += "\t\t|\t\tNull\t|\t\t";
-  outfile += to_string(root->getNivel());
-  outfile += "\t\t|\n";
-
-  while(descobertos.size() > 0){
-    
-    while(iterator)
-    {
-      atual = iterator->getVertice();
-      iterator = iterator->getVizinho();
-
-      //Se status= false || nao está na lista
-      if ( !atual->getStatus() && find(descobertos.begin(), descobertos.end(), atual) == descobertos.end()) {
-        descobertos.push_back(atual);
-        this->buscaEApaga(desconhecidos, atual);
-
-        atual->setPai(root);
-        atual->setNivel(root->getNivel()+1);
-
-        outfile += "|\t\t" + to_string(atual->getRotulo());
-        outfile += "\t\t|\t\t" + to_string(atual->getPai()->getRotulo());
-        outfile += "\t\t|\t\t" + to_string(atual->getNivel());
-        outfile += "\t\t|\n";
-      }
-    }
-    root->setStatus(true);
-
-    descobertos.erase(descobertos.begin());
-    
-    if (descobertos.size() > 0) {
-      root = descobertos.at(0);
-      atual = root;
-      iterator = root->getVizinho();
-    }
-  }
-    if (desconhecidos->size() > 0){
-      nComp++;
-      outfile += BFSAuxiliar(nComp, desconhecidos);
-    }
-
-  return outfile;
-}
-
-void Lista::DFS(int rotulo)
-{
-  int nComponente = 1;
-  ofstream outfile("output/DFS.txt");
-
-  //Coloca todos os status em desconhecido
-  for (int i = 0; i < vetor_vertices.size(); i++) {
-    vetor_vertices.at(i)->setStatus(false);
-  }
-  
-  outfile << "DFS:" << endl;
-  outfile << "+---------+------+-------+" << endl;
-  outfile << "| Vértice | Pai  | Nível |" << endl;
-  outfile << "+------------------------+" << endl;
-  outfile << "|      Componente " << nComponente << "      |" << endl;
-  outfile << "+---------+------+-------+" << endl;
-
-  Vertice* raiz = this->buscaVertical(rotulo);
-  if (!raiz){
-    cout << "Vertice não encontrado." << endl;
-    return ;
-  }
-  
-  vector<Vertice*> descobertos; //Pilha
-  vector<Vertice*> desconhecidos = vetor_vertices;
-  Vertice* atual = raiz; //2
-  Vertice* root = raiz; //2
-  Vizinho* iterator = raiz->getVizinho(); //1
-  atual->setNivel(0);
-  atual->setPai(nullptr);
-  descobertos.push_back(atual);
-
-  this->buscaEApaga(&desconhecidos, atual);
-  int i = 0;
-  outfile << "|		" << rotulo << "   | Null  |   " << raiz->getNivel() <<"   |" << endl;
-  while(descobertos.size() > 0) {
-    
-    if(iterator){//iterator != null
-      if (!iterator->getVertice()->getStatus() && find(descobertos.begin(), descobertos.end(), iterator->getVertice()) == descobertos.end()) {
-        atual = iterator->getVertice();//1
-        iterator = atual->getVizinho();//2
-        descobertos.push_back(atual);
-        atual->setPai(root);
-        atual->setNivel(root->getNivel()+1);
-        root = atual;
-        this->buscaEApaga(&desconhecidos, atual);
-        outfile << "|\t\t" << atual->getRotulo() << "\t\t|\t\t" << atual->getPai()->getRotulo() << "\t\t|\t\t" << atual->getNivel() <<"\t\t|" << endl;
-      } else {//iterator descoberto ou explorado
-        iterator = iterator->getVizinho();
-      }
-    } else {
-      if(atual != raiz) {
-        atual->setStatus(true);          
-        descobertos.pop_back();
-        root = atual->getPai();
-        atual = atual->getPai();//5
-        if (atual){
-          iterator = atual->getVizinho();//2//1//1//5//4//1
-          atual->setPai(atual->getPai());
-        }
-        
-        if(desconhecidos.size() > 0)
-          this->buscaEApaga(&desconhecidos, atual);
-      } else {
-        descobertos.pop_back();
-      }
-
-    }
-  }
-  outfile.close();
-}
-
-void Lista::setNVertices(int nVe) {nVertices = nVe;}
-void Lista::setNArestas(int nA) {nArestas = nA;}
-void Lista::setGrauMinimo(int gminimo) {grauMinimo = gminimo;}
-void Lista::setGrauMaximo(int gmaximo) {grauMaximo = gmaximo;}
-void Lista::setGrauMedio(double gmedio) {grauMedio = gmedio;}
-void Lista::setGrauMediana(int gmediana) {grauMediana = gmediana;}
-void Lista::setNComponentes(int nComp) {nComponentes = nComp;}
-
-int Lista::getNVertices() {return nVertices;}
-int Lista::getNArestas() {return nArestas;}
-int Lista::getGrauMinimo() {return grauMinimo;}
-int Lista::getGrauMaximo() {return grauMaximo;}
-double Lista::getGrauMedio() {return grauMedio;}
-int Lista::getGrauMediana() {return grauMediana;}
-int Lista::getNComponentes() {return nComponentes;}
-
-int Lista::distancia(int r1, int r2)
-{
+int Lista::distanciaSemPeso(int r1, int r2) {
   cout << "Iniciando cálculo da distância..." << endl;
-  Vertice* raiz = this->buscaVertical(r1);
+  
+  if (r1 == r2) {
+    return 0;
+  }
+
+  ListaVertice* raiz = this->buscaVertical(r1);
   if (!raiz){
-    cout << "Vertice não encontrado." << endl;
+    cout << "Vertice raiz não encontrado." << endl;
     return -1;
   }
-  
-  vector<Vertice*> descobertos; //Fila
-  Vertice* root = raiz; 
-  Vertice* atual = raiz;
-  
-  Vizinho* iterator = raiz->getVizinho();
-  
-  descobertos.push_back(atual);
-  int nivel = 0;
-  root->setNivel(nivel);
 
-  while(descobertos.size() > 0){
-    
-    while(iterator)
-    {
-      atual = iterator->getVertice();
-      iterator = iterator->getVizinho();
-      //Se status= false || nao está na lista
-      if ( !atual->getStatus() && find(descobertos.begin(), descobertos.end(), atual) == descobertos.end()) {
-        descobertos.push_back(atual);
-        atual->setNivel(root->getNivel()+1);
-        if(atual->getRotulo() == r2)
-          return atual->getNivel();
+  // 1. Desmarcar todos os vértices
+  for (int i = 0; i < vetor_vertices.size(); i++) {
+    vetor_vertices.at(i)->setStatus(false);
+  }
+
+  // 2. Definir Fila Q vazia
+  vector<Noh*> QNoh;
+  Noh* vNoh;
+  Noh* wNoh;
+  Vizinho* w;
+
+  // 3. Marcar s e inserir s na fila Q
+  Arvore arvore(raiz);
+  Noh* sNoh = arvore.getRaiz();
+  sNoh->getVertice()->setStatus(true);
+  QNoh.push_back(sNoh);
+  //cout << "Adicionar " << sNoh->getVertice()->getRotulo() << " na fila Q" << endl;
+  sNoh->setPai(nullptr);
+  sNoh->setNivel(0);
+
+  // 4. Enquanto Q não estiver vazia
+  while (QNoh.size() > 0) {
+
+    // 5.
+    vNoh = QNoh.front();
+    QNoh.erase(QNoh.begin());
+    //cout << "Remover " << vNoh->getVertice()->getRotulo() << " da fila Q" << endl;
+    //cout << "Explorar " << vNoh->getVertice()->getRotulo() << endl;
+    // 6. Para todo vizinho w de v faça
+    w = vNoh->getVertice()->getVizinho();
+    while (w) {
+      if (!w->getVertice()->getStatus()) {
+
+        // 8.
+        w->getVertice()->setStatus(true);
+
+        // 9.
+        wNoh = new Noh(w->getVertice());
+        QNoh.push_back(wNoh);
+        //cout << "Adicionar " << wNoh->getVertice()->getRotulo() << " na fila Q" << endl;
+        wNoh->setPai(vNoh);
+        wNoh->setNivel(vNoh->getNivel()+1);
+
+        // Distancia
+        if (w->getVertice()->getRotulo() == r2) {
+          return wNoh->getNivel();
+          cout << "Término do cálculo da distância.." << endl;
+        }
       }
-    }
-    root->setStatus(true);
 
-    descobertos.erase(descobertos.begin());
-    
-    if (descobertos.size() > 0) {
-      root = descobertos.at(0);
-      atual = root;
-      iterator = root->getVizinho();
+      w = w->getVizinho();
     }
   }
+    
   cout << "Término do cálculo da distância.." << endl;
+  cout << "Vértice destino Não encontrado!" << endl;
   return -1;
 }
 
-void Lista::buscaEApaga(vector<Vertice*>* vetor, Vertice* vertice)
-{
-  if (vetor->size() < 1)
-  {
-    cout << "vetor vazio." << endl;
-    return ;
+int Lista::diametroSemPeso() {
+  cout << "Iniciando cálculo do diametro..." << endl;
+
+  // Inicializar variáveis
+  int maiorDiametro = 0;
+  ListaVertice* raiz;
+  vector<Noh*> QNoh;
+  Noh* vNoh;
+  Noh* wNoh;
+  Vizinho* w;
+  Noh* sNoh;
+  
+  // Para cada Componente Conexa
+  for (int i = 0; i < vetor_vertices.size(); i++) {
+    
+    // 0. Desmarcar todos os vértices
+    for (int i = 0; i < vetor_vertices.size(); i++) {
+      vetor_vertices.at(i)->setStatus(false);
+    }
+
+    // 1. Definir raiz s
+    raiz = vetor_vertices.at(i);  
+    Arvore arvore(raiz);
+    sNoh = arvore.getRaiz();
+
+    // 2. Definir Fila Q vazia
+    QNoh = {};
+    
+    // 3. Marcar s e inserir s na fila Q
+    sNoh->getVertice()->setStatus(true);
+    // cout << "Marcar " << sNoh->getVertice()->getRotulo() << endl;
+    QNoh.push_back(sNoh);
+    // cout << "Inserir " << sNoh->getVertice()->getRotulo() << " na fila Q" << endl;
+    sNoh->setPai(nullptr);
+    sNoh->setNivel(0);
+    
+    // 4. Enquanto Q não estiver vazia
+    while (QNoh.size() > 0) {
+
+      // 5. Remover v da fila Q
+      vNoh = QNoh.front();
+      QNoh.erase(QNoh.begin());
+      // cout << "Remover " << vNoh->getVertice()->getRotulo() << " da fila Q" << endl;
+      // cout << "Explorar " << vNoh->getVertice()->getRotulo() << endl;
+
+      // 6. Para todo vizinho w de v faça
+      w = vNoh->getVertice()->getVizinho();
+      while (w) {
+
+        // 7. Se w não estiver marcado
+        if (!w->getVertice()->getStatus()) {
+
+          // 8. Marcar w
+          w->getVertice()->setStatus(true);
+          // cout << "Marcar " << w->getVertice()->getRotulo() << endl;
+
+          // 9. inserir w em Q
+          wNoh = new Noh(w->getVertice());
+          QNoh.push_back(wNoh);
+          // cout << "Inserir " << wNoh->getVertice()->getRotulo() << " na fila Q" << endl;
+          wNoh->setPai(vNoh);
+          wNoh->setNivel(vNoh->getNivel()+1);
+        }
+
+        w = w->getVizinho();
+      }
+    }
+
+    // Atualizar maiorDiametro
+    if (wNoh->getNivel() > maiorDiametro) {
+      maiorDiametro = wNoh->getNivel();
+    }
+
+    // Destroir arvore atual
+    arvore.~Arvore();
   }
   
-  for (int i = 0; i < vetor->size(); i++) {
-    if (vertice == vetor->at(i)){
-      vetor->erase(vetor->begin()+i);
-      return ;
-    }
-  }
-
-  return ;
-}
-
-int Lista::diametro()
-{
-  int maiorDiametro = 0;
-  int diametroAtual;
-
-  for (int i=0; i<vetor_vertices.size(); i++) {
-    diametroAtual = BFSMaiorDistancia(vetor_vertices.at(i));
-    if (maiorDiametro < diametroAtual) {
-      maiorDiametro = diametroAtual;
-    }
-  }
+  cout << "Diametro calculado com sucesso!" << endl;
 
   return maiorDiametro;
 }
 
-int Lista::BFSMaiorDistancia(Vertice* raiz)
-{
-  vector<Vertice*> descobertos; //Fila
-  Vertice* root = raiz; 
-  Vertice* atual = raiz; 
-  Vizinho* iterator = raiz->getVizinho();
-  root->setNivel(0);
-  atual->setPai(nullptr);
+void Lista::ArvoreBFS(int raizRotulo, string arquivoDestino) {
+  cout << "Construindo Árvore Geradora (BFS)..." << endl;
 
-  descobertos.push_back(atual);
-
-  while(descobertos.size() > 0){
-    
-    while(iterator)
-    {
-      atual = iterator->getVertice();
-      iterator = iterator->getVizinho();
-
-      //Se status= false || nao está na lista
-      if ( !atual->getStatus() && find(descobertos.begin(), descobertos.end(), atual) == descobertos.end()) {
-        
-        descobertos.push_back(atual);
-        atual->setPai(root);
-        atual->setNivel(root->getNivel()+1);
-      }
-    }
-    root->setStatus(true);
-
-    descobertos.erase(descobertos.begin());
-    
-    if (descobertos.size() > 0) {
-      root = descobertos.at(0);
-      atual = root;
-      iterator = root->getVizinho();
-    } 
+  // 0. Encontrar o vértice referente ao rótulo informado via parâmetro
+  ListaVertice* raiz = this->buscaVertical(raizRotulo);
+  if (!raiz){
+    cout << "Vértice raiz não encontrado." << endl;
+    return ;
   }
 
-  return root->getNivel()+1;
+  // 1. Desmarcar todos os vértices
+  for (int i = 0; i < vetor_vertices.size(); i++) {
+    vetor_vertices.at(i)->setStatus(false);
+  }
+
+  // 2. Definir Fila Q vazia
+  vector<Noh*> QNoh;
+  Noh* vNoh;
+  Noh* wNoh;
+  Vizinho* w;
+
+  // 3. Marcar s e inserir s na fila Q
+  Arvore arvore(raiz);
+  Noh* sNoh = arvore.getRaiz();
+  sNoh->getVertice()->setStatus(true);
+  //cout << "Marcar " << sNoh->getVertice()->getRotulo() << endl;
+  QNoh.push_back(sNoh);
+  //cout << "Inserir " << sNoh->getVertice()->getRotulo() << " na fila Q" << endl;
+  sNoh->setPai(nullptr);
+  sNoh->setNivel(0);
+  
+  //Imprimir Cabeçalho
+  ofstream outfile(arquivoDestino);
+  outfile << "~~ Arvore Geradora (BFS) ~~" << endl << endl;
+    
+    // Imprimir novo vértice (raiz)
+    outfile << "Vertice: " << sNoh->getVertice()->getRotulo() << ";\t\t";
+    outfile << "Pai: nullptr;\t\t";
+    outfile << "Nível: 0" << endl;
+    
+  // 4. Enquanto Q não estiver vazia
+  while (QNoh.size() > 0) {
+
+    // 5.
+    vNoh = QNoh.front();
+    QNoh.erase(QNoh.begin());
+    //cout << "Remover " << vNoh->getVertice()->getRotulo() << " da fila Q" << endl;
+    //cout << "Explorar " << vNoh->getVertice()->getRotulo() << endl;
+
+    // 6. Para todo vizinho w de v faça
+    w = vNoh->getVertice()->getVizinho();
+    while (w) {
+
+      // 7. Se w não estiver marcado
+      if (!w->getVertice()->getStatus()) {
+
+        // 8. Marcar w
+        w->getVertice()->setStatus(true);
+
+        //cout << "Marcar " << w->getVertice()->getRotulo() << endl;
+
+        // 9. inserir w em Q
+        wNoh = new Noh(w->getVertice());
+        QNoh.push_back(wNoh);
+        //cout << "Inserir " << wNoh->getVertice()->getRotulo() << " na fila Q" << endl;
+        wNoh->setPai(vNoh);
+        wNoh->setNivel(vNoh->getNivel()+1);
+
+        // Imprimir novo vértice
+        outfile << "Vertice: " << wNoh->getVertice()->getRotulo() << ";\t\t";
+        outfile << "Pai: " << wNoh->getPai()->getVertice()->getRotulo() << ";\t\t";
+        outfile << "Nível: " << wNoh->getNivel()<< endl;
+      }
+
+      w = w->getVizinho();
+    }
+  }
+
+  cout << "Árvore construída com sucesso!" << endl << endl;
 }
 
+void Lista::ArvoreDFS(int raizRotulo, string arquivoDestino) {
+  cout << "Construindo Árvore Geradora (DFS)...\n\n" << endl;
+
+  // Encontrar o vértice referente ao rótulo informado via parâmetro
+  ListaVertice* raiz = this->buscaVertical(raizRotulo);
+  if (!raiz){
+    cout << "Vértice raiz não encontrado!\n" << endl;
+    return ;
+  }
+
+  // Inicializar variáveis
+  vector<Noh*> pNoh;
+  Arvore arvore(raiz);
+  Noh* sNoh = arvore.getRaiz();
+  Noh* uNoh;
+  Noh* vNoh;
+  Vizinho* v;
+  vector<Vizinho*> pVizinho;
+  int i = 0;
+  
+  //Imprimir Cabeçalho
+  ofstream outfile(arquivoDestino);
+  outfile << "~~ Arvore Geradora (DFS) ~~\n" << endl;
+
+  // 1. DFS(s)
+  // ArvoreDFS(raizRotulo, arquivoDestino);
+
+  // 2. Desmarcar todos os vértices
+  for (int i = 0; i < vetor_vertices.size(); i++) {
+    vetor_vertices.at(i)->setStatus(false);
+  }
+
+  // 3. Definir pilha P com um elemento s
+  pNoh = {sNoh};
+  sNoh->setNivel(0);
+  sNoh->setPai(nullptr);
+  outfile << "Vertice: " << sNoh->getVertice()->getRotulo() << ";\t Pai: nullptr;\tNível: 0" << endl;
+
+  // /* [DEBUG] */ cout << "Insere " << sNoh->getVertice()->getRotulo();
+  // /* [DEBUG] */ cout << ";    P = {1}";
+  // /* [DEBUG] */ cout << ";    sNoh =  " << sNoh->getVertice()->getRotulo();
+  // /* [DEBUG] */ cout << ";    Pai =  nullptr";
+  // /* [DEBUG] */ cout << ";    Nivel = 0" << endl;
+
+  // 4. Enquanto P não estiver vazia
+  while (pNoh.size() > 0) {
+
+    // 5. Remover u de P // no topo da pilha
+    uNoh = pNoh.back();
+    pNoh.pop_back();
+    while (!uNoh) {
+      sNoh = sNoh->getPai();
+      cout << "Remove nullptr; sNoh = " << sNoh->getVertice()->getRotulo() << endl;
+      uNoh = pNoh.back();
+      pNoh.pop_back();
+      if (pNoh.size() < 1) {
+        return ;
+      }
+    }
+    // /* [DEBUG] */ debugDFS("Remove ", uNoh, sNoh, pNoh);
+
+    // 6. Se u não estiver marcado
+    if (!uNoh->getVertice()->getStatus()) {
+      
+      // 7. Marcar u
+      uNoh->getVertice()->setStatus(true);
+      if (uNoh != arvore.getRaiz()) {
+        uNoh->setPai(sNoh);
+        uNoh->setNivel(sNoh->getNivel()+1);
+        outfile << "Vertice: " << uNoh->getVertice()->getRotulo();
+        outfile << ";\t Pai: " << uNoh->getPai()->getVertice()->getRotulo();
+        outfile << ";\tNível: " << uNoh->getNivel() << endl;
+      }
+      sNoh = uNoh;
+      // /* [DEBUG] */ debugDFS("Marca ", uNoh, sNoh, pNoh);
+      
+      // 8. Para cada aresta (u,v) incidente a u
+      v = uNoh->getVertice()->getVizinho();
+      
+      // Inserir v em pVizinho em ordem crescente
+      pVizinho = {};
+      while (v) {
+        pVizinho.push_back(v);
+        v = v->getVizinho();
+      }
+
+      // 9. Inserir vNoh em PNoh // no topo (em ordem decrescente)
+      pNoh.push_back(nullptr);
+      i = pVizinho.size()-1;
+      while (i >= 0) {
+        v = pVizinho.at(i);
+        vNoh = new Noh(v->getVertice());
+        pNoh.push_back(vNoh);
+        i--;
+        // /* [DEBUG] */ debugDFS("Insere ", vNoh, sNoh, pNoh);
+      }
+    }
+  }  
+}
+
+/* [DEBUG_DFS]
+void Lista::debugDFS(string acao,Noh* uNoh, Noh* sNoh, vector<Noh*> pNoh) {
+  cout << acao << uNoh->getVertice()->getRotulo();
+  cout << ";    P = {";
+  int tamanho = pNoh.size();
+
+  if (tamanho > 0) {
+    for (int i = 0; i < pNoh.size(); i++) {
+      if (pNoh.at(i)) {
+        cout << pNoh.at(i)->getVertice()->getRotulo() << ", ";
+      } else {
+        cout << "nullptr, ";
+      }
+    }
+    cout << "}";
+  } else {
+    cout << "}";
+  }
+
+  cout << ";    sNoh =  " << sNoh->getVertice()->getRotulo();
+  if (uNoh->getPai()){ 
+    cout << ";    Pai =  " << uNoh->getPai()->getVertice()->getRotulo();
+  } else {
+    cout << ";    Pai = nullptr";
+  }
+  cout << ";    Nivel = " << uNoh->getNivel() << endl;
+}
+*/
+
+void Lista::setNArestas(int nA) { nArestas = nA; }
+void Lista::setGrauMinimo(int gminimo) { grauMinimo = gminimo; }
+void Lista::setGrauMaximo(int gmaximo) { grauMaximo = gmaximo; }
+void Lista::setGrauMedio(double gmedio) { grauMedio = gmedio; }
+void Lista::setGrauMediana(double gmediana) { grauMediana = gmediana; }
+void Lista::setNComponentes(int nComp) { nComponentes = nComp; }
+
+int Lista::getNArestas() { return nArestas; }
+int Lista::getGrauMinimo() { return grauMinimo; }
+int Lista::getGrauMaximo() { return grauMaximo; }
+double Lista::getGrauMedio() { return grauMedio; }
+double Lista::getGrauMediana() { return grauMediana; }
+int Lista::getNComponentes() { return nComponentes; }

@@ -3,22 +3,25 @@
 
 using namespace std;
 
-class Vertice; // Diz que a classe existe sem inicializá-la
+class ListaVertice; // Diz que a classe existe sem inicializá-la
 
 class Vizinho
 {
   public:
-    Vizinho(Vertice*);
+    Vizinho(ListaVertice*);
     ~Vizinho();
     
     void setVizinho(Vizinho*);
-    Vertice* getVertice();
+    //void setPeso(float);
+    
+    ListaVertice* getVertice();
     Vizinho* getVizinho();
-
+    //float getPeso();
 
   private:
-    Vertice* vertice;
+    ListaVertice* vertice;
     Vizinho* vizinho;
+    //float peso;
 };
 
 #endif

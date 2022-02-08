@@ -1,23 +1,17 @@
 #include "listaVertice.h"
 
-Vertice::Vertice(int r)
+ListaVertice::ListaVertice(int r)
 {
   rotulo = r;
   vizinho = nullptr;
   statusBusca = 0;
-  pai = nullptr;
-  nivel = 0;
 }
 
-Vertice::~Vertice(){}
+ListaVertice::~ListaVertice(){}
 
-void Vertice::setVizinho(Vizinho* ptr) { vizinho = ptr; }
-void Vertice::setPai(Vertice* p) { pai = p; }
-void Vertice::setStatus(bool s) { statusBusca = s; }
-void Vertice::setNivel(int n) { nivel = n; }
+void ListaVertice::setVizinho(Vizinho* ptr) { vizinho = ptr; }
+void ListaVertice::setStatus(bool s) { statusBusca = s; }
 
-int Vertice::getRotulo() { return rotulo; }
-Vizinho* Vertice::getVizinho() { return vizinho; }
-bool Vertice::getStatus() { return statusBusca; }
-Vertice* Vertice::getPai() { return pai; }
-int Vertice::getNivel() { return nivel; }
+Vizinho* ListaVertice::getVizinho() { return vizinho; }
+bool ListaVertice::getStatus() { return statusBusca; }
+int ListaVertice::getRotulo() { return rotulo; }

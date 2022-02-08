@@ -3,37 +3,39 @@
 #include "src/lista/lista.h"
 #include "src/matriz/matriz.h"
 
-void testeLista() {
-
-  char x;
-  Lista grafo3("input/txt/grafo_3.txt");
-
-  // Raiz 1
-  grafo3.DFS(1);
-  cin >> x;
-
-  // Raiz 2
-  grafo3.DFS(2);
-  cin >> x;
-
-  // Raiz 3
-  grafo3.DFS(3);
-  cin >> x;
-
-
-
-
-}
-
-void testeMatriz() {
-  Matriz grafo("input/txt/grafo_1.txt");
-
-}
-
 int main() {
+  // Classes Disponíveis:
+  // - Lista
+  // - Matriz
   
-  testeLista();
-  // testeMatriz();
+  // Métodos disponíveis para ambas as classes:
+  // - info
+  // - ArvoreBFS
+  // - ArvoreDFS
+  // - distanciaSemPeso
+  // - diametroSemPeso
+  // - imprimirEstruturaLista [extra] [somente Lista]
+  // - imprimirEstruturaMatriz [extra] [somente Matriz]
+
+
+  // Exemplo: 
+  string input = "input/txt/grafo_lista2.txt";
+  string output = "output/grafo_lista2.txt";
+  
+  // Constrói grafo usando estrutura de lista
+  Lista lista(input);
+
+  lista.info(output);
+  // lista.ArvoreBFS(1, output);
+  // lista.ArvoreDFS(1, output);
+  // lista.distanciaSemPeso(1, 9);
+  // lista.diametroSemPeso();
+  lista.imprimirEstruturaLista(); // [extra] [somente Lista]
+
+  // Constrói grafo usando estrutura de matriz;
+  Matriz matriz(input);
+
+
 
   return 0;
 }

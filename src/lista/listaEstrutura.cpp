@@ -1,12 +1,13 @@
 #include "listaEstrutura.h"
 
-ListaEstrutura::ListaEstrutura(string nomeArquivo)
-{
+// Método construtor da lista de adjacência
+ListaEstrutura::ListaEstrutura(string arquivoOrigem) {
   cout << "A Lista está sendo construída..."<< endl;
 
   int rotulo1, rotulo2;
   
-  arquivo.open(nomeArquivo, fstream::in);
+  fstream arquivo;
+  arquivo.open(arquivoOrigem, fstream::in);
 
   if (!arquivo.is_open())
   {
@@ -17,28 +18,31 @@ ListaEstrutura::ListaEstrutura(string nomeArquivo)
   int nVertices;
   arquivo >> nVertices;
 
+  this->setNVertices(nVertices);
+
   while (arquivo.good())
   {
     arquivo >> rotulo1 >> rotulo2;
-    Vertice *v1 = inserirVertice(rotulo1);
-    Vertice *v2 = inserirVertice(rotulo2);
+    ListaVertice *v1 = inserirVertice(rotulo1);
+    ListaVertice *v2 = inserirVertice(rotulo2);
     inserirVizinho(v1, v2);
     inserirVizinho(v2, v1);
   }
   arquivo.close();
-  cout << "Lista construída com sucesso." << endl;
+  cout << "Lista construída com sucesso!" << endl << endl;
   // timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
   // cout << timenow << endl;
 }
 
-ListaEstrutura::~ListaEstrutura(){}
+// Método destrutor da lista de adjacência
+ListaEstrutura::~ListaEstrutura() { }
 
-Vertice* ListaEstrutura::inserirVertice(int rotulo)
-{
-  Vertice* verticeExiste = buscaVertical(rotulo);
+// Insere um novo vértice na lista de adjacência e retorna seu ponteiro
+ListaVertice* ListaEstrutura::inserirVertice(int rotulo) {
+  ListaVertice* verticeExiste = buscaVertical(rotulo);
   if (!verticeExiste)
   {
-    Vertice* new_vertice = new Vertice(rotulo);
+    ListaVertice* new_vertice = new ListaVertice(rotulo);
     vetor_vertices.push_back(new_vertice);
 
     return new_vertice;
@@ -49,8 +53,8 @@ Vertice* ListaEstrutura::inserirVertice(int rotulo)
   }
 }
 
-Vertice* ListaEstrutura::buscaVertical(int rotulo)
-{
+// Busca vértice através de seu rótulo e retorna seu ponteiro
+ListaVertice* ListaEstrutura::buscaVertical(int rotulo) {
   if (vetor_vertices.size() < 1)
     return nullptr;
   
@@ -62,9 +66,8 @@ Vertice* ListaEstrutura::buscaVertical(int rotulo)
   return nullptr;
 }
 
-//Atribui-se v2 como vizinho de v1
-void ListaEstrutura::inserirVizinho(Vertice* v1, Vertice* v2)
-{
+//Atribui v2 como vizinho de v1
+void ListaEstrutura::inserirVizinho(ListaVertice* v1, ListaVertice* v2) {
   Vizinho* new_vizinho = new Vizinho(v2);
 
   //Procura-se o ultimo vizinho de v1
@@ -78,8 +81,8 @@ void ListaEstrutura::inserirVizinho(Vertice* v1, Vertice* v2)
   }
 }
 
-Vizinho* ListaEstrutura::buscaHorizontal(Vertice* v)
-{
+// Retorna um ponteiro para o último vizinho de um vértice
+Vizinho* ListaEstrutura::buscaHorizontal(ListaVertice* v) {
   if (!v->getVizinho()){
     return nullptr;
   }
@@ -93,8 +96,8 @@ Vizinho* ListaEstrutura::buscaHorizontal(Vertice* v)
   return iterator;
 }
 
-void ListaEstrutura::imprimirListaEstrutura()
-{
+// Imprime a estrutura da lista de adjacência
+void ListaEstrutura::imprimirEstruturaLista() {
   Vizinho* iterator;
   for (int i = 0; i < vetor_vertices.size(); i++) {
     cout << vetor_vertices.at(i)->getRotulo();
@@ -109,3 +112,8 @@ void ListaEstrutura::imprimirListaEstrutura()
     cout << endl;
   }
 }
+
+// Define atributo nVertices (número de vértices na lista de adjacência)
+void ListaEstrutura::setNVertices(int nVe) { nVertices = nVe; }
+// Retorna valor inteiro nVertices (número de vértices na lista de adjacência)
+int ListaEstrutura::getNVertices() { return nVertices; }

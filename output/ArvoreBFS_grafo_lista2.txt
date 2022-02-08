@@ -1,0 +1,11 @@
+~~ Arvore Geradora (BFS) ~~
+
+Vertice: 1;		Pai: nullptr;		Nível: 0
+Vertice: 2;		Pai: 1;		Nível: 1
+Vertice: 4;		Pai: 1;		Nível: 1
+Vertice: 6;		Pai: 1;		Nível: 1
+Vertice: 3;		Pai: 2;		Nível: 2
+Vertice: 5;		Pai: 4;		Nível: 2
+Vertice: 8;		Pai: 3;		Nível: 3
+Vertice: 7;		Pai: 5;		Nível: 3
+Vertice: 9;		Pai: 8;		Nível: 4

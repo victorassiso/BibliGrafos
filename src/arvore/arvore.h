@@ -2,15 +2,18 @@
 #define ARVORE_H
 
 #include "noh.h"
+#include "../lista/listaVertice.h"
 #include <iostream>
 
 class Arvore
 {
   public:
     Arvore(int rotuloRaiz);
+    Arvore(ListaVertice* rotuloRaiz);
     ~Arvore();
 
-    Noh* insereNoh(int rotulo, Noh* pai);
+    Noh* insereNoh(int rotuloFilho, Noh* pai);
+    Noh* insereNoh(ListaVertice* verticeFilho, Noh* pai);
 
     Noh* getRaiz();
 

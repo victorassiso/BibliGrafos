@@ -6,30 +6,23 @@ using namespace std;
 // Diz que a classe existe sem inicializá-la
 class Vizinho;
 
-class Vertice
+class ListaVertice
 {
   public:
-    Vertice(int);
-    ~Vertice();
+    ListaVertice(int);
+    ~ListaVertice();
     
     void setVizinho(Vizinho*);
-
-    int getRotulo();
-    Vizinho* getVizinho();
-
     void setStatus(bool);
-    void setPai(Vertice*);
-    void setNivel(int);
+
+    Vizinho* getVizinho();
     bool getStatus();
-    Vertice* getPai();
-    int getNivel();
+    int getRotulo();
 
   private:
     int rotulo;
     Vizinho* vizinho;
     bool statusBusca; //false - Não explorado; true - Explorado;
-    Vertice* pai;
-    int nivel;
 };
 
 #endif

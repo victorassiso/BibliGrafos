@@ -10,26 +10,32 @@
 #include <string>
 #include <vector>
 
-
 class ListaEstrutura
 {   
   public:
-    void imprimirListaEstrutura();
+    void imprimirEstruturaLista();
 
   private:
-    fstream arquivo;
-  
+    vector<ListaVertice*> vetor_vertices;
+    
+    // Atributos Info
+    int nVertices;
+    
+    // Métodos Set Info
+    void setNVertices(int);
+    
   protected:
-    vector<Vertice*> vetor_vertices;
-
-    ListaEstrutura(string);
+    ListaEstrutura(string arquivoOrigem);
     ~ListaEstrutura();
 
-    Vertice* inserirVertice(int);
-    Vertice* buscaVertical(int); //Vertices do grafo
+    // Métodos Auxiliares
+    ListaVertice* inserirVertice(int rotulo);
+    ListaVertice* buscaVertical(int rotulo);
+    void inserirVizinho(ListaVertice* v1, ListaVertice* v2);
+    Vizinho* buscaHorizontal(ListaVertice* );
     
-    void inserirVizinho(Vertice*, Vertice*);
-    Vizinho* buscaHorizontal(Vertice*); //Vizinhos de um vértice
+    //Métodos Get Info
+    int getNVertices();
 };
 
 #endif
