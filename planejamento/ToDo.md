@@ -8,10 +8,9 @@ Arquivo de Saída "info"
 [X] - Grau Máximo
 [X] - Grau Médio
 [X] - Mediana de Grau
-[ ] - Número de Componentes Conexas
-[ ] - Tamanho de cada componente
-[ ] - Lista de vertices por componente conexa (ordem decrescente)
-
+[X] - Número de Componentes Conexas
+[X] - Tamanho de cada componente
+[X] - Lista de vertices por componente conexa (ordem decrescente)
 
 Arquivo de Saída "ArvoreBFS"
 [X] - Listar vértices, seu nível e seu pai na árvore geradora

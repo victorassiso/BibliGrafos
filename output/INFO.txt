@@ -1,0 +1,29 @@
+Número de Vértices: 12
+Número de Arestas: 9
+Grau Mínimo: 1
+Grau Máximo: 2
+Grau Médio: 1.5
+Grau Mediana: 1.5
+Número de Componentes conexas: 3
+~~ Informações Gerais ~~
+** Componentes Conexas: **
+
+Componente: 1;	 Tamanho: 5
+10
+11
+9
+12
+8
+
+Componente: 2;	 Tamanho: 4
+4
+5
+6
+7
+
+Componente: 3;	 Tamanho: 3
+2
+3
+1
+
+

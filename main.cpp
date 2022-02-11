@@ -31,13 +31,22 @@ int main() {
   // lista.imprimirEstruturaLista(); // [extra] [somente Lista]
 
   // Constrói grafo usando estrutura de matriz;
-  Matriz matriz("input/txt/grafo_lista2.txt");
+  Matriz matriz("input/txt/grafo_comp2.txt");
 
   matriz.imprimirMatrizEstrutura();
-  // cout << "Distancia: " << matriz.distancia(1, 9) << endl;
+  // int D;
+
+  // Distância
+  // D = matriz.distancia(1, 3);
+  // cout << "Distancia: " << D << endl;
+  
+  // Diâmetro
+  // D = matriz.diametro();
+  // cout << "Diâmetro: " << D << endl;
+  
   // matriz.arvoreBFS(1, "output/BFS_Matriz_lista2.txt");
-  // cout << "Diâmetro: " << matriz.diametro() << endl;
-  matriz.info("output/INFO_Matriz_lista2.txt");
+  
+  matriz.info("output/INFO.txt");
 
   return 0;
 }

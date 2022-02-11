@@ -1,5 +1,11 @@
-~~ Árvore Geradora (DFS) ~~
+~~ Árvore Geradora (BFS) ~~
 
-Vertice: 1;		Pai: nullptr;		Nível: 0
-Vertice: 2;		Pai: 1;		Nível: 1
-Vertice: 3;		Pai: 2;		Nível: 2
+Rótulo: 1;	Pai: nullptr;	Nível: 0
+Rótulo: 2;	Pai: 1;	Nível: 1
+Rótulo: 4;	Pai: 1;	Nível: 1
+Rótulo: 6;	Pai: 1;	Nível: 1
+Rótulo: 3;	Pai: 2;	Nível: 2
+Rótulo: 5;	Pai: 4;	Nível: 2
+Rótulo: 8;	Pai: 3;	Nível: 3
+Rótulo: 7;	Pai: 5;	Nível: 3
+Rótulo: 9;	Pai: 8;	Nível: 4

@@ -1,3 +1,0 @@
-~~ Arvore Geradora (BFS) ~~
-
-Vertice: 1;	 Pai: nullptr;	Nível: 0

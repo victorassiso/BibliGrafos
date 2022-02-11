@@ -47,6 +47,33 @@ class Matriz: public MatrizEstrutura
 
     // Métodos Auxiliares
     string info2();
+    string info3(vector<vector<MatrizVertice *>> *componentes);
+    void desmarcarTodosOsVertices();
+    MatrizVertice *pop_front(vector<MatrizVertice*> *Q);
+    Noh<MatrizVertice> *pop_front(vector<Noh<MatrizVertice> *> *QNoh);
+    int pop_front(vector<int> *QIndice);
+    Noh<MatrizVertice>* marcar_e_inserir_vizinho(
+      int *i,
+      vector<int> *QIndice,
+      vector<Noh<MatrizVertice> *> *QNoh,
+      Noh<MatrizVertice> *vNoh
+    );
+    void marcar_e_inserir_raiz(
+      int* indiceRaiz,
+      vector<int>* QIndice,
+      vector<Noh<MatrizVertice>*>* QNoh,
+      Noh<MatrizVertice>* sNoh
+    );
+    void marcar_e_inserir(
+      int *i,
+      vector<int> *QIndice,
+      vector<MatrizVertice*> *Q,
+      vector<vector<MatrizVertice *>> *componentes,
+      int *nComp
+    );
+    string imprimir_vertices_arvore(Noh<MatrizVertice> *vNoh);
+
 };
 
 #endif
+

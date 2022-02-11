@@ -87,7 +87,7 @@ string Lista::info2() {
           Q.push_back(w->getVertice());
           //cout << "Inserir " << w->getVertice()->getRotulo() << " na fila Q" << endl;
 
-          // [INFO] Inserir w na componente i
+          // [INFO] Inserir w na componente nComp
           componentes.at(nComp).push_back(w->getVertice());
         }
 

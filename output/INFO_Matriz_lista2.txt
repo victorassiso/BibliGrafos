@@ -1,8 +1,0 @@
-Número de Vértices: 9
-Número de Arestas: 14
-Grau Mínimo: 2
-Grau Máximo: 5
-Grau Médio: 3.11111
-Grau Mediana: 3
-Número de Componentes conexas: 1066535937
-
