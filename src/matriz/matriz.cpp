@@ -157,263 +157,9 @@ string Matriz::info2() {
   outfile += info3(&componentes);
 
   return outfile;
-  /*
-  cout << "Construindo Árvore Geradora (BFS)..." << endl;
-
-
-  // 1. Desmarcar todos os vértices
-  desmarcarTodosOsVertices();
-
-  // Inicializar variáveis
-  int indiceRaiz = 0;
-  vector<MatrizVertice*> Q;
-  vector<int> QIndice;
-  int vIndice;
-  MatrizVertice* v;
-  MatrizVertice* w;
-  MatrizVertice* s = vetor_vertices.at(0);
-  
-  // Definir Cabeçalho
-  string outfile = "~~ Árvore Geradora (DFS) ~~\n\n";
-
-  // 2. Definir Fila Q vazia
-  Q = {};
-  QIndice = {};
-
-  // 3. Marcar s e inserir s na fila Q
-  s->setStatus(true);
-  Q.push_back(s);
-  QIndice.push_back(indiceRaiz);
-  cout << "Inserir " << s->getRotulo() << endl;
-  outfile += "Vertice: " + to_string(s->getRotulo()) + ";\n";
-
-  // 4. Enquanto Q não estiver vazia
-  while (Q.size() > 0) {
-    
-    // 5. Retirar v de Q
-    v = Q.front();
-    Q.erase(Q.begin());
-    vIndice = QIndice.front();
-    QIndice.erase(QIndice.begin());
-    cout << "Remover " << v->getRotulo() << endl;
-
-    // 6. Para todo vizinho w de v faça
-    // 6.1 Varrer a linha indiceRaiz referente ao rótulo r1
-    for (int i = 0; i < vIndice; i++) {
-      // 6.2 Se w for vizinho de v
-      if (matriz.at(vIndice).at(i)) {
-
-        // 7. Se w não estiver marcado
-        if (!vetor_vertices.at(i)->getStatus()) {
-          
-          // 8. Marcar w
-          vetor_vertices.at(i)->setStatus(true);
-          
-          // 9. Inserir w em Q
-          w = vetor_vertices.at(i);
-          Q.push_back(w);
-          QIndice.push_back(i);
-          cout << "Inserir " << w->getRotulo() << endl;
-
-          // Imprimir novo vértice
-          outfile += "Vertice: " + to_string(w->getRotulo()) + ";\n";
-        }
-      }
-    }    
-    
-    // 6.1 Varrer a coluna indiceRaiz referente ao rótulo r1
-    for (int i = vIndice+1; i < vetor_vertices.size(); i++) {
-      // 6.2 Se w for vizinho de v
-      if (matriz.at(i).at(vIndice)) {
-
-        // 7. Se w não estiver marcado
-        if (!vetor_vertices.at(i)->getStatus()) {
-          
-          // 8. Marcar w
-          vetor_vertices.at(i)->setStatus(true);
-          
-          // 9. Inserir w em Q
-          w = vetor_vertices.at(i);
-          Q.push_back(w);
-          QIndice.push_back(i);
-          cout << "Inserir " << w->getRotulo() << endl;
-
-          // Imprimir novo vértice
-          outfile += "Vertice: " + to_string(w->getRotulo()) + ";\n";
-        }
-      }
-    }
-    cout << "Debug" << endl;
-    cout << Q.size() << endl;
-  }
-
-  cout << "Árvore constuída com sucesso!" << endl;
-
-  return outfile;
-
-
-
-  /*
-  cout << "Analisando o grafo..." << endl;
-  
-  // Definir variáveis BFS
-  vector<MatrizVertice*> Q;
-  MatrizVertice* s = vetor_vertices.at(0);
-  vector<int> QIndice;
-  int vIndice = 0;
-  MatrizVertice* v;
-  MatrizVertice* w;
-  int i = 0;
-
-  // Definir variáveis INFO
-  int nA = 0;
-  int grau = 0;
-  int nComp = 0;
-  vector<int> vetor_graus;
-  vector<vector<MatrizVertice*>> componentes;
-  string outfile = "";
-
-  // 1. Desmarcar todos os vértices
-  desmarcarTodosOsVertices();
-
-  // 2. Definir fila Q vazia
-  Q = {};
-  QIndice = {};
-
-  // 3. Marcar s e inserir s na fila Q
-  s->setStatus(true);
-  Q.push_back(s);
-  QIndice.push_back(vIndice);
-  cout << "Marcar " << s->getRotulo() << endl;
-  cout << "Inserir " << s->getRotulo() << endl;
-
-  // [INFO] Insere s na componente nComp
-  componentes.push_back({s});
-
-  // Para cada Componente Conexa
-  bool existeNovaComponenteConexa = true;
-  while (existeNovaComponenteConexa) {
-
-    // 4. Enquanto Q não estiver vazia
-    while (Q.size() > 0) {
-
-      // 5. Retirar v de Q
-      v = Q.front();
-      Q.erase(Q.begin());
-
-      vIndice = QIndice.front();
-      QIndice.erase(QIndice.begin());
-
-      cout << "Remover " << v->getRotulo() << endl;
-      
-      // 6. Para todo vizinho w de v
-        // 6.1 Varrer a linha indiceRaiz referente ao rótulo r1
-        for (int i = 0; i < vIndice; i++) {
-          // 6.2 Se w for vizinho de v
-          if (matriz.at(vIndice).at(i)) {
-            cout << vIndice << endl;
-            // Incrementa número de arestas
-            nA++;
-            // Incrementa grau de v
-            grau++;
-
-            // 7. Se w não estiver marcado
-            if (!vetor_vertices.at(i)->getStatus()) {
-              w = vetor_vertices.at(i);
-
-              // 8. Marcar w
-              w->setStatus(true);
-              cout << "Marcar " << vetor_vertices.at(i)->getRotulo() << endl;
-              
-              // 9. Inserir w em Q
-              Q.push_back(w);
-              QIndice.push_back(i);
-              cout << "Inserir " << vetor_vertices.at(i)->getRotulo() << endl;
-
-              // [INFO] Inserir w na componente nComp
-              componentes.at(nComp).push_back(w);
-            }
-          }
-        }    
-        
-        // 6.1 Varrer a coluna indiceRaiz referente ao rótulo r1
-        for (int i = vIndice+1; i < vetor_vertices.size(); i++) {
-          // 6.2 Se w for vizinho de v
-          if (matriz.at(i).at(vIndice)) {
-            cout << vIndice << endl;
-            
-            // Incrementa número de arestas
-            nA++;
-            // Incrementa grau de v
-            grau++;
-
-            // 7. Se w não estiver marcado
-            if (!vetor_vertices.at(i)->getStatus()) {
-              w = vetor_vertices.at(i);
-              
-              // 8. Marcar w
-              w->setStatus(true);
-              cout << "Marcar " << vetor_vertices.at(i)->getRotulo() << endl;
-              
-              // 9. Inserir w em Q
-              Q.push_back(w);
-              QIndice.push_back(i);
-              cout << "Inserir " << vetor_vertices.at(i)->getRotulo() << endl;
-
-              // [INFO] Inserir w na componente nComp
-              componentes.at(nComp).push_back(w);
-            }
-          }
-        }
-        vetor_graus.push_back(grau);
-        grau = 0;
-    }
-    
-    // Se ainda houverem vértices desconhecidos, isto é, uma nova componente conexa
-    do {
-      i++;
-    } while (i < vetor_vertices.size() && vetor_vertices.at(i)->getStatus());
-    
-    if (i < vetor_vertices.size()) {
-      // 3. Marcar s e inserir s na fila Q
-      s = vetor_vertices.at(i);
-      s->setStatus(true);
-      cout << "Marcar " << s->getRotulo() << endl;
-      Q.push_back(s);
-      cout << "Inserir " << s->getRotulo() << " na fila Q" << endl;
-
-      // Incrementar nComp
-      nComp++;
-      // [INFO] Insere s na componente nComp
-      componentes.push_back({s});
-
-    } else {
-      existeNovaComponenteConexa = false;
-    }
-
-  }
-  ///////////////////////
-  // [INFO]
-  // set Info
-  setNArestas(nA/2);
-  sort(vetor_graus.begin(), vetor_graus.end());
-  setGrauMaximo(vetor_graus.back());
-  setGrauMinimo(vetor_graus.front());
-  setGrauMedio(nA/(double)getNVertices());
-  setNComponentes(nComp+1);
-
-  if (vetor_graus.size() % 2 != 0) 
-    setGrauMediana((double)(vetor_graus.at((double)vetor_graus.size() / 2)));
-  else
-    setGrauMediana((double)(((double)vetor_graus.at((double)(vetor_graus.size()-1)/2) + (double)vetor_graus.at(((double)vetor_graus.size())/2))/2));
-  
-  // outfile += info3(&componentes);
-
-  return outfile;
-  */
 
 }
-
+////////////////////////////////////////////////////////////////////////////////
 string Matriz::info3(vector<vector<MatrizVertice *>> *componentes) {
   cout << "Ordenando componentes...\n" << endl;
   cout << "componentes: " << componentes->size() << endl;
@@ -559,7 +305,6 @@ void Matriz::arvoreBFS(int raizRotulo, string arquivoDestino) {
   Noh<MatrizVertice> *wNoh;
   Noh<MatrizVertice> *sNoh;
   MatrizVertice *w;
-  int maiorDiametro = 0;
   ofstream outfile(arquivoDestino);
 
   // Imprimir Cabeçalho
@@ -584,7 +329,6 @@ void Matriz::arvoreBFS(int raizRotulo, string arquivoDestino) {
 
   // 4. Enquanto Q não estiver vazia
   while (QNoh.size() > 0) {
-  //while (Qint.size() > 0) {
     
     // 5. Retirar v de Q
     vNoh = pop_front(&QNoh);
@@ -715,6 +459,124 @@ int Matriz::diametro() {
   return maiorDiametro;
 }
 
+void Matriz::arvoreDFS(int raizRotulo, string arquivoDestino) {
+  cout << "Construindo Árvore Geradora (DFS)...\n\n" << endl;
+
+
+  // Inicializa variáveis
+  // Busca o endereço do vértice que armazena raizRotulo e seu indice no vetor_vertices
+  int vIndice;
+  MatrizVertice* raiz = buscaVertical(raizRotulo, &vIndice);
+  if (!raiz){
+    cout << "Vértice raiz não encontrado!" << endl;
+    return ;
+  }
+  vector<Noh<MatrizVertice> *> PNoh;
+  Arvore<MatrizVertice> arvore(raiz);
+  Noh<MatrizVertice>* sNoh = arvore.getRaiz();
+  Noh<MatrizVertice>* uNoh;
+  Noh<MatrizVertice>* vNoh;
+  vector<int> PIndice;
+  
+  //Imprimir Cabeçalho
+  ofstream outfile(arquivoDestino);
+  outfile << "~~ Arvore Geradora (DFS) ~~\n" << endl;
+
+  // 1. DFS(s)
+
+  // 2. Desmarcar todos os vértices
+  desmarcarTodosOsVertices();
+
+  // 3. Definir pilha P com um elemento s
+  PNoh = {sNoh};
+  PIndice = {vIndice};
+  sNoh->setNivel(0);
+  sNoh->setPai(nullptr);
+  outfile << "Vertice: " << sNoh->getVertice()->getRotulo() << ";\t Pai: nullptr;\tN´ivel: 0" << endl;
+  /* [DEBUG] */ cout << "Insere " << sNoh->getVertice()->getRotulo() << endl;
+
+  // 4. Enquanto P não estiver vazia
+  while (PNoh.size() > 0) {
+    // 5. Remover u de P // no topo da pilha
+    // 5. Remover u de P // no topo da pilha
+    uNoh = PNoh.back();
+    vIndice = PIndice.back();
+    PNoh.pop_back();
+    PIndice.pop_back();
+    while (!uNoh) {
+      if (PNoh.size() < 1) {
+        return ;
+      }
+      sNoh = sNoh->getPai();
+      cout << "Remove nullptr" << endl;
+      uNoh = PNoh.back();
+      PNoh.pop_back();
+      if (PNoh.size() < 1) {
+        return ;
+      }
+    }
+
+    // 6. Se u não estiver marcado
+    if (!uNoh->getVertice()->getStatus()) {
+
+      // 7. Marcar u
+      uNoh->getVertice()->setStatus(true);
+      if (uNoh != arvore.getRaiz()) {
+        uNoh->setPai(sNoh);
+        uNoh->setNivel(sNoh->getNivel()+1);
+        outfile << "Vertice: " << uNoh->getVertice()->getRotulo();
+        outfile << ";\t Pai: " << uNoh->getPai()->getVertice()->getRotulo();
+        outfile << ";\tNível: " << uNoh->getNivel() << endl;
+      }
+      sNoh = uNoh;
+      /* [DEBUG] */ cout << "Marca " << uNoh->getVertice()->getRotulo() << endl;
+      PNoh.push_back(nullptr);
+      
+      // 8. Para cada aresta (u,v) incidente a u
+      // 8.1 Varrer a coluna indiceRaiz referente ao rótulo r1
+      for (int i = vetor_vertices.size()-1; i > vIndice; i--) {
+        // cout << "DebugColuna" << endl;
+        
+        // 8.2 Se v for vizinho de u
+        if (matriz.at(i).at(vIndice)) {
+          
+          // 8.3 
+          // 9. Inserir vNoh em PNoh // no topo (em ordem decrescente)
+          vNoh = new Noh<MatrizVertice>(vetor_vertices.at(i));
+          PNoh.push_back(vNoh);
+          PIndice.push_back(i);
+          cout << "Insere " << vNoh->getVertice()->getRotulo() << " na pilha PNoh" << endl;
+        }
+      }
+
+      // 8. Para cada aresta (u,v) incidente a u
+      // 8.1 Varrer a linha indiceRaiz referente ao rótulo r1
+      for (int i = vIndice-1; i >= 0; i--) {
+        // cout << "DebugLinha" << endl;
+
+        // 8.2 Se v for vizinho de u
+        if (matriz.at(vIndice).at(i)) {
+          
+          // 8.3 
+          // 9. Inserir vNoh em PNoh // no topo (em ordem decrescente)
+          vNoh = new Noh<MatrizVertice>(vetor_vertices.at(i));
+          PNoh.push_back(vNoh);
+          PIndice.push_back(i);
+          cout << "Insere " << vNoh->getVertice()->getRotulo() << " na pilha PNoh" << endl;
+        }
+      }
+    }
+      
+    
+  }
+  cout << "Árvore Geradora DFS construída com sucesso!" << endl;
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Métodos Auxiliares
+
 void Matriz::desmarcarTodosOsVertices() {
   for (int i = 0; i < vetor_vertices.size(); i++) {
     vetor_vertices.at(i)->setStatus(false);
@@ -811,7 +673,30 @@ void Matriz::marcar_e_inserir(int *i, vector<int> *QIndice, vector<MatrizVertice
 
 }
 
-//INFO
+Noh<MatrizVertice> *Matriz::pop_backDFS(vector<Noh<MatrizVertice> *> *PNoh, int *vIndice, vector<int> *PIndice, Noh<MatrizVertice> *sNoh) {
+  // 5. Remover u de P // no topo da pilha
+  Noh<MatrizVertice> *uNoh = PNoh->back();
+  *vIndice = PIndice->back();
+  PNoh->pop_back();
+  PIndice->pop_back();
+  while (!uNoh) {
+    if (PNoh->size() < 1) {
+      return nullptr;
+    }
+    sNoh = sNoh->getPai();
+    cout << "Remove nullptr" << endl;
+    uNoh = PNoh->back();
+    PNoh->pop_back();
+    if (PNoh->size() < 1) {
+      return nullptr;
+    }
+  }
+  return uNoh;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Métodos Auxiliares INFO
 
 void Matriz::setNArestas(int nA) {nArestas = nA;}
 void Matriz::setGrauMinimo(int gminimo) {grauMinimo = gminimo;}

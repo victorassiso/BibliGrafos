@@ -436,9 +436,6 @@ void Lista::arvoreDFS(int raizRotulo, string arquivoDestino) {
   ofstream outfile(arquivoDestino);
   outfile << "~~ Arvore Geradora (DFS) ~~\n" << endl;
 
-  // 1. DFS(s)
-  // ArvoreDFS(raizRotulo, arquivoDestino);
-
   // 2. Desmarcar todos os vértices
   for (int i = 0; i < vetor_vertices.size(); i++) {
     vetor_vertices.at(i)->setStatus(false);

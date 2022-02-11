@@ -16,7 +16,7 @@ class Matriz: public MatrizEstrutura
     int distancia(int r1, int r2); // BFS
     int diametro(); // BFS
     void arvoreBFS(int raizRotulo, string arquivoDestino);
-    // void arvoreDFS(int raizRotulo, string arquivoDestino);
+    void arvoreDFS(int raizRotulo, string arquivoDestino);
   
   private:
     // fstream arquivo;
@@ -72,7 +72,7 @@ class Matriz: public MatrizEstrutura
       int *nComp
     );
     string imprimir_vertices_arvore(Noh<MatrizVertice> *vNoh);
-
+    Noh<MatrizVertice> *pop_backDFS(vector<Noh<MatrizVertice> *> *PNoh, int *vIndice, vector<int> *PIndice, Noh<MatrizVertice> *sNoh);
 };
 
 #endif

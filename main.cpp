@@ -31,7 +31,7 @@ int main() {
   // lista.imprimirEstruturaLista(); // [extra] [somente Lista]
 
   // Constrói grafo usando estrutura de matriz;
-  Matriz matriz("input/txt/grafo_comp2.txt");
+  Matriz matriz("input/txt/grafo_DFS.txt");
 
   matriz.imprimirMatrizEstrutura();
   // int D;
@@ -45,8 +45,8 @@ int main() {
   // cout << "Diâmetro: " << D << endl;
   
   // matriz.arvoreBFS(1, "output/BFS_Matriz_lista2.txt");
-  
-  matriz.info("output/INFO.txt");
+  matriz.arvoreDFS(1, "output/DFS");
+  // matriz.info("output/INFO.txt");
 
   return 0;
 }
