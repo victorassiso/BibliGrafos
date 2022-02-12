@@ -16,7 +16,7 @@ Arquivo de Saída "ArvoreBFS"
 [X] - Listar vértices, seu nível e seu pai na árvore geradora
 
 Arquivo de Saída "ArvoreDFS"
-[ ] - Listar vértices, seu nível e seu pai na árvore geradora
+[X] - Listar vértices, seu nível e seu pai na árvore geradora
 
 Arquivo de Saída "Distância"
 [X] - Determinar a distância entre dois vértices (BFS)

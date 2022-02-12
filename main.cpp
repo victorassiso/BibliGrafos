@@ -21,32 +21,28 @@ int main() {
   // Exemplo: 
   
   // Constrói grafo usando estrutura de lista
-  // Lista lista("input/txt/grafo_lista2.txt");
+  Lista lista("input/txt/grafo_lista2.txt");
+  lista.imprimirEstruturaLista(); // [extra] [somente Lista]
 
-  // lista.info("output/grafo_lista2_info.txt");
-  // lista.arvoreBFS(1, "output/grafo_lista2_arvoreBFS.txt");
-  // lista.arvoreDFS(1, "output/grafo_lista2_arvoreDFS.txt");
-  // lista.distanciaSemPeso(1, 9);
-  // lista.diametroSemPeso();
-  // lista.imprimirEstruturaLista(); // [extra] [somente Lista]
+  lista.info("output/lista_INFO.txt");
+  lista.arvoreBFS(1, "output/lista_BFS.txt");
+  lista.arvoreDFS(1, "output/lista_DFS.txt");
+  int Ldistancia = lista.distanciaSemPeso(1, 9);
+  cout << "lista_Distância: " << Ldistancia << endl;
+  int Ldiametro = lista.diametroSemPeso();
+  cout << "lista_Diametro: " << Ldiametro << endl;
 
   // Constrói grafo usando estrutura de matriz;
-  Matriz matriz("input/txt/grafo_DFS.txt");
-
+  Matriz matriz("input/txt/grafo_lista2.txt");
   matriz.imprimirMatrizEstrutura();
-  // int D;
 
-  // Distância
-  // D = matriz.distancia(1, 3);
-  // cout << "Distancia: " << D << endl;
-  
-  // Diâmetro
-  // D = matriz.diametro();
-  // cout << "Diâmetro: " << D << endl;
-  
-  // matriz.arvoreBFS(1, "output/BFS_Matriz_lista2.txt");
-  matriz.arvoreDFS(1, "output/DFS");
-  // matriz.info("output/INFO.txt");
+  matriz.info("output/matriz_INFO.txt");
+  matriz.arvoreBFS(1, "output/matriz_BFS.txt");
+  matriz.arvoreDFS(1, "output/matriz_DFS.txt");
+  int Mdistancia = matriz.distancia(1, 9);
+  cout << "matriz_Distância: " << Mdistancia << endl;
+  int Mdiametro = matriz.diametro();
+  cout << "matriz_Diâmetro: " << Mdiametro << endl;
 
   return 0;
 }

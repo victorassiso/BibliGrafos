@@ -673,28 +673,6 @@ void Matriz::marcar_e_inserir(int *i, vector<int> *QIndice, vector<MatrizVertice
 
 }
 
-Noh<MatrizVertice> *Matriz::pop_backDFS(vector<Noh<MatrizVertice> *> *PNoh, int *vIndice, vector<int> *PIndice, Noh<MatrizVertice> *sNoh) {
-  // 5. Remover u de P // no topo da pilha
-  Noh<MatrizVertice> *uNoh = PNoh->back();
-  *vIndice = PIndice->back();
-  PNoh->pop_back();
-  PIndice->pop_back();
-  while (!uNoh) {
-    if (PNoh->size() < 1) {
-      return nullptr;
-    }
-    sNoh = sNoh->getPai();
-    cout << "Remove nullptr" << endl;
-    uNoh = PNoh->back();
-    PNoh->pop_back();
-    if (PNoh->size() < 1) {
-      return nullptr;
-    }
-  }
-  return uNoh;
-}
-
-
 ////////////////////////////////////////////////////////////////////////////////
 // Métodos Auxiliares INFO
 

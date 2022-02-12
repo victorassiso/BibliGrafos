@@ -61,6 +61,7 @@ class Lista: public ListaEstrutura
     // Métodos Auxiliares
     string info2();
     string info3(vector<vector<ListaVertice*>>* componentes);
+    void desmarcarTodosOsVertices();
     // [DEBUG] void debugDFS(string acao,Noh* uNoh, Noh* sNoh, vector<Noh*> pNoh);
 };
 

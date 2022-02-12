@@ -43,9 +43,7 @@ string Lista::info2() {
   ///////////////////
 
   // 1. Desmarcar todos os vértices
-  for (int i = 0; i < vetor_vertices.size(); i++) {
-    vetor_vertices.at(i)->setStatus(false);
-  }
+  desmarcarTodosOsVertices();
 
   // 2. Definir Fila Q vazia
   Q = {};
@@ -185,9 +183,7 @@ int Lista::distanciaSemPeso(int r1, int r2) {
   }
 
   // 1. Desmarcar todos os vértices
-  for (int i = 0; i < vetor_vertices.size(); i++) {
-    vetor_vertices.at(i)->setStatus(false);
-  }
+  desmarcarTodosOsVertices();
 
   // Inicializa variáveis
   vector<Noh<ListaVertice>*> QNoh;
@@ -342,9 +338,7 @@ void Lista::arvoreBFS(int raizRotulo, string arquivoDestino) {
   }
   
   // 1. Desmarcar todos os vértices
-  for (int i = 0; i < vetor_vertices.size(); i++) {
-    vetor_vertices.at(i)->setStatus(false);
-  }
+  desmarcarTodosOsVertices();
 
   // 2. Definir Fila Q vazia
   vector<Noh<ListaVertice>*> QNoh;
@@ -437,9 +431,7 @@ void Lista::arvoreDFS(int raizRotulo, string arquivoDestino) {
   outfile << "~~ Arvore Geradora (DFS) ~~\n" << endl;
 
   // 2. Desmarcar todos os vértices
-  for (int i = 0; i < vetor_vertices.size(); i++) {
-    vetor_vertices.at(i)->setStatus(false);
-  }
+  desmarcarTodosOsVertices();
 
   // 3. Definir pilha P com um elemento s
   pNoh = {sNoh};
@@ -510,6 +502,12 @@ void Lista::arvoreDFS(int raizRotulo, string arquivoDestino) {
       }
     }
   }  
+}
+
+void Lista::desmarcarTodosOsVertices() {
+  for (int i = 0; i < vetor_vertices.size(); i++) {
+    vetor_vertices.at(i)->setStatus(false);
+  }
 }
 
 void Lista::setNArestas(int nA) { nArestas = nA; }
