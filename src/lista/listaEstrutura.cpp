@@ -31,7 +31,6 @@ ListaEstrutura::ListaEstrutura(string arquivoOrigem) {
     ListaVertice *v2 = inserirVertice(rotulo2);
     inserirVizinho(v1, v2, peso);
     inserirVizinho(v2, v1, peso);
-    cout << rotulo1 << " -- " << rotulo2 << endl;
 
     // Define tipo de grafo
     if (peso != 1)

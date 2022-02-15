@@ -12,15 +12,15 @@ int main() {
   // - info
   // - ArvoreBFS
   // - ArvoreDFS
-  // - distanciaSemPeso
-  // - diametroSemPeso
+  // - distancia
+  // - diametro
   // - imprimirEstruturaLista [extra] [somente Lista]
   // - imprimirEstruturaMatriz [extra] [somente Matriz]
 
   // Exemplo: 
   
   // Constrói grafo usando estrutura de lista
-  Lista lista("input/txt/grafo_T2.txt");
+  Lista lista("input/txt/lista_2.txt");
   lista.imprimirEstruturaLista(); // [extra] [somente Lista]
 
   // lista.info("output/lista_INFO.txt");

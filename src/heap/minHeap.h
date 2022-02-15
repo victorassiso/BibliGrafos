@@ -4,7 +4,6 @@
 #include "item.h"
 #include <iostream>
 
-
 template <class T>
 class MinHeap {
   private:
@@ -85,7 +84,7 @@ class MinHeap {
             // Se atual > esq
             if (filaP.at(i)->getPeso() > filaP.at(esq)->getPeso())
               // swap(atual, esq)
-              swap(filaP.at(i), filaP.at(esq))
+              swap(filaP.at(i), filaP.at(esq));
           }
           // parar while
           return min;
@@ -94,63 +93,55 @@ class MinHeap {
     };
 
     void atualizaChave(int indice) {
-      if (filaP.at(indice) < filaP.at(pai(indice))) {
-        int i = filaP.size()-1;
-        while(pai(i) >= 1 && filaP.at(pai(i)) > filaP.at(i)) {
-          swap(filaP.at(pai(i)), filaP.at(i));
-          i = pai(i);
-        }
-      } else {
-        
+    //   if (filaP.at(indice) < filaP.at(pai(indice))) {
+    //     int i = filaP.size()-1;
+    //     while(pai(i) >= 1 && filaP.at(pai(i)) > filaP.at(i)) {
+    //       swap(filaP.at(pai(i)), filaP.at(i));
+    //       i = pai(i);
+    //     }
+    //   } else {
+    //     int tamanho = filaP.size();
+    //     int menor;
+    //     int maior;
+    //     while (true) {
+          
+    //       // Se houver esq e dir
+    //       if (esq(i) <= tamanho-1 && dir(i) <= tamanho-1) {
 
-      
-      int tamanho = filaP.size();
-      int menor;
-      int maior;
-      while (true) {
-        
-        // Se houver esq e dir
-        if (esq(i) <= tamanho-1 && dir(i) <= tamanho-1) {
+    //         // Definir o menor e o maior
+    //         if (filaP.at(esq(i))->getPeso() <= filaP.at(dir(i))->getPeso()) {
+    //           menor = esq(i);
+    //           maior = dir(i);
+    //         } else {
+    //           menor = dir(i);
+    //           maior = esq(i);
+    //         }
 
-          // Definir o menor e o maior
-          if (filaP.at(esq(i))->getPeso() <= filaP.at(dir(i))->getPeso()) {
-            menor = esq(i);
-            maior = dir(i);
-          } else {
-            menor = dir(i);
-            maior = esq(i);
-          }
-
-          // Se atual > menor
-          if (filaP.at(i)->getPeso() > filaP.at(menor)->getPeso())
-            // swap (atual, menor)
-            swap(filaP.at(i), filaP.at(menor));
-          // Se não
-          else {
-            // Se atual > maior
-            if (filaP.at(i)->getPeso() > filaP.at(maior)->getPeso())
-              //swap(atual, maior)
-              swap(filaP.at(i), filaP.at(maior));
-          }
-        // Se não
-        } else {
-          // Se houver apenas esq
-          if (esq(i) <= tamanho) {
-            // Se atual > esq
-            if (filaP.at(i)->getPeso() > filaP.at(esq)->getPeso())
-              // swap(atual, esq)
-              swap(filaP.at(i), filaP.at(esq))
-          }
-          // parar while
-          return min;
-        }
-      }
-    }
+    //         // Se atual > menor
+    //         if (filaP.at(i)->getPeso() > filaP.at(menor)->getPeso())
+    //           // swap (atual, menor)
+    //           swap(filaP.at(i), filaP.at(menor));
+    //         // Se não
+    //         else {
+    //           // Se atual > maior
+    //           if (filaP.at(i)->getPeso() > filaP.at(maior)->getPeso())
+    //             //swap(atual, maior)
+    //             swap(filaP.at(i), filaP.at(maior));
+    //         }
+    //       // Se não
+    //       } else {
+    //         // Se houver apenas esq
+    //         if (esq(i) <= tamanho) {
+    //           // Se atual > esq
+    //           if (filaP.at(i)->getPeso() > filaP.at(esq)->getPeso())
+    //             // swap(atual, esq)
+    //             swap(filaP.at(i), filaP.at(esq))
+    //         }
+    //         // parar while
+    //         return min;
+    //       }
+    //     }
+    //   }
+    };
 };
-
-// Tipos válidos
-
-template class MinHeap<ListaVertice*>;
-template class MinHeap<MatrizVertice*>;
-
 #endif

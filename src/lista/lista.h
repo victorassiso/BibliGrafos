@@ -12,8 +12,8 @@
 #include <vector>
 #include <bits/stdc++.h>
 #include <iomanip>
+#define INFINITO 1000000000000000
 
-#define INFINITO    100000000000000000000
 class Lista: public ListaEstrutura
 {
 

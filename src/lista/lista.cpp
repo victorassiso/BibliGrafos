@@ -644,6 +644,7 @@ int Lista::caminhoDijkstra(int r1, int r2, string arquivoDestino) {
   // Inicializar variáveis
   MinHeap<ListaVertice> dist;
   Vizinho *w;
+  ofstream outfile;
 
   // 0. Encontrar o vértice referente ao rótulo r1 informado via parâmetro
   ListaVertice* raiz = this->buscaVertical(r1);
@@ -664,7 +665,7 @@ int Lista::caminhoDijkstra(int r1, int r2, string arquivoDestino) {
   desmarcarTodosOsVertices();
 
   // 5. dist[s] = 0
-  dist.atualizaChave(raiz, 0);
+  // dist.atualizaChave(raiz, 0);
   
   // 6. Enquanto S != V
   // 7. Selecione u em V-S, tal que dist[u] é mínima
@@ -681,6 +682,4 @@ int Lista::caminhoDijkstra(int r1, int r2, string arquivoDestino) {
   // Se v é explorado, então dist[v] é a distância de s a v
   return -1;
 };
-
-int 
 
