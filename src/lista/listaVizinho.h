@@ -8,20 +8,19 @@ class ListaVertice; // Diz que a classe existe sem inicializá-la
 class Vizinho
 {
   public:
-    Vizinho(ListaVertice*);
+    Vizinho(ListaVertice* vertice, float peso);
     ~Vizinho();
     
-    void setVizinho(Vizinho*);
-    //void setPeso(float);
+    void setVizinho(Vizinho* vizinho);
     
     ListaVertice* getVertice();
     Vizinho* getVizinho();
-    //float getPeso();
+    float getPeso();
 
   private:
     ListaVertice* vertice;
     Vizinho* vizinho;
-    //float peso;
+    float peso;
 };
 
 #endif

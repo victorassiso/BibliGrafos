@@ -167,7 +167,18 @@ string Lista::info3(vector<vector<ListaVertice*>>* componentes) {
   return outfile;
 }
 
-int Lista::distanciaSemPeso(int r1, int r2) {
+int Lista::caminhoMinimo(int r1, int r2, string arquivoDestino) {
+  int tGrafo = getTipoGrafo();
+
+  if (tGrafo == 0)
+    return caminhoBFS(r1, r2, arquivoDestino);
+  if (tGrafo == 1)
+    return caminhoDijkstra(r1, r2, arquivoDestino);
+
+  return -1;
+}
+
+int Lista::distanciaBFS(int r1, int r2) {
   cout << "Iniciando cálculo da distância..." << endl;
   
   // Quando r1 e r2 são iguais a distância é zero
@@ -235,7 +246,6 @@ int Lista::distanciaSemPeso(int r1, int r2) {
           return wNoh->getNivel();
         }
       }
-
       w = w->getVizinho();
     }
   }
@@ -245,7 +255,7 @@ int Lista::distanciaSemPeso(int r1, int r2) {
   return -1;
 }
 
-int Lista::diametroSemPeso() {
+int Lista::diametroBFS() {
   cout << "Iniciando cálculo do diametro..." << endl;
 
   // Inicializar variáveis
@@ -523,3 +533,154 @@ int Lista::getGrauMaximo() { return grauMaximo; }
 double Lista::getGrauMedio() { return grauMedio; }
 double Lista::getGrauMediana() { return grauMediana; }
 int Lista::getNComponentes() { return nComponentes; }
+
+int Lista::caminhoBFS(int r1, int r2, string arquivoDestino) {
+  cout << "Calculando Distância e Caminho Mínimo (BFS)..." << endl;
+
+  // Imprimir Cabeçalho
+  ofstream outfile(arquivoDestino);
+  outfile << "~~ Distância e Caminho mínimo (BFS) ~~" << endl << endl;
+
+  // Se r1 == r2
+  if (r1 == r2) {
+    outfile << "Caminho: " << r1 << " (0)--> " << r2 << endl;
+    outfile << "Distância: 0" << endl;
+    return 0;
+  }
+
+  // 0. Encontrar o vértice referente ao rótulo r1 informado via parâmetro
+  ListaVertice* raiz = this->buscaVertical(r1);
+  if (!raiz){
+    cout << "Vértice raiz não encontrado!" << endl;
+    outfile << "Vértice raiz não encontrado!" << endl;
+    return -1;
+  }
+  
+  // 1. Desmarcar todos os vértices
+  desmarcarTodosOsVertices();
+
+  // 2. Definir Fila Q vazia
+  vector<Noh<ListaVertice>*> QNoh;
+  Noh<ListaVertice>* vNoh;
+  Noh<ListaVertice>* wNoh;
+  Vizinho* w;
+  
+  // 3. Marcar s e inserir s na fila Q
+  Arvore<ListaVertice> arvore(raiz);
+  Noh<ListaVertice>* sNoh = arvore.getRaiz();
+  sNoh->getVertice()->setStatus(true);
+  // cout << "Marcar " << sNoh->getVertice()->getRotulo() << endl;
+  QNoh.push_back(sNoh);
+  // cout << "Inserir " << sNoh->getVertice()->getRotulo() << " na fila Q" << endl;
+  sNoh->setPai(nullptr);
+  sNoh->setNivel(0);
+  
+  // 4. Enquanto Q não estiver vazia
+  while (QNoh.size() > 0) {
+
+    // 5.
+    vNoh = QNoh.front();
+    QNoh.erase(QNoh.begin());
+    //cout << "Remover " << vNoh->getVertice()->getRotulo() << " da fila Q" << endl;
+    //cout << "Explorar " << vNoh->getVertice()->getRotulo() << endl;
+
+    // 6. Para todo vizinho w de v faça
+    w = vNoh->getVertice()->getVizinho();
+    while (w) {
+
+      // 7. Se w não estiver marcado
+      if (!w->getVertice()->getStatus()) {
+
+        // 8. Marcar w
+        w->getVertice()->setStatus(true);
+        //cout << "Marcar " << w->getVertice()->getRotulo() << endl;
+
+        // 9. inserir w em Q
+        wNoh = new Noh<ListaVertice>(w->getVertice());
+        QNoh.push_back(wNoh);
+        //cout << "Inserir " << wNoh->getVertice()->getRotulo() << " na fila Q" << endl;
+        wNoh->setPai(vNoh);
+        wNoh->setNivel(vNoh->getNivel()+1);
+      }
+      
+      if (w->getVertice()->getRotulo() == r2) {
+        w = nullptr;
+        QNoh = {};
+      } else {
+        w = w->getVizinho();
+      }
+    }
+  }
+
+  // Caminho não encontrado
+  if (wNoh->getVertice()->getRotulo() != r2) {
+    cout << "Caminho não encontrado!" << endl;
+    outfile << "Caminho não encontrado!" << endl;
+    return -1;
+  }
+
+  // Define vetor caminho (inversamente)
+  vector<int> caminho = {wNoh->getVertice()->getRotulo()};
+  while (wNoh->getPai()) {
+    wNoh = wNoh->getPai();
+    caminho.push_back(wNoh->getVertice()->getRotulo());
+  }
+
+  // Imprime vetor caminho (ordenadamente)
+  outfile << "Caminho: " << caminho.at(caminho.size()-1);
+
+  for (int i = caminho.size()-2; i >= 0; i--)
+    outfile << " --> " << caminho.at(i);
+  
+  outfile << endl;
+  outfile << "Distância: " << caminho.size()-1 << endl;
+  
+  cout << "Distância e Caminho Mínimo encontrados com sucesso!" << endl << endl;
+  return caminho.size()-1;
+}
+
+int Lista::caminhoDijkstra(int r1, int r2, string arquivoDestino) {
+  
+  // Inicializar variáveis
+  MinHeap<ListaVertice> dist;
+  Vizinho *w;
+
+  // 0. Encontrar o vértice referente ao rótulo r1 informado via parâmetro
+  ListaVertice* raiz = this->buscaVertical(r1);
+  if (!raiz){
+    cout << "Vértice raiz não encontrado!" << endl;
+    outfile << "Vértice raiz não encontrado!" << endl;
+    return -1;
+  }
+
+  // 1. Dijkstra(G, s)
+  
+  // 2. Para cada vértice v
+  for (int i = 0; i < vetor_vertices.size(); i++)
+    // 3. dist[v] = infinito
+    dist.inserirItem(vetor_vertices.at(i), INFINITO);
+  
+  // 4. Define conjunto S = 0 // inicia vazio // Explorados
+  desmarcarTodosOsVertices();
+
+  // 5. dist[s] = 0
+  dist.atualizaChave(raiz, 0);
+  
+  // 6. Enquanto S != V
+  // 7. Selecione u em V-S, tal que dist[u] é mínima
+  // 8. Adicione u em S
+  // 9. Para cada vizinho v de u faça
+  // 10. Se dist[v] > dist[u] + w(u,v) então
+  // 11. dist[v] = dist[u] + w(u,v)
+  // 12.Retorna dist[]
+
+  // S é o conjunto dos vértices explorados
+  // V é o conjunto dos vértices do grafo
+  // w(u,v) é o peso da aresta (u,v)
+  // dist[v] é a melhor estimativa da distância de s a v
+  // Se v é explorado, então dist[v] é a distância de s a v
+  return -1;
+};
+
+int 
+

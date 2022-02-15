@@ -5,6 +5,10 @@ ListaEstrutura::ListaEstrutura(string arquivoOrigem) {
   cout << "A Lista está sendo construída..."<< endl;
 
   int rotulo1, rotulo2;
+  float peso, pesoTemp = 1;
+  bool pesoPositivo = false;
+  bool pesoNegativo = false;
+
   
   fstream arquivo;
   arquivo.open(arquivoOrigem, fstream::in);
@@ -22,12 +26,30 @@ ListaEstrutura::ListaEstrutura(string arquivoOrigem) {
 
   while (arquivo.good())
   {
-    arquivo >> rotulo1 >> rotulo2;
+    arquivo >> rotulo1 >> rotulo2 >> peso;
     ListaVertice *v1 = inserirVertice(rotulo1);
     ListaVertice *v2 = inserirVertice(rotulo2);
-    inserirVizinho(v1, v2);
-    inserirVizinho(v2, v1);
+    inserirVizinho(v1, v2, peso);
+    inserirVizinho(v2, v1, peso);
+    cout << rotulo1 << " -- " << rotulo2 << endl;
+
+    // Define tipo de grafo
+    if (peso != 1)
+      pesoPositivo = true;
+    if (peso < 0 )
+      pesoNegativo = true;
   }
+
+  // Define tipo de grafo
+  if (!pesoPositivo)
+    setTipoGrafo(0); // Sem peso
+  else {
+    if (!pesoNegativo)
+      setTipoGrafo(1); // Peso positivo
+    else
+      setTipoGrafo(2); // Peso Negativo
+  }
+
   arquivo.close();
   cout << "Lista construída com sucesso!" << endl << endl;
   // timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
@@ -40,15 +62,12 @@ ListaEstrutura::~ListaEstrutura() { }
 // Insere um novo vértice na lista de adjacência e retorna seu ponteiro
 ListaVertice* ListaEstrutura::inserirVertice(int rotulo) {
   ListaVertice* verticeExiste = buscaVertical(rotulo);
-  if (!verticeExiste)
-  {
+  if (!verticeExiste) {
     ListaVertice* new_vertice = new ListaVertice(rotulo);
     vetor_vertices.push_back(new_vertice);
 
     return new_vertice;
-  }
-  else
-  {
+  } else {
     return verticeExiste;
   }
 }
@@ -66,23 +85,40 @@ ListaVertice* ListaEstrutura::buscaVertical(int rotulo) {
   return nullptr;
 }
 
+bool ListaEstrutura::buscaHorizontal(ListaVertice *v1, ListaVertice *v2) {
+  Vizinho *iterator = v1->getVizinho();
+  while(iterator) {
+    if (iterator->getVertice() == v2)
+      return true;
+    
+    iterator = iterator->getVizinho();
+  }
+
+  return false;
+}
+
+
 //Atribui v2 como vizinho de v1
-void ListaEstrutura::inserirVizinho(ListaVertice* v1, ListaVertice* v2) {
-  Vizinho* new_vizinho = new Vizinho(v2);
+void ListaEstrutura::inserirVizinho(ListaVertice* v1, ListaVertice* v2, float p) {
+  Vizinho* new_vizinho = new Vizinho(v2, p);
 
   //Procura-se o ultimo vizinho de v1
-  Vizinho* ultimoVizinho = buscaHorizontal(v1);
+  Vizinho* ultimo_Vizinho = ultimoVizinho(v1);
+
+  // Confirma se aresta já existe ou não
+  if (buscaHorizontal(v1, v2))
+    return ;
   
-  if (!ultimoVizinho){
+  if (!ultimo_Vizinho){
     v1->setVizinho(new_vizinho);
   }
   else {
-    ultimoVizinho->setVizinho(new_vizinho);
+    ultimo_Vizinho->setVizinho(new_vizinho);
   }
 }
 
 // Retorna um ponteiro para o último vizinho de um vértice
-Vizinho* ListaEstrutura::buscaHorizontal(ListaVertice* v) {
+Vizinho* ListaEstrutura::ultimoVizinho(ListaVertice* v) {
   if (!v->getVizinho()){
     return nullptr;
   }
@@ -96,6 +132,8 @@ Vizinho* ListaEstrutura::buscaHorizontal(ListaVertice* v) {
   return iterator;
 }
 
+
+
 // Imprime a estrutura da lista de adjacência
 void ListaEstrutura::imprimirEstruturaLista() {
   Vizinho* iterator;
@@ -105,7 +143,7 @@ void ListaEstrutura::imprimirEstruturaLista() {
     iterator = vetor_vertices.at(i)->getVizinho();
     while(iterator)
     {
-      cout << " --> " << iterator->getVertice()->getRotulo();
+      cout << " ---> " << iterator->getVertice()->getRotulo() << "(" << iterator->getPeso() << ")";
       iterator = iterator->getVizinho();
     }
 
@@ -117,3 +155,7 @@ void ListaEstrutura::imprimirEstruturaLista() {
 void ListaEstrutura::setNVertices(int nVe) { nVertices = nVe; }
 // Retorna valor inteiro nVertices (número de vértices na lista de adjacência)
 int ListaEstrutura::getNVertices() { return nVertices; }
+
+// Métodos Auxiliares
+void ListaEstrutura::setTipoGrafo(int tg) { tipoGrafo = tg; }
+int ListaEstrutura::getTipoGrafo() { return tipoGrafo; }

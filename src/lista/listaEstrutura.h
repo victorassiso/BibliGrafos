@@ -12,16 +12,13 @@
 
 class ListaEstrutura
 {   
-  public:
-    void imprimirEstruturaLista();
-
   private:
-    // Atributos Info
     int nVertices;
+    int tipoGrafo;
     
-    // Métodos Set Info
-    void setNVertices(int);
-    
+    void setNVertices(int nVertices);
+    void setTipoGrafo(int tipoGrafo);
+
   protected:
     ListaEstrutura(string arquivoOrigem);
     ~ListaEstrutura();
@@ -31,11 +28,15 @@ class ListaEstrutura
     // Métodos Auxiliares
     ListaVertice* inserirVertice(int rotulo);
     ListaVertice* buscaVertical(int rotulo);
-    void inserirVizinho(ListaVertice* v1, ListaVertice* v2);
-    Vizinho* buscaHorizontal(ListaVertice* );
+    void inserirVizinho(ListaVertice *v1, ListaVertice *v2, float peso);
+    Vizinho* ultimoVizinho(ListaVertice *vertice);
+    bool buscaHorizontal(ListaVertice *v1, ListaVertice *v2);
     
-    //Métodos Get Info
     int getNVertices();
+    int getTipoGrafo();
+
+  public:
+    void imprimirEstruturaLista();
 };
 
 #endif

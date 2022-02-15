@@ -3,19 +3,19 @@
 
 #include "listaVizinho.h"
 
-Vizinho::Vizinho(ListaVertice* ve)
+Vizinho::Vizinho(ListaVertice* ve, float p)
 {
   vertice = ve;
   vizinho = nullptr;
+  peso = p;
 }
 
 Vizinho::~Vizinho(){}
 
 void Vizinho::setVizinho(Vizinho* vi) { vizinho = vi; }
-//void Vizinho::setPeso(float p) { peso = p; }
 
 Vizinho* Vizinho::getVizinho() { return vizinho; }
-//float Vizinho::getPeso() { return peso; }
 ListaVertice* Vizinho::getVertice() { return vertice; }
+float Vizinho::getPeso() { return peso; }
 
 #endif
