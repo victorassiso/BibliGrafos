@@ -176,7 +176,7 @@ void Lista::caminhoMinimo(int r1, string arquivoDestino) {
   if (tGrafo == 1)
     caminhoDijkstra(r1, arquivoDestino);
 
-  cout << "Distância e Caminho Mínimo encontrados com sucesso" << endl;
+  cout << "Distância e Caminho Mínimo encontrados com sucesso!" << endl;
 }
 
 void Lista::caminhoMinimo(int r1, int r2, string arquivoDestino) {
@@ -188,7 +188,7 @@ void Lista::caminhoMinimo(int r1, int r2, string arquivoDestino) {
   if (tGrafo == 1)
     caminhoDijkstra(r1, r2, arquivoDestino);
 
-  cout << "Distância e Caminho Mínimo encontrados com sucesso" << endl;
+  cout << "Distância e Caminho Mínimo encontrados com sucesso!" << endl;
 }
 
 int Lista::distanciaBFS(int r1, int r2) {
@@ -567,6 +567,7 @@ void Lista::caminhoBFS(int r1, string arquivoDestino) {
 
   // 2. Definir Fila Q vazia
   vector<Noh<ListaVertice>*> QNoh;
+  vector<Noh<ListaVertice>*> caminhos;
   Noh<ListaVertice>* vNoh;
   Noh<ListaVertice>* wNoh;
   Vizinho* w;
@@ -577,6 +578,7 @@ void Lista::caminhoBFS(int r1, string arquivoDestino) {
   sNoh->getVertice()->setStatus(true);
   // cout << "Marcar " << sNoh->getVertice()->getRotulo() << endl;
   QNoh.push_back(sNoh);
+  caminhos.push_back(sNoh);
   // cout << "Inserir " << sNoh->getVertice()->getRotulo() << " na fila Q" << endl;
   sNoh->setPai(nullptr);
   sNoh->setNivel(0);
@@ -604,36 +606,57 @@ void Lista::caminhoBFS(int r1, string arquivoDestino) {
         // 9. inserir w em Q
         wNoh = new Noh<ListaVertice>(w->getVertice());
         QNoh.push_back(wNoh);
+        caminhos.push_back(wNoh);
         //cout << "Inserir " << wNoh->getVertice()->getRotulo() << " na fila Q" << endl;
         wNoh->setPai(vNoh);
         wNoh->setNivel(vNoh->getNivel()+1);
       }
+      w = w->getVizinho();
     }
   }
 
-  // // Caminho não encontrado
-  // if (wNoh->getVertice()->getRotulo() != r2) {
-  //   cout << "Caminho não encontrado!" << endl;
-  //   outfile << "Caminho não encontrado!" << endl;
-  //   return ;
+  // Define vetor caminho (inversamente)
+  // vector<int> caminho = {wNoh->getVertice()->getRotulo()};
+  // while (wNoh->getPai()) {
+  //   wNoh = wNoh->getPai();
+  //   caminho.push_back(wNoh->getVertice()->getRotulo());
   // }
 
-  // Define vetor caminho (inversamente)
-  vector<int> caminho = {wNoh->getVertice()->getRotulo()};
-  while (wNoh->getPai()) {
-    wNoh = wNoh->getPai();
-    caminho.push_back(wNoh->getVertice()->getRotulo());
+  // // Imprime vetor caminho (ordenadamente)
+  // outfile << "Caminho: " << caminho.at(caminho.size()-1);
+
+  // for (int i = caminho.size()-2; i >= 0; i--)
+  //   outfile << " --> " << caminho.at(i);
+  
+  // outfile << endl;
+  // outfile << "Distância: " << caminho.size()-1 << endl;
+
+  
+
+  Noh<ListaVertice> *noh;
+  vector<Noh<ListaVertice> *> inverso;
+
+  outfile << "Raiz: " << r1 << endl << endl;
+  outfile << "Formato de saída:" << endl;
+  outfile << "\"Vértice Destino, D=[distância]: {Caminho Mínimo}\"\n" << endl;
+  for (int i = 0; i < caminhos.size(); i++) {
+    noh = caminhos.at(i);
+    outfile << noh->getVertice()->getRotulo();
+
+    inverso.push_back(noh);
+    while(noh->getPai()) {
+      inverso.push_back(noh->getPai());
+      noh = noh->getPai();
+    }
+    outfile << ", D=[" << inverso.size()-1 << "]";
+    outfile << ": {" << inverso.at(inverso.size()-1)->getVertice()->getRotulo();
+    for (int j = inverso.size()-2; j >= 0; j--) {
+      outfile << ", " << inverso.at(j)->getVertice()->getRotulo();
+    }
+    outfile << "}" << endl;
+    inverso = {};
   }
 
-  // Imprime vetor caminho (ordenadamente)
-  outfile << "Caminho: " << caminho.at(caminho.size()-1);
-
-  for (int i = caminho.size()-2; i >= 0; i--)
-    outfile << " --> " << caminho.at(i);
-  
-  outfile << endl;
-  outfile << "Distância: " << caminho.size()-1 << endl;
-  
   cout << "Fim da BFS!" << endl << endl;
 }
 
@@ -728,15 +751,16 @@ void Lista::caminhoBFS(int r1, int r2, string arquivoDestino) {
     wNoh = wNoh->getPai();
     caminho.push_back(wNoh->getVertice()->getRotulo());
   }
-
+  outfile << "Raiz: " << r1 << endl;
+  outfile << "Destino: " << r2 << endl << endl;
+  outfile << "Distância: " << caminho.size()-1 << endl;
   // Imprime vetor caminho (ordenadamente)
-  outfile << "Caminho: " << caminho.at(caminho.size()-1);
+  outfile << "Caminho: {" << caminho.at(caminho.size()-1);
 
   for (int i = caminho.size()-2; i >= 0; i--)
-    outfile << " --> " << caminho.at(i);
+    outfile << ", " << caminho.at(i);
   
-  outfile << endl;
-  outfile << "Distância: " << caminho.size()-1 << endl;
+  outfile << "}" << endl;
   
   cout << "Fim da BFS!" << endl << endl;
 }
@@ -825,23 +849,30 @@ void Lista::caminhoDijkstra(int r1, string arquivoDestino) {
   //   cout << "(" << S.at(i)->getChave() << ")" << endl;
   // }
 
+  outfile << "Raiz: " << r1 << endl << endl;
+  outfile << "Formato de saída:" << endl;
+  outfile << "\"Vértice Destino, D=[distância]: {Caminho Mínimo}\"\n" << endl;
   Item *ve;
   vector<Item *> inverso;
-
+  
   for (int i = 0; i < S.size(); i++) {
     ve = S.at(i);
-    outfile << ve->getVertice()->getRotulo();
-
+    outfile << ve->getVertice()->getRotulo() << ", D=[";
     inverso.push_back(ve);
+
     while(ve->getPai()) {
       inverso.push_back(ve->getPai());
       ve = ve->getPai();
     }
-    for (int j = inverso.size()-1; j >= 0; j--) {
-      outfile << " ---> " << inverso.at(j)->getVertice()->getRotulo();
-      outfile << "(" << inverso.at(j)->getChave() << ")";
+
+    outfile << inverso.at(0)->getChave() << "]: {";
+    outfile << inverso.at(inverso.size()-1)->getVertice()->getRotulo();
+    
+    for (int j = inverso.size()-2; j >= 0; j--) {
+      outfile << ", " << inverso.at(j)->getVertice()->getRotulo();
     }
-    outfile << endl;
+    outfile << "}" << endl;
+    
     inverso = {};
   }
 
@@ -900,7 +931,6 @@ void Lista::caminhoDijkstra(int r1, int r2, string arquivoDestino) {
   while (S.size() != vetor_vertices.size()) {
     // 7. Selecione u em V-S, tal que dist[u] é mínima (remoção)
     u = dist.extrair();
-    cout << "u: " << u->getVertice()->getRotulo() << endl;
     // /*DEBUG*/cout << "Extrair " << u->getVertice()->getRotulo() << endl;
 
     // 8. Adicione u em S
@@ -923,40 +953,45 @@ void Lista::caminhoDijkstra(int r1, int r2, string arquivoDestino) {
           vItem = dist.atualizar(indiceV, u->getChave() + v->getPeso());
           // /*DEBUG*/cout << "Atualizar " << v->getVertice()->getRotulo() << "(" << vItem->getChave() << ")" << endl;
           vItem->setPai(u);
-          cout << "vItem: " << vItem->getVertice()->getRotulo() << endl;
-          cout << "vItem.Pai: " << vItem->getPai()->getVertice()->getRotulo() << endl;
         }
       }
 
       v = v->getVizinho();
     }
   }
+  
 
   cout << "Fim do Dijkstra!" << endl;
 
   // Arquivo de saída
   cout << "Gerando arquivo de saída..." << endl;
-
-  Item *ve;
-  vector<Item *> inverso;
-
-  for (int i = 0; i < S.size(); i++) {
-    ve = S.at(i);
-    outfile << ve->getVertice()->getRotulo();
-
-    inverso.push_back(ve);
-    while(ve->getPai()) {
-      inverso.push_back(ve->getPai());
-      ve = ve->getPai();
-    }
-    for (int j = inverso.size()-1; j >= 0; j--) {
-      outfile << " ---> " << inverso.at(j)->getVertice()->getRotulo();
-      outfile << "(" << inverso.at(j)->getChave() << ")";
-    }
-    outfile << endl;
-    inverso = {};
+  
+  if (S.at(S.size()-1)->getVertice()->getRotulo() != r2) {
+    outfile << "Não há caminho entre o vértice " << r1 << " e " << r2 << "." << endl;
+    cout << "Não há caminho entre o vértice " << r1 << " e " << r2 << "." << endl;
+    return ;
   }
 
+
+  outfile << "Raiz: " << r1 << endl;
+  outfile << "Destino: " << r2 << endl << endl;
+
+  Item *ve = S.at(S.size()-1);
+  vector<Item *> inverso;
+
+  inverso.push_back(ve);
+
+  while(ve->getPai()) {
+    inverso.push_back(ve->getPai());
+    ve = ve->getPai();
+  }
+  
+  outfile << "Distância: " << inverso.at(0)->getChave() << endl;
+  outfile << "Caminho: {" << r1;
+  for (int i = inverso.size()-2; i>=0; i--)
+    outfile << ", " << inverso.at(i)->getVertice()->getRotulo();
+
+  outfile << "}" << endl;
   cout << "Arquivo de saída gerado com sucesso!" << endl;
 };
 

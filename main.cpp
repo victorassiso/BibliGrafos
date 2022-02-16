@@ -7,7 +7,7 @@ int main() {
   Lista lista("input/txt/grafo_T2.txt");
   lista.imprimirEstruturaLista(); // [extra] [somente Lista]
 
-  lista.caminhoMinimo(1, 9, "output/CM.txt");
+  lista.caminhoMinimo(1, 6, "output/CM2.txt");
 
   return 0;
 }
