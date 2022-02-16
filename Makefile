@@ -11,8 +11,7 @@ H_SRC			:=	src/lista/listaVertice.h\
 							src/matriz/matrizVertice.h\
 							src/matriz/matrizEstrutura.h\
 							src/matriz/matriz.h\
-							# src/arvore/noh.h\
-							src/arvore/arvore.h\
+							src/heap/heap.h\
 
 CFLAGS			:= -Wall -g -std=c++17
 LDFLAGS			:= 

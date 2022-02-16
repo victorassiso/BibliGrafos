@@ -8,8 +8,8 @@ template <class T>
 class Arvore
 {
   public:
-    Arvore(T* r) {
-      Noh<T>* nohRaiz = new Noh<T>(r);
+    Arvore(T* v) {
+      Noh<T>* nohRaiz = new Noh<T>(v);
       raiz = nohRaiz;
     };
     ~Arvore() {};

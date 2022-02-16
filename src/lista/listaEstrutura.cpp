@@ -156,5 +156,6 @@ void ListaEstrutura::setNVertices(int nVe) { nVertices = nVe; }
 int ListaEstrutura::getNVertices() { return nVertices; }
 
 // Métodos Auxiliares
-void ListaEstrutura::setTipoGrafo(int tg) { tipoGrafo = tg; }
+vector<ListaVertice *> * ListaEstrutura::getVertices() { return &vetor_vertices; }
+void ListaEstrutura::setTipoGrafo(int t) { tipoGrafo = t; }
 int ListaEstrutura::getTipoGrafo() { return tipoGrafo; }

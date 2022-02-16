@@ -3,6 +3,7 @@
 
 #include "../lista/listaVertice.h"
 #include "../matriz/matrizVertice.h"
+#include "../heap/heap.h"
 #include <vector>
 using namespace std;
 
@@ -39,6 +40,7 @@ class Noh
     int nivel;
 };
 
-template class Noh<ListaVertice*>;
-template class Noh<MatrizVertice*>;
+template class Noh<ListaVertice *>;
+template class Noh<MatrizVertice *>;
+template class Noh<Item *>;
 #endif

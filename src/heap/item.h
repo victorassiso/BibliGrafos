@@ -2,27 +2,28 @@
 #define ITEM_H
 
 #include "../lista/listaVertice.h"
-#include "../matriz/matrizVertice.h"
 #include <vector>
 using namespace std;
 
-template <class T>
 class Item
 {
   private:
-    T* vertice;
-    float dist;
+    ListaVertice *elemento;
+    float chave;
+    Item *pai;
 
   public:
-    Item(T* v, float d) {
-      vertice = v;
-      dist = d;
+    Item(ListaVertice *_elemento, float _chave) {
+      elemento = _elemento;
+      chave = _chave;
     };
     ~Item() {};
 
-
+    ListaVertice * getVertice() { return elemento; };
+    float getChave() { return chave; };
+    void setChave(float newChave) { chave = newChave; };
+    Item * getPai() { return pai; };
+    void setPai(Item *p) { pai = p; };
 };
 
-template class Item<ListaVertice*>;
-template class Item<MatrizVertice*>;
 #endif

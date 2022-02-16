@@ -37,6 +37,8 @@ class ListaEstrutura
 
   public:
     void imprimirEstruturaLista();
+    vector<ListaVertice*> * getVertices();
+    
 };
 
 #endif

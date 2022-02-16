@@ -14,15 +14,18 @@ class ListaVertice
     
     void setVizinho(Vizinho*);
     void setStatus(bool);
+    void setDist(float dist);
 
     Vizinho* getVizinho();
     bool getStatus();
     int getRotulo();
+    float getDist();
 
   private:
     int rotulo;
     Vizinho* vizinho;
     bool statusBusca; //false - Não explorado; true - Explorado;
+    float dist;
 };
 
 #endif

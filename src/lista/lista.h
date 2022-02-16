@@ -5,13 +5,14 @@
 #include "listaVizinho.h"
 #include "listaEstrutura.h"
 #include "../arvore/arvore.h"
-#include "../heap/minHeap.h"
+#include "../heap/heap.h"
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <bits/stdc++.h>
 #include <iomanip>
+#include <queue>
 #define INFINITO 1000000000000000
 
 class Lista: public ListaEstrutura
@@ -26,7 +27,9 @@ class Lista: public ListaEstrutura
     int diametroBFS(); // BFS
     void arvoreBFS(int raizRotulo, string arquivoDestino);
     void arvoreDFS(int raizRotulo, string arquivoDestino);
-    int caminhoMinimo(int r1, int r2, string arquivoDestino);
+    void caminhoMinimo(int r1, string arquivoDestino);
+    void caminhoMinimo(int r1, int r2, string arquivoDestino);
+
     
   private:
     // Atributos Info
@@ -57,8 +60,10 @@ class Lista: public ListaEstrutura
     string info2();
     string info3(vector<vector<ListaVertice*>>* componentes);
     void desmarcarTodosOsVertices();
-    int caminhoBFS(int r1, int r2, string arquivoDestino);
-    int caminhoDijkstra(int r1, int r2, string arquivoDestino);
+    void caminhoBFS(int r1, string arquivoDestino);
+    void caminhoBFS(int r1, int r2, string arquivoDestino);
+    void caminhoDijkstra(int r1, string arquivoDestino);
+    void caminhoDijkstra(int r1, int r2, string arquivoDestino);
     int grau(ListaVertice *vertice);
 };
 
