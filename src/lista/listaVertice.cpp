@@ -11,9 +11,7 @@ ListaVertice::~ListaVertice(){}
 
 void ListaVertice::setVizinho(Vizinho* ptr) { vizinho = ptr; }
 void ListaVertice::setStatus(bool s) { statusBusca = s; }
-void ListaVertice::setDist(float d) { dist = d;}
 
 Vizinho* ListaVertice::getVizinho() { return vizinho; }
 bool ListaVertice::getStatus() { return statusBusca; }
 int ListaVertice::getRotulo() { return rotulo; }
-float ListaVertice::getDist() { return dist; }

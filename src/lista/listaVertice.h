@@ -19,13 +19,11 @@ class ListaVertice
     Vizinho* getVizinho();
     bool getStatus();
     int getRotulo();
-    float getDist();
 
   private:
     int rotulo;
     Vizinho* vizinho;
     bool statusBusca; //false - Não explorado; true - Explorado;
-    float dist;
 };
 
 #endif

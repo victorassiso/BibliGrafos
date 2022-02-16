@@ -615,23 +615,7 @@ void Lista::caminhoBFS(int r1, string arquivoDestino) {
     }
   }
 
-  // Define vetor caminho (inversamente)
-  // vector<int> caminho = {wNoh->getVertice()->getRotulo()};
-  // while (wNoh->getPai()) {
-  //   wNoh = wNoh->getPai();
-  //   caminho.push_back(wNoh->getVertice()->getRotulo());
-  // }
-
-  // // Imprime vetor caminho (ordenadamente)
-  // outfile << "Caminho: " << caminho.at(caminho.size()-1);
-
-  // for (int i = caminho.size()-2; i >= 0; i--)
-  //   outfile << " --> " << caminho.at(i);
-  
-  // outfile << endl;
-  // outfile << "Distância: " << caminho.size()-1 << endl;
-
-  
+  // Imprime Arquivo de saída
 
   Noh<ListaVertice> *noh;
   vector<Noh<ListaVertice> *> inverso;
@@ -934,10 +918,9 @@ void Lista::caminhoDijkstra(int r1, int r2, string arquivoDestino) {
     // /*DEBUG*/cout << "Extrair " << u->getVertice()->getRotulo() << endl;
 
     // 8. Adicione u em S
-    S.push_back(u);
+    S.push_back(u); // /*DEBUG*/cout << "Inserir " << u->getVertice()->getRotulo() << " em S"<< endl;
     if (u->getVertice()->getRotulo() == r2)
       break;
-    // /*DEBUG*/cout << "Inserir " << u->getVertice()->getRotulo() << " em S"<< endl;
     
     // 9. Para cada vizinho v de u faça
     v = u->getVertice()->getVizinho();
@@ -950,8 +933,7 @@ void Lista::caminhoDijkstra(int r1, int r2, string arquivoDestino) {
         if (dist.getChave(indiceV) > u->getChave() + v->getPeso()) {
 
           // 11. dist[v] = dist[u] + w(u,v) (atualização)
-          vItem = dist.atualizar(indiceV, u->getChave() + v->getPeso());
-          // /*DEBUG*/cout << "Atualizar " << v->getVertice()->getRotulo() << "(" << vItem->getChave() << ")" << endl;
+          vItem = dist.atualizar(indiceV, u->getChave() + v->getPeso()); // /*DEBUG*/cout << "Atualizar " << v->getVertice()->getRotulo() << "(" << vItem->getChave() << ")" << endl;
           vItem->setPai(u);
         }
       }
@@ -994,4 +976,101 @@ void Lista::caminhoDijkstra(int r1, int r2, string arquivoDestino) {
   outfile << "}" << endl;
   cout << "Arquivo de saída gerado com sucesso!" << endl;
 };
+
+void Lista::arvoreMST(int raizRotulo, string arquivoDestino) {
+  
+  cout << "Iniciando Prim..." << endl;
+
+  // Variáveis
+  ListaVertice *w;
+  float infinito = 9999999;
+  Heap custo;
+  vector<Item *> S;
+  vector<Item *> So;
+  ListaVertice *o = buscaVertical(raizRotulo);
+  Item *oItem;
+  Item *uItem;
+  Item *vItem;
+  Vizinho *vi;
+  int indiceV;
+
+  // 2. Para cada vértice v
+  for (int i = 0; i < vetor_vertices.size(); i++) {
+    w = vetor_vertices.at(i);
+    // 3. custo[v] = infinito (inserção)
+    custo.inserir(w, infinito); /*DEBUG*/cout << "Inserir " << w->getRotulo() << "(INFINITO)" << endl;
+  }
+
+  // 4. Define conjunto S = 0 // vazio
+  S = {};
+  So = {};
+
+  // 5. custo[o] = 0
+  oItem = custo.atualizar(custo.getIndice(o), 0); /*DEBUG*/cout << "Atualizar " << o->getRotulo() << "(" << oItem->getChave() << ")" << endl;
+  oItem->setPai(nullptr);
+
+  // 6. Enquanto S != V
+  while(S.size() != vetor_vertices.size()) {
+
+    // 7. Selecione u em V-S, tal que custo[u] é mínimo
+    uItem = custo.extrair(); /*DEBUG*/cout << "Extrair " << uItem->getVertice()->getRotulo() << endl;
+    
+    // 8. Adicione u em S
+    S.push_back(uItem); /*DEBUG*/cout << "Inserir " << uItem->getVertice()->getRotulo() << " em S"<< endl;
+    if (oItem != uItem)
+      oItem = uItem->getPai();
+    So.push_back(oItem);
+    
+
+    // 9. Para cada vizinho v de u faça
+    vi = uItem->getVertice()->getVizinho();
+    while (vi) {
+      indiceV = custo.getIndice(vi->getVertice());
+
+      if (indiceV != -1) {
+
+        // 10. Se custo[v] > w(u,v) então
+        if (custo.getChave(indiceV) > vi->getPeso()) {
+          
+          // 11. custo[v] = w(u,v)
+          vItem = custo.atualizar(indiceV, vi->getPeso()); /*DEBUG*/cout << "Atualizar " << vi->getVertice()->getRotulo() << "(" << vItem->getChave() << ")" << endl;
+          vItem->setPai(uItem);
+        }
+      }
+
+      vi = vi->getVizinho();
+    }
+  }
+
+  cout << "Fim do Prim!" << endl;
+  
+  // Imprimir Árvore
+  cout << "Gerando arquivo de saída..." << endl;
+  
+  ofstream outfile(arquivoDestino);
+  // outfile << "~~ Árvore Geradora Mínima (Prim) ~~n\n\n";
+  
+  Item *fi;
+
+  for (int i = 1; i < S.size(); i++) {
+    outfile << So.at(i)->getVertice()->getRotulo() << " ";
+    outfile << S.at(i)->getVertice()->getRotulo() << endl;
+  }
+  // for (int i = 0; i < S.size(); i++) {
+  //   for (int j = 0; j < S.at(i)->getFilhos().size(); j++) {
+  //     cout << "debug1" << endl;
+      
+  //     outfile << S.at(i)->getVertice()->getRotulo() << " ";
+  //     cout << "debug2" << endl;
+  //     outfile << S.at(i)->getFilho(j) << endl;
+  //     cout << "debug3" << endl;
+  //     cout << S.at(i)->getVertice()->getRotulo() << " ";
+  //     cout << "debug4" << endl;
+  //     cout << S.at(i)->getFilho(j) << endl;
+  //     cout << "debug5" << endl;
+  //   }
+  // }
+
+  cout << "Arquivo gerado com sucesso!" << endl;
+}
 
