@@ -12,8 +12,6 @@
 #include <vector>
 #include <bits/stdc++.h>
 #include <iomanip>
-#include <queue>
-#define INFINITO 1000000000000000
 
 class Lista: public ListaEstrutura
 {
@@ -27,7 +25,7 @@ class Lista: public ListaEstrutura
     int diametroBFS(); // BFS
     void arvoreBFS(int raizRotulo, string arquivoDestino);
     void arvoreDFS(int raizRotulo, string arquivoDestino);
-    void arvoreMST(int raizRotulo, string arquivoDestino);
+    float arvoreMST(int raizRotulo, string arquivoDestino);
     void caminhoMinimo(int r1, string arquivoDestino);
     void caminhoMinimo(int r1, int r2, string arquivoDestino);
 

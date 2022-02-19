@@ -9,7 +9,6 @@ ListaEstrutura::ListaEstrutura(string arquivoOrigem) {
   bool pesoPositivo = false;
   bool pesoNegativo = false;
 
-  
   fstream arquivo;
   arquivo.open(arquivoOrigem, fstream::in);
 

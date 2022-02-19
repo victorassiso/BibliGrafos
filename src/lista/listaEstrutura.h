@@ -32,10 +32,10 @@ class ListaEstrutura
     Vizinho* ultimoVizinho(ListaVertice *vertice);
     bool buscaHorizontal(ListaVertice *v1, ListaVertice *v2);
     
-    int getNVertices();
     int getTipoGrafo();
 
   public:
+    int getNVertices();
     void imprimirEstruturaLista();
     vector<ListaVertice*> * getVertices();
     

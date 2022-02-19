@@ -55,18 +55,18 @@ Arquivo de Saída "Diâmetro"
 
 
   [X] - Representar grafos não-direcionados que possuam pesos nas arestas.
-  [ ] - Distância e Caminho Mínimo entre dois vértices em grafos:
+  [X] - Distância e Caminho Mínimo entre dois vértices em grafos:
     [X] - sem peso (BFS)
-    [ ] - com pesos positivos (Dijkstra)
-    [ ] - com pesos negativos (Floyd-Warshall ou Bellman-Ford)
-      [ ] - Possui Ciclos negativos? (caso no qual as distâncias nao estao definidas)
+    [X] - com pesos positivos (Dijkstra)
+    [X] - com pesos negativos (Floyd-Warshall ou Bellman-Ford)
+      [X] - Possui Ciclos negativos? (caso no qual as distâncias nao estao definidas)
 
-  [ ] - Distância e Caminho Mínimo entre um vértice e todos os outros em grafos:
-    [ ] - sem peso (BFS)
-    [ ] - com pesos positivos (Dijkstra)
-    [ ] - com pesos negativos (Floyd-Warshall ou Bellman-Ford)
-      [ ] - Possui Ciclos negativos? (caso no qual as distâncias nao estao definidas)
+  [X] - Distância e Caminho Mínimo entre um vértice e todos os outros em grafos:
+    [X] - sem peso (BFS)
+    [X] - com pesos positivos (Dijkstra)
+    [X] - com pesos negativos (Floyd-Warshall ou Bellman-Ford)
+      [X] - Possui Ciclos negativos? (caso no qual as distâncias nao estao definidas)
 
   Arquivo "Arvore Geradora Minima MST"
-  [ ] - Imprimir Árvore Geradora Mínima (MST)
-    [ ] - Seu peso total
+  [X] - Imprimir Árvore Geradora Mínima (MST)
+    [X] - Seu peso total

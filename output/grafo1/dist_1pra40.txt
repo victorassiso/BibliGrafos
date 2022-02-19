@@ -1,0 +1,7 @@
+ ~~ Distância e Caminho Mínimo (Dijkstra) ~~
+
+Raiz: 1
+Destino: 40
+
+Distância: 1.55
+Caminho: {1, 735, 123, 116, 51, 40}

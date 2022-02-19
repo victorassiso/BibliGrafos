@@ -13,7 +13,7 @@ H_SRC			:=	src/lista/listaVertice.h\
 							src/matriz/matriz.h\
 							src/heap/heap.h\
 
-CFLAGS			:= -Wall -g -std=c++17
+CFLAGS			:= -Wall -g -std=c++11
 LDFLAGS			:= 
 
 # Define variável com arquivos .o
@@ -44,3 +44,5 @@ clean:
 	rm -f src/lista/*.o
 	rm -f src/matriz/*.o
 	rm -f src/arvore/*.o
+	rm -f src/heap/*.o
+	rm -f main

@@ -1,0 +1,7 @@
+ ~~ Distância e Caminho Mínimo (Dijkstra) ~~
+
+Raiz: 1
+Destino: 20
+
+Distância: 1.11
+Caminho: {1, 369, 208, 605, 20}

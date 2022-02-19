@@ -1,0 +1,7 @@
+ ~~ Distância e Caminho Mínimo (Dijkstra) ~~
+
+Raiz: 1
+Destino: 50
+
+Distância: 2.23
+Caminho: {1, 731, 1413, 4249, 886, 2603, 9796, 836, 27, 4982, 2712, 2418, 6011, 2993, 50}
